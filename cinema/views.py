@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 from cinema.models import Movie, Actor, Genre, CinemaHall
 from cinema.serializers import MovieSerializer, ActorSerializer, \
-    GenreSerializer, CinemahallSerializer
+    GenreSerializer, CinemaHallSerializer
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -90,7 +90,7 @@ class GenreDetail(
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemahallViewSet(
+class CinemaHallViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
@@ -99,4 +99,4 @@ class CinemahallViewSet(
     viewsets.GenericViewSet
 ):
     queryset = CinemaHall.objects.all()
-    serializer_class = CinemahallSerializer
+    serializer_class = CinemaHallSerializer

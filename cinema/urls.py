@@ -3,13 +3,13 @@ from django.urls import path, include
 from rest_framework import routers
 
 from cinema.views import ActorList, ActorDetail, GenreList, \
-    GenreDetail, CinemahallViewSet, MovieViewSet
+    GenreDetail, MovieViewSet, CinemaHallViewSet
 
 router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
 
-cinemahall_list = CinemahallViewSet.as_view({"get": "list", "post": "create"})
-cinemahall_detail = CinemahallViewSet.as_view({
+cinemahall_list = CinemaHallViewSet.as_view({"get": "list", "post": "create"})
+cinemahall_detail = CinemaHallViewSet.as_view({
     "get": "retrieve",
     "put": "update",
     "patch": "partial_update",

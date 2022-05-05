@@ -61,7 +61,7 @@ class GenreSerializer(serializers.Serializer):
         return instance
 
 
-class CinemahallSerializer(serializers.Serializer):
+class CinemaHallSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=255, required=True)
     rows = serializers.IntegerField(required=True)
