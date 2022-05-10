@@ -65,8 +65,6 @@ class MovieSerializer(serializers.Serializer):
 
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255, required=True)
-    # actors = ActorSerializer(many=True, required=True)
-    # genres = GenreSerializer(many=True, required=True)
     description = serializers.CharField(required=True)
     duration = serializers.IntegerField(required=True)
 
@@ -75,8 +73,6 @@ class MovieSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get("title", instance.title)
-        # instance.actors = validated_data.get("actors", instance.actors)
-        # instance.genres = validated_data.get("genres", instance.genres)
         instance.description = validated_data.get(
             "description", instance.description
         )
