@@ -1,3 +1,11 @@
 django==4.0.2
 flake8==4.0.1
 django-rest-framework==0.1.0
+pip~=21.1.2
+wheel~=0.36.2
+pytz~=2022.1
+sqlparse~=0.4.2
+asgiref~=3.5.1
+pyflakes~=2.4.0
+setuptools~=57.0.0
+djangorestframework~=3.13.1
