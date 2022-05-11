@@ -31,10 +31,11 @@ class GenreList(APIView):
     def get(self, request):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
         serializer = GenreSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -43,35 +44,41 @@ class GenreList(APIView):
 
 class GenreDetail(APIView):
     def get_object(self, pk):
-        try:
-            return Genre.objects.get(pk=pk)
-        except Genre.DoesNotExist:
-            raise Http404
+        return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk):
-        genre = self.get_object(pk)
+        genre = self.get_object(pk=pk)
         serializer = GenreSerializer(genre)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
-        genre = self.get_object(pk)
+        genre = self.get_object(pk=pk)
         serializer = GenreSerializer(genre, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def path(self, request, pk):
+        genre = self.get_object(pk=pk)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        genre = self.get_object(pk)
+        genre = self.get_object(pk=pk)
         genre.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ActorList(
-    ListModelMixin,
-    CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
     generics.GenericAPIView
 ):
     queryset = Actor.objects.all()
@@ -85,9 +92,9 @@ class ActorList(
 
 
 class ActorDetail(
-    RetrieveModelMixin,
-    UpdateModelMixin,
-    DestroyModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
     generics.GenericAPIView
 ):
     queryset = Actor.objects.all()
