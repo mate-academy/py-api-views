@@ -92,12 +92,12 @@ class ActorDetail(
     serializer_class = ActorSerializer
 
     def get(self, request, *args, **kwargs):
-        return self.retrieve(request=request, *args, *kwargs)
+        return self.retrieve(request=request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
         return self.update(request=request, *args, **kwargs)
 
-    def path(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         return self.partial_update(request=request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
