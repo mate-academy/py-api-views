@@ -10,7 +10,7 @@ from cinema.models import (
 
 class CinemaHallSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CinemaHall,
+        model = CinemaHall
         fields = ["id", "name", "rows", "seats_in_row"]
 
 
