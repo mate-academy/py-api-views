@@ -9,20 +9,20 @@ from cinema.models import (
 
 
 @admin.register(Movie)
-class AdminMovie(admin.ModelAdmin):
+class MovieAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(Actor)
-class AdminActor(admin.ModelAdmin):
+class ActorAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(Genre)
-class AdminGenre(admin.ModelAdmin):
+class GenreAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(CinemaHall)
-class AdminCinemaHall(admin.ModelAdmin):
+class CinemaHallAdmin(admin.ModelAdmin):
     pass

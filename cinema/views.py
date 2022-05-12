@@ -1,12 +1,3 @@
-from django.http import Http404
-from rest_framework.decorators import api_view
-from rest_framework.mixins import (
-    ListModelMixin,
-    CreateModelMixin,
-    RetrieveModelMixin,
-    UpdateModelMixin,
-    DestroyModelMixin
-)
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins, viewsets
 
@@ -60,7 +51,7 @@ class GenreDetail(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def path(self, request, pk):
+    def patch(self, request, pk):
         genre = self.get_object(pk=pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
 
@@ -85,10 +76,10 @@ class ActorList(
     serializer_class = ActorSerializer
 
     def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+        return self.list(request=request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+        return self.create(request=request, *args, **kwargs)
 
 
 class ActorDetail(
@@ -101,16 +92,16 @@ class ActorDetail(
     serializer_class = ActorSerializer
 
     def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, *kwargs)
+        return self.retrieve(request=request, *args, *kwargs)
 
     def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        return self.update(request=request, *args, **kwargs)
 
     def path(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+        return self.partial_update(request=request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+        return self.destroy(request=request, *args, **kwargs)
 
 
 class CinemaHallViewSet(
