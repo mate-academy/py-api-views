@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "api-views"
+version = "0.1.0"
+description = ""
+authors = ["Dmitry Ivanov <karward94@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "^4.0.4"
+djangorestframework = "^3.13.1"
+pytest = "^7.1.2"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^4.0.1"
+black = "^22.3.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
