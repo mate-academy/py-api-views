@@ -73,6 +73,7 @@ class ActorDetail(mixins.RetrieveModelMixin,
                   mixins.UpdateModelMixin,
                   mixins.DestroyModelMixin,
                   generics.GenericAPIView):
+
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
