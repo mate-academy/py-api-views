@@ -25,6 +25,7 @@ class GenreList(APIView):
     def post(self, request):
         serializer = GenreSerializer(data=request.data)
         if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -58,9 +59,9 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorListView(mixins.ListModelMixin,
-                    mixins.CreateModelMixin,
-                    generics.GenericAPIView):
+class ActorList(mixins.ListModelMixin,
+                mixins.CreateModelMixin,
+                generics.GenericAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -71,10 +72,10 @@ class ActorListView(mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetailView(mixins.RetrieveModelMixin,
-                      mixins.UpdateModelMixin,
-                      mixins.DestroyModelMixin,
-                      generics.GenericAPIView):
+class ActorDetail(mixins.RetrieveModelMixin,
+                  mixins.UpdateModelMixin,
+                  mixins.DestroyModelMixin,
+                  generics.GenericAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -91,11 +92,11 @@ class ActorDetailView(mixins.RetrieveModelMixin,
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemaHallListView(generics.ListCreateAPIView):
+class CinemaHallList(generics.ListCreateAPIView):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
 
-class CinemaHallDetailView(generics.RetrieveUpdateDestroyAPIView):
+class CinemaHallDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
