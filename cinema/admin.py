@@ -15,7 +15,10 @@ class GenreAdmin(admin.ModelAdmin):
 
 @admin.register(Actor)
 class ActorAdmin(admin.ModelAdmin):
-    search_fields = ("first_name", "last_name",)
+    search_fields = (
+        "first_name",
+        "last_name",
+    )
 
 
 @admin.register(CinemaHall)
