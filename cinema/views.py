@@ -8,7 +8,7 @@ from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import MovieSerializer, GenreSerializer, ActorSerializer, CinemaHallSerializer
 
 
-class GenreListView(APIView):
+class GenreList(APIView):
     def get(self, request, *args, **kwargs):
         genre = Genre.objects.all()
         serializer = GenreSerializer(genre, many=True)
@@ -23,7 +23,7 @@ class GenreListView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class GenreDetailView(APIView):
+class GenreDetail(APIView):
     def get(self, request, pk, *args, **kwargs):
         genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre)
@@ -46,17 +46,17 @@ class GenreDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, pk, *args, **kwargs):
-        genre = get_object_or_404(Genre, pk)
+        genre = get_object_or_404(Genre, pk=pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorListView(generics.ListCreateAPIView):
+class ActorList(generics.ListCreateAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
 
-class ActorDetailView(generics.RetrieveUpdateDestroyAPIView):
+class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
