@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.shortcuts import get_object_or_404
 
 from rest_framework.response import Response
 from rest_framework import status, mixins, generics, viewsets
@@ -39,19 +39,14 @@ class GenreList(APIView):
 
 class GenreDetail(APIView):
     @staticmethod
-    def get_object(pk):
-        try:
-            return Genre.objects.get(pk=pk)
-        except Genre.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk):
-        genre = self.get_object(pk)
+    def get(request, pk):
+        genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre)
         return Response(serializer.data)
 
-    def put(self, request, pk):
-        genre = self.get_object(pk)
+    @staticmethod
+    def put(request, pk):
+        genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre, data=request.data)
 
         if serializer.is_valid():
@@ -60,8 +55,9 @@ class GenreDetail(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def patch(self, request, pk):
-        genre = self.get_object(pk)
+    @staticmethod
+    def patch(request, pk):
+        genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
 
         if serializer.is_valid():
@@ -70,8 +66,9 @@ class GenreDetail(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk):
-        genre = self.get_object(pk)
+    @staticmethod
+    def delete(request, pk):
+        genre = get_object_or_404(Genre, pk=pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
