@@ -6,8 +6,12 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
-from cinema.serializers import MovieSerializer, GenreSerializer, \
-    ActorSerializer, CinemaHallSerializer
+from cinema.serializers import (
+    MovieSerializer,
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer,
+)
 
 
 @api_view(["GET", "POST"])
@@ -82,9 +86,9 @@ class GenreDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
-        serializer = GenreSerializer(self.get_object(pk),
-                                     data=request.data,
-                                     partial=True)
+        serializer = GenreSerializer(
+            self.get_object(pk), data=request.data, partial=True
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -97,9 +101,7 @@ class GenreDetail(APIView):
 
 
 class ActorList(
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    generics.GenericAPIView
+    mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
 ):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
@@ -115,7 +117,7 @@ class ActorDetail(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
-    generics.GenericAPIView
+    generics.GenericAPIView,
 ):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer

@@ -20,18 +20,10 @@ class ActorApiTests(TestCase):
         self.assertEqual(issubclass(ActorList, generics.GenericAPIView), True)
 
     def test_actor_detail_is_subclass(self):
-        self.assertEqual(
-            issubclass(ActorDetail, mixins.RetrieveModelMixin), True
-        )
-        self.assertEqual(
-            issubclass(ActorDetail, mixins.UpdateModelMixin), True
-        )
-        self.assertEqual(
-            issubclass(ActorDetail, mixins.DestroyModelMixin), True
-        )
-        self.assertEqual(
-            issubclass(ActorDetail, generics.GenericAPIView), True
-        )
+        self.assertEqual(issubclass(ActorDetail, mixins.RetrieveModelMixin), True)
+        self.assertEqual(issubclass(ActorDetail, mixins.UpdateModelMixin), True)
+        self.assertEqual(issubclass(ActorDetail, mixins.DestroyModelMixin), True)
+        self.assertEqual(issubclass(ActorDetail, generics.GenericAPIView), True)
 
     def test_get_actors(self):
         response = self.client.get("/api/cinema/actors/")
