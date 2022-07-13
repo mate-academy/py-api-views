@@ -5,7 +5,7 @@ from cinema.views import GenreList, GenreDetail, ActorList, ActorDetail, \
     CinemaHallViewSet, MovieViewSet
 
 router = routers.DefaultRouter()
-router.register("cinema-halls", CinemaHallViewSet)
+router.register("cinema_halls", CinemaHallViewSet)
 router.register("movies", MovieViewSet)
 
 urlpatterns = [
