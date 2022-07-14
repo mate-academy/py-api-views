@@ -6,6 +6,7 @@ from cinema.views import MovieViewSet, GenreList, GenreDetail, \
 
 router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
+
 cinema_list = CinemaHallViewSet.as_view(
     actions={"get": "list", "post": "create"}
 )
