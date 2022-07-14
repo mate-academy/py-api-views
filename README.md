@@ -15,6 +15,7 @@ already have a new field here)
 Create serializers for all these models. Do not use related serializers for
 ManyToMany relations.
 
+
 Create views for models interaction endpoints via different class-based views:
 - For the `Genre` model use an `APIView`
 - For the `Actor` model use a `GenericAPIView`
