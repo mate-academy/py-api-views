@@ -23,9 +23,7 @@ class CinemaHallApiTests(TestCase):
         )
 
     def test_cinema_hall_is_subclass_generic_api_view(self):
-        self.assertEqual(
-            issubclass(CinemaHallViewSet, generics.GenericAPIView), True
-        )
+        self.assertEqual(issubclass(CinemaHallViewSet, generics.GenericAPIView), True)
 
     def test_get_cinema_halls(self):
         response = self.client.get("/api/cinema/cinema_halls/")
