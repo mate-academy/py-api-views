@@ -5,8 +5,8 @@ from cinema.models import Movie, Actor, Genre, CinemaHall
 
 class ActorSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    first_name = serializers.CharField(max_length=255)
-    last_name = serializers.CharField(max_length=255)
+    first_name = serializers.CharField(max_length=255, required=True)
+    last_name = serializers.CharField(max_length=255, required=True)
 
     def create(self, validated_data):
         return Actor.objects.create(**validated_data)

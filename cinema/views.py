@@ -1,6 +1,7 @@
 from django.http import Http404
 from rest_framework import viewsets, status, mixins, generics, views
 from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
 
 from cinema.models import Movie, Actor, CinemaHall, Genre
 from cinema.serializers import MovieSerializer, ActorSerializer, CinemaHallSerializer, GenreSerializer
@@ -38,19 +39,24 @@ class ActorDetail(
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemaHallList(generics.ListCreateAPIView):
-    queryset = CinemaHall.objects.all()
-    serializer_class = CinemaHallSerializer
-
-
-class CinemaHallDetail(generics.RetrieveUpdateDestroyAPIView):
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet
+):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
@@ -76,7 +82,7 @@ class GenreDetail(views.APIView):
         try:
             return Genre.objects.get(pk=pk)
         except Genre.DoesNotExist:
-            return Http404
+            raise Http404
 
     def get(self, request, pk):
         genre = Genre.objects.get(pk=pk)
