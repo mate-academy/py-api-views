@@ -1,9 +1,7 @@
 from django.http import Http404
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins, viewsets
-
 from rest_framework.views import APIView
-
 from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import MovieSerializer, GenreSerializer, ActorSerializer, CinemaHallSerializer
 
@@ -116,4 +114,3 @@ class CinemaHallViewSet(
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
-
