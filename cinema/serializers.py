@@ -67,4 +67,3 @@ class CinemaHallSerializer(serializers.Serializer):
         instance.seats_in_row = validated_data.get("seats_in_row", instance.seats_in_row)
         instance.save()
         return instance
-    
