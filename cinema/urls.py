@@ -10,7 +10,7 @@ from cinema.views import (
 )
 
 cinema_hall_list = CinemaHallViewSet.as_view(actions={"get": "list", "post": "create"})
-cinema_hall_detail = CinemaHallViewSet.as_view(actions={
+cinema_hall_detail = CinemaHallViewSet.as_view({
     "get": "retrieve",
     "put": "update",
     "patch": "partial_update",
@@ -26,8 +26,8 @@ urlpatterns = [
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
     path("actors/", ActorList.as_view(), name="actor-list"),
     path("actors/<int:pk>/", ActorDetail.as_view(), name="genre-detail"),
-    path("cinema-halls/", cinema_hall_list, name="cinema-halls-list"),
-    path("cinema-halls/<int:pk>/", cinema_hall_detail, name="cinema-halls-detail")
+    path("cinema_halls/", cinema_hall_list, name="cinema-hall-list"),
+    path("cinema_halls/<int:pk>/", cinema_hall_detail, name="cinema-hall-detail")
 ]
 
 app_name = "cinema"
