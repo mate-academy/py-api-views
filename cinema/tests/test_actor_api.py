@@ -23,18 +23,10 @@ class ActorApiTests(TestCase):
         self.assertIs(issubclass(ActorList, viewsets.GenericViewSet), False)
 
     def test_actor_detail_is_subclass(self):
-        self.assertIs(
-            issubclass(ActorDetail, mixins.RetrieveModelMixin), True
-        )
-        self.assertIs(
-            issubclass(ActorDetail, mixins.UpdateModelMixin), True
-        )
-        self.assertIs(
-            issubclass(ActorDetail, mixins.DestroyModelMixin), True
-        )
-        self.assertIs(
-            issubclass(ActorDetail, generics.GenericAPIView), True
-        )
+        self.assertIs(issubclass(ActorDetail, mixins.RetrieveModelMixin), True)
+        self.assertIs(issubclass(ActorDetail, mixins.UpdateModelMixin), True)
+        self.assertIs(issubclass(ActorDetail, mixins.DestroyModelMixin), True)
+        self.assertIs(issubclass(ActorDetail, generics.GenericAPIView), True)
 
     def test_actor_detail_is_not_subclass(self):
         self.assertIs(issubclass(ActorDetail, viewsets.GenericViewSet), False)

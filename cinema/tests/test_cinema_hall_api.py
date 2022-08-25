@@ -23,9 +23,7 @@ class CinemaHallApiTests(TestCase):
         )
 
     def test_cinema_hall_is_subclass_generic_viewset(self):
-        self.assertIs(
-            issubclass(CinemaHallViewSet, viewsets.GenericViewSet), True
-        )
+        self.assertIs(issubclass(CinemaHallViewSet, viewsets.GenericViewSet), True)
 
     def test_cinema_hall_is_not_subclass(self):
         self.assertIs(issubclass(CinemaHallViewSet, viewsets.ModelViewSet), False)
