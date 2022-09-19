@@ -23,7 +23,10 @@ class ActorApiTests(TestCase):
         self.assertFalse(issubclass(ActorList, viewsets.GenericViewSet))
 
     def test_actor_detail_is_subclass(self):
-        items = [mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView]
+        items = [mixins.RetrieveModelMixin,
+                 mixins.UpdateModelMixin,
+                 mixins.DestroyModelMixin,
+                 generics.GenericAPIView]
 
         for item in items:
             with self.subTest():
