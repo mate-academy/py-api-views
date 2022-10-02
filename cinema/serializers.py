@@ -74,6 +74,6 @@ class CinemaHallSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)
         instance.rows = validated_data.get("rows", instance.rows)
-        instance.seat_in_row = validated_data("seat_in_row", instance.seat_in_row)
+        instance.seats_in_row = validated_data.get("seats_in_row", instance.seats_in_row)
         instance.save()
         return instance
