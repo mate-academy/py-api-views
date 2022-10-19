@@ -1,10 +1,33 @@
 from django.db import models
 
 
+class Genre(models.Model):
+    name = models.CharField(max_length=63, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Actor(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+
+class CinemaHall(models.Model):
+    name = models.CharField(max_length=63)
+    rows = models.PositiveSmallIntegerField()
+    seats_in_row = models.PositiveSmallIntegerField()
+
+
 class Movie(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    duration = models.IntegerField()
+    actors = models.ManyToManyField(Actor, related_name="movies_ac")
+    genres = models.ManyToManyField(Genre, related_name="movies_ge")
+    duration = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return f"{self.title}"
