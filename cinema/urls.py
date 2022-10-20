@@ -34,6 +34,8 @@ urlpatterns = [
         "cinema_halls/<int:pk>/",
         cinema_hall_detail,
         name="cinema_hall-detail"),
+    path("cinema_hall/", cinema_hall_list, name="cinema_hall-list"),
+    path("cinema_hall/<int:pk>/", cinema_hall_detail, name="cinema_hall-detail"),
     path("genres/", GenreList.as_view(), name="genre-list"),
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
 ]
