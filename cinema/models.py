@@ -13,7 +13,7 @@ class Genre(models.Model):
 class CinemaHall(models.Model):
     name = models.CharField(max_length=255)
     raws = models.IntegerField()
-    seats_in_raws = models.IntegerField()
+    seats_in_raw = models.IntegerField()
 
 
 class Movie(models.Model):
