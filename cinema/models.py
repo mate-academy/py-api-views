@@ -23,3 +23,12 @@ class Genre(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class CinemaHall(models.Model):
+    name = models.CharField(max_length=65)
+    rows = models.IntegerField()
+    seats_in_row = models.IntegerField()
+
+    def __str__(self) -> str:
+        return self.name
