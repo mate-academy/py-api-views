@@ -4,11 +4,11 @@ from rest_framework import status, generics, mixins, viewsets
 
 from rest_framework.views import APIView
 
-from cinema.models import Genre, Actor, CinemaHall
+from cinema.models import Genre, Actor, CinemaHall, Movie
 from cinema.serializers import (
     GenreSerializer,
     ActorSerializer,
-    CinemaHallSerializer
+    CinemaHallSerializer, MovieSerializer
 )
 
 
@@ -29,7 +29,7 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, pk: int):
+    def get_object(self, pk):
         try:
             return Genre.objects.get(pk=pk)
         except Genre.DoesNotExist:
@@ -52,6 +52,17 @@ class GenreDetail(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def patch(self, request, pk: int) -> Response:
+        genre = self.get_object(pk=pk)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
     def delete(self, request, pk: int) -> Response:
         genre = self.get_object(pk)
         genre.delete()
@@ -65,7 +76,7 @@ class ActorList(
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, request, *args, **kwargs) -> list:
+    def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -87,6 +98,9 @@ class ActorDetail(
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
@@ -104,5 +118,5 @@ class CinemaHallViewSet(
 
 
 class MovieViewSet(viewsets.ModelViewSet):
-    queryset = CinemaHall.objects.all()
-    serializer_class = CinemaHallSerializer
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
