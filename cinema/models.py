@@ -6,5 +6,14 @@ class Movie(models.Model):
     description = models.TextField()
     duration = models.IntegerField()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
+
+
+class Actor(models.Model):
+    first_name = models.CharField(max_length=65)
+    last_name = models.CharField(max_length=65)
+
+    def __str__(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
