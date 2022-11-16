@@ -17,3 +17,9 @@ class Actor(models.Model):
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
+
+class Genre(models.Model):
+    name = models.CharField(max_length=65, unique=True)
+
+    def __str__(self) -> str:
+        return self.name
