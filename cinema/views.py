@@ -16,13 +16,13 @@ from cinema.serializers import (
 
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
-    serializer_class = CinemaHallSerializer
+    serializer_class = MovieSerializer
 
 
 class GenreListView(APIView):
     def get(self, request):
         genres = Genre.objects.all()
-        serializer = MovieSerializer(genres, many=True)
+        serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
