@@ -7,7 +7,7 @@ from cinema.views import GenreList, GenreDetail, \
 cinema_hall_list = CinemaHallViewSet.as_view(
     actions={"get": "list", "post": "create"}
 )
-cinema_hall_detail = CinemaHallViewSet.as_view({
+cinema_hall_detail = CinemaHallViewSet.as_view(actions={
     "get": "retrieve",
     "put": "update",
     "patch": "partial_update",
