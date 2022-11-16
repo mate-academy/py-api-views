@@ -1,12 +1,17 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics, viewsets, mixins
 
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 
-from cinema.models import Movie, Genre
-from cinema.serializers import MovieSerializer, GenreSerializer
+from cinema.models import Movie, Genre, Actor, CinemaHall
+from cinema.serializers import (
+    MovieSerializer,
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer
+)
 
 
 @api_view(["GET", "POST"])
@@ -79,3 +84,25 @@ class GenreDetail(APIView):
         genre = self.get_object(pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ActorList(generics.ListCreateAPIView):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+
+class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+
+class CinemaHallVewSet(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin
+):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
