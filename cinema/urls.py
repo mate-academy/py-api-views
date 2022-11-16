@@ -1,6 +1,8 @@
 from django.urls import path
 
-from cinema.views import movie_list, movie_detail, GenreList, GenreDetail, ActorList, ActorDetail
+from cinema.views import movie_list, movie_detail, GenreList, GenreDetail, ActorList, ActorDetail, CinemaHallViewSet
+
+cinema_hall_list = CinemaHallViewSet.as_view(actions={"get": "list", "post": "create"})
 
 urlpatterns = [
     path(
