@@ -64,7 +64,7 @@ class GenreSerializer(serializers.Serializer):
 
 class CinemaHallSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(required=True)
+    name = serializers.CharField(max_length=65, required=True)
     rows = serializers.IntegerField(required=True)
     seats_in_row = serializers.IntegerField(required=True)
 
