@@ -1,15 +1,6 @@
 from django.db import models
 
 
-class Movie(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    duration = models.IntegerField()
-
-    def __str__(self) -> str:
-        return self.title
-
-
 class Actor(models.Model):
     first_name = models.CharField(max_length=65)
     last_name = models.CharField(max_length=65)
@@ -35,10 +26,10 @@ class CinemaHall(models.Model):
 
 
 class Movie(models.Model):
-    title = models.CharField(max_length=65)
+    title = models.CharField(max_length=255)
     description = models.TextField()
-    actors = models.ManyToManyField(Actor, related_name="actors")
-    genres = models.ManyToManyField(Genre, related_name="genres")
+    actors = models.ManyToManyField(Actor, related_name="movies")
+    genres = models.ManyToManyField(Genre, related_name="movies")
     duration = models.IntegerField()
 
     def __str__(self) -> str:
