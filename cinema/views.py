@@ -118,7 +118,9 @@ class CinemaHallList(
     serializer_class = CinemaHallSerializer
 
 
-class CinemaHallDetail(
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,

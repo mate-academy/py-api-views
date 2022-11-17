@@ -6,8 +6,7 @@ from cinema.views import (
     GenreDetail,
     ActorList,
     ActorDetail,
-    CinemaHallList,
-    CinemaHallDetail,
+    CinemaHallViewSet,
     MovieViewSet
 )
 
@@ -20,10 +19,10 @@ urlpatterns = [
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
     path("actors/", ActorList.as_view(), name="actor-list"),
     path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
-    path("cinemahalls/", CinemaHallList.as_view(
+    path("cinemahalls/", CinemaHallViewSet.as_view(
         actions={"get": "list", "post": "create"}
     ), name="cinemahall-list"),
-    path("cinemahalls/<int:pk>/", CinemaHallDetail.as_view(
+    path("cinemahalls/<int:pk>/", CinemaHallViewSet.as_view(
         actions={
             "get": "retrieve",
             "put": "update",
