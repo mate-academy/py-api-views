@@ -1,6 +1,6 @@
 # API Views
 
-- Read [the guideline](https://github.com/mate-academy/py-task-guideline/blob/main/README.md) before start
+- Read [the guideline](https://github.com/mate-academy/py-task-guideline/blob/main/README.md) before starting.
 
 Now, you are going to implement views via class-based views.
 
@@ -34,3 +34,5 @@ endpoints should work:
 * `PUT api/cinema/<entity>/<pk>/` - should update the entity with given id based on passed data
 * `PATCH api/cinema/<entity>/<pk>/` - should partially update the entity with given id based on passed data
 * `DELETE api/cinema/<entity>/<pk>/` - should delete the entity with given id
+
+### Note: Check your code using this [checklist](checklist.md) before pushing your solution.
