@@ -24,8 +24,12 @@ urlpatterns = [
         actions={"get": "list", "post": "create"}
     ), name="cinemahall-list"),
     path("cinemahalls/<int:pk>/", CinemaHallDetail.as_view(
-        actions={"get": "retrieve", "put": "update", "patch": "partial_update", "delete": "destroy",
-                 }
+        actions={
+            "get": "retrieve",
+            "put": "update",
+            "patch": "partial_update",
+            "delete": "destroy",
+        }
     ), name="cinemahall-detail"),
 ]
 
