@@ -20,7 +20,7 @@ class GenreList(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = GenreSerializer(date=request.data)
+        serializer = GenreSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
