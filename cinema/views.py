@@ -11,13 +11,7 @@ from cinema.serializers import (MovieSerializer,
                                 )
 
 
-class MovieViewSet(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
-                   mixins.RetrieveModelMixin,
-                   mixins.UpdateModelMixin,
-                   mixins.DestroyModelMixin,
-                   viewsets.GenericViewSet
-                   ):
+class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
 
@@ -48,6 +42,17 @@ class GenreDetail(APIView):
 
     @staticmethod
     def put(request, pk):
+        genre = get_object_or_404(Genre, pk=pk)
+        serializer = GenreSerializer(genre, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @staticmethod
+    def patch(request, pk):
         genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre, data=request.data)
 
@@ -99,11 +104,12 @@ class ActorDetail(mixins.RetrieveModelMixin,
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemaHallList(generics.ListCreateAPIView):
-    queryset = CinemaHall.objects.all()
-    serializer_class = CinemaHallSerializer
-
-
-class CinemaHallDetail(generics.RetrieveUpdateDestroyAPIView):
+class CinemaHallViewSet(mixins.ListModelMixin,
+                        mixins.CreateModelMixin,
+                        mixins.RetrieveModelMixin,
+                        mixins.UpdateModelMixin,
+                        mixins.DestroyModelMixin,
+                        viewsets.GenericViewSet
+                        ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
