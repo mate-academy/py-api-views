@@ -34,6 +34,3 @@ class CinemaHall(models.Model):
 
     def __str__(self):
         return f"{self.name} {self.rows} {self.seats_in_row}"
-
-
-
