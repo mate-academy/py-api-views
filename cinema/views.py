@@ -13,7 +13,7 @@ from cinema.serializers import (
     CinemaHallSerializer)
 
 
-class GenreListView(APIView):
+class GenreList(APIView):
     def get(self, request):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
@@ -29,7 +29,7 @@ class GenreListView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class GenreDetailView(APIView):
+class GenreDetail(APIView):
     def get_object(self, pk):
         try:
             return Genre.objects.get(id=pk)
@@ -63,7 +63,7 @@ class GenreDetailView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorListView(
+class ActorList(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     generics.GenericAPIView
@@ -78,7 +78,7 @@ class ActorListView(
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetailView(
+class ActorDetail(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
