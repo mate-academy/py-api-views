@@ -35,14 +35,16 @@ class GenreList(APIView):
 
 class GenreDetail(APIView):
     @staticmethod
-    def get(request, pk):
-        queryset = get_object_or_404(Genre, pk=pk)
-        serializer = GenreSerializer(queryset)
+    def get_object(pk):
+        return get_object_or_404(Genre, pk=pk)
+
+    def get(self, request, pk):
+        genre = self.get_object(pk)
+        serializer = GenreSerializer(genre)
         return Response(serializer.data)
 
-    @staticmethod
-    def put(request, pk):
-        genre = get_object_or_404(Genre, pk=pk)
+    def put(self, request, pk):
+        genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data)
 
         if serializer.is_valid():
@@ -51,10 +53,12 @@ class GenreDetail(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @staticmethod
-    def patch(request, pk):
-        genre = get_object_or_404(Genre, pk=pk)
-        serializer = GenreSerializer(genre, data=request.data)
+    def patch(self, request, pk):
+        genre = self.get_object(pk)
+        serializer = GenreSerializer(genre,
+                                     data=request.data,
+                                     partial=True
+                                     )
 
         if serializer.is_valid():
             serializer.save()
@@ -62,9 +66,8 @@ class GenreDetail(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @staticmethod
-    def delete(request, pk):
-        genre = get_object_or_404(Genre, pk=pk)
+    def delete(self, request, pk):
+        genre = self.get_object(pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
