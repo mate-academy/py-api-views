@@ -1,5 +1,6 @@
-from django.http import Http404
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, mixins, status, generics
+
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -30,40 +31,36 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, pk: int) -> Genre:
-        try:
-            return Genre.objects.get(pk=pk)
-        except Genre.DoesNotExist:
-            raise Http404
-
     def get(self, request: Request, pk: int) -> Response:
-        genre = self.get_object(pk)
+        genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre)
 
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request: Request, pk: int) -> Response:
-        genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, data=request.data)
-
+        serializer = GenreSerializer(
+            get_object_or_404(Genre, pk=pk),
+            data=request.data,
+            partial=True
+        )
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request: Request, pk: int) -> Response:
-        genre = self.get_object(pk)
+        genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request: Request, pk: int) -> Response:
-        genre = self.get_object(pk)
+        genre = get_object_or_404(Genre, pk=pk)
 
         genre.delete()
 
