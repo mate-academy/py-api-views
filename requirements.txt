@@ -7,3 +7,4 @@ django-debug-toolbar==3.2.4
 djangorestframework==3.13.1
 django-debug-toolbar==3.2.4
 django-debug-toolbar==3.2.4
+django-debug-toolbar==3.2.4
