@@ -8,7 +8,8 @@ from cinema.views import (
     GenreDetail,
     ActorList,
     ActorDetail,
-    CinemaHallViewSet, MovieViewSet,
+    CinemaHallViewSet,
+    MovieViewSet,
 )
 
 router = routers.DefaultRouter()

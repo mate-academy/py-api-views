@@ -64,7 +64,7 @@ def movie_detail(request, pk):
 class GenreList(APIView):
 
     def get(self, request):
-        genres = Genre.objects.all()[:20]
+        genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data)
 
