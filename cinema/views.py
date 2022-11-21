@@ -81,7 +81,6 @@ class GenreDetail(APIView):
         obj = get_object_or_404(Genre, pk=pk)
         return obj
 
-
     def get(self, request, pk):
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre)
