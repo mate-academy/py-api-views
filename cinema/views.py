@@ -1,5 +1,3 @@
-from django.http import Http404
-from rest_framework.decorators import api_view
 from rest_framework.generics import get_object_or_404
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -31,10 +29,7 @@ class GenreList(views.APIView):
 
 class GenreDetail(views.APIView):
     def get_object(self, pk: int) -> Genre:
-        try:
-            return Genre.objects.get(pk=pk)
-        except Genre.DoesNotExist as e:
-            raise Http404 from e
+        return get_object_or_404(Genre, pk=pk)
 
     def get(self, request: Request, pk: int) -> Response:
         serializer = GenreSerializer(self.get_object(pk))
