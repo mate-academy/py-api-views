@@ -52,9 +52,6 @@ def movie_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# <---
-
-
 class GenreList(APIView):
     def get(self, request):
         genres = Genre.objects.all()
