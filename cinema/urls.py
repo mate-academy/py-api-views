@@ -10,11 +10,11 @@ from cinema.views import (
     CinemaHallViewSet,
 )
 
-cinema_halls_list = CinemaHallViewSet.as_view(actions={
+cinema_hall_list = CinemaHallViewSet.as_view(actions={
     "get": "list",
     "post": "create"
 })
-cinema_halls_detail = CinemaHallViewSet.as_view(actions={
+cinema_hall_detail = CinemaHallViewSet.as_view(actions={
     "get": "retrieve",
     "put": "update",
     "patch": "partial_update",
@@ -40,12 +40,12 @@ urlpatterns = [
     ),
     path(
         "cinema_halls/",
-        cinema_halls_list,
+        cinema_hall_list,
         name="cinema-halls-list"
     ),
     path(
         "cinema_halls/<int:pk>/",
-        cinema_halls_detail,
+        cinema_hall_detail,
         name="cinema-halls-detail"
     ),
 ]
