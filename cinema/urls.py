@@ -22,7 +22,7 @@ urlpatterns = [
         name="genre-detail"
     ),
     path("actors/", ActorList.as_view(), name="actor-list"),
-    path("actors/<int:pk>/", ActorDetail.as_view(), name="movie-detail"),
+    path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
     path(
         "cinema_halls/",
         CinemaHallViewSet.as_view(actions={
