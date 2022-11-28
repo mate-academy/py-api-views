@@ -14,6 +14,10 @@ from cinema.serializers import (
 )
 
 
+def get_user(object_class: object, pk: int) -> object:
+    return get_object_or_404(object_class, pk=pk)
+
+
 class GenreList(APIView):
     def get(self, request):
         genres = Genre.objects.all()
@@ -37,7 +41,7 @@ class GenreDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
-        genre = get_object_or_404(Genre, id=pk)
+        genre = get_user(Genre, pk)
         serializer = GenreSerializer(genre, data=request.data)
 
         if serializer.is_valid():
@@ -47,7 +51,7 @@ class GenreDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
-        genre = get_object_or_404(Genre, id=pk)
+        genre = get_user(Genre, pk)
         serializer = GenreSerializer(genre, data=request.data)
 
         if serializer.is_valid():
@@ -57,7 +61,7 @@ class GenreDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        genre = get_object_or_404(Genre, id=pk)
+        genre = get_user(Genre, pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
