@@ -28,7 +28,7 @@ class Movie(models.Model):
 
 
 class CinemaHall(models.Model):
-    name = models.CharField(max_length=63)
+    name = models.CharField(max_length=63, unique=True)
     rows = models.IntegerField()
     seats_in_row = models.IntegerField()
 
