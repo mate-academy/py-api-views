@@ -8,7 +8,7 @@ class GenreSerializer(serializers.Serializer):
     name = serializers.CharField(required=True, max_length=63)
 
     def create(self, validated_data):
-        return Actor.objects.create(**validated_data)
+        return Genre.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get(
@@ -25,7 +25,7 @@ class ActorSerializer(serializers.Serializer):
     last_name = serializers.CharField(required=True, max_length=63)
 
     def create(self, validated_data):
-        return Genre.objects.create(**validated_data)
+        return Actor.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.first_name = validated_data.get(
@@ -81,6 +81,7 @@ class MovieSerializer(serializers.Serializer):
         instance.description = validated_data.get(
             "description", instance.description
         )
+
         instance.duration = validated_data.get("duration", instance.duration)
 
         instance.save()
