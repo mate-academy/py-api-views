@@ -6,7 +6,7 @@ class Actor(models.Model):
     last_name = models.CharField(max_length=255)
 
     def __str__(self):
-        return F"{self.first_name} {self.last_name}"
+        return f"{self.first_name} {self.last_name}"
 
 
 class Genre(models.Model):
@@ -32,5 +32,4 @@ class CinemaHall(models.Model):
     rows = models.IntegerField()
     seats_in_row = models.IntegerField()
 
-    def __str__(self):
-        return F"{self.name} {self.rows} {self.seats_in_row}"
+
