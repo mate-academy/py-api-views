@@ -19,11 +19,11 @@ urlpatterns = [
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
     path("actors/", ActorList.as_view(), name="actor-list"),
     path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
-    path("cinemahalls/", CinemaHallList.as_view(), name="cinemahall-list"),
+    path("cinema_halls/", CinemaHallList.as_view(), name="cinema_hall-list"),
     path(
-        "cinemahalls/<int:pk>/",
+        "cinema_halls/<int:pk>/",
         CinemaHallDetail.as_view(),
-        name="cinemahall-detail"
+        name="cinema_hall-detail"
     )
 ]
 
