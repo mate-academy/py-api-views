@@ -3,8 +3,8 @@ from rest_framework import routers
 
 from cinema.views import (
     movie_list, movie_detail,
-    GenreList, GenreDetailView,
-    ActorList, ActorDetailView,
+    GenreList, GenreDetail,
+    ActorList, ActorDetail,
     CinemaHallList, CinemaHallDetailView,
     CinemaHallViewSet, MovieViewSet,
 
@@ -27,11 +27,11 @@ router.register("movies", MovieViewSet)
 
 urlpatterns = [
     path("genres/", GenreList.as_view(), name="genre-list"),
-    path("genres/<int:pk>/", GenreDetailView.as_view(), name="genre-detail"),
+    path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
     path("actors/", ActorList.as_view(), name="actor-list"),
-    path("actors/<int:pk>/", ActorDetailView.as_view(), name="actor-detail"),
-    path("cinema_hall/", cinema_hall_list, name="actor-list"),
-    path("cinema_hall/<int:pk>/", cinema_hall_detail, name="actor-detail"),
+    path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
+    path("cinema_halls/", cinema_hall_list, name="cinema-hall-list"),
+    path("cinema_halls/<int:pk>/", cinema_hall_detail, name="cinema-hall-detail"),
     path("", include(router.urls))
 ]
 

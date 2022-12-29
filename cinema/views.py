@@ -64,7 +64,7 @@ class GenreList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class GenreDetailView(APIView):
+class GenreDetail(APIView):
 
     def get(self, request, pk):
         genre = get_object_or_404(Genre, pk=pk)
@@ -106,10 +106,10 @@ class ActorList(mixins.ListModelMixin,
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
+        return self.create(request, *args, **kwargs)
 
 
-class ActorDetailView(mixins.RetrieveModelMixin,
+class ActorDetail(mixins.RetrieveModelMixin,
                       mixins.UpdateModelMixin,
                       mixins.DestroyModelMixin,
                       generics.GenericAPIView):
