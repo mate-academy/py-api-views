@@ -5,7 +5,6 @@ from cinema.views import (
     movie_list, movie_detail,
     GenreList, GenreDetail,
     ActorList, ActorDetail,
-    CinemaHallList, CinemaHallDetailView,
     CinemaHallViewSet, MovieViewSet,
 
 )
