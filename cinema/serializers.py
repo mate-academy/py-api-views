@@ -81,4 +81,3 @@ class CinemaHallSerializer(serializers.Serializer):
         instance.save()
 
         return instance
-
