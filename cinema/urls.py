@@ -9,10 +9,10 @@ router.register("movies", MovieViewSet)
 
 hall_list = CinemaHallViewSet.as_view(actions={"get": "list", "post": "name"})
 hall_detail = CinemaHallViewSet.as_view({
-        "get": "retrieve",
-        "put": "update",
-        "putch": "partial_update",
-        "delete": "destroy",
+    "get": "retrieve",
+    "put": "update",
+    "putch": "partial_update",
+    "delete": "destroy",
 })
 
 urlpatterns = [

@@ -10,12 +10,12 @@ from cinema.serializers import MovieSerializer, \
 
 
 class MovieViewSet(mixins.ListModelMixin,
-                        mixins.CreateModelMixin,
-                        mixins.RetrieveModelMixin,
-                        mixins.UpdateModelMixin,
-                        mixins.DestroyModelMixin,
-                        viewsets.GenericViewSet
-                        ):
+                   mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin,
+                   viewsets.GenericViewSet
+                   ):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
 
