@@ -14,7 +14,8 @@ router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
 
 hall_list = CinemaHallViewSet.as_view(
-    actions={"get": "list", "post": "create"})
+    actions={"get": "list", "post": "create"}
+)
 hall_detail = CinemaHallViewSet.as_view({
     "get": "retrieve",
     "put": "update",
