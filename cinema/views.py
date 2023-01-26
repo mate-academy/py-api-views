@@ -1,4 +1,5 @@
 from django.http import Http404
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import (
     status,
@@ -25,8 +26,8 @@ from cinema.serializers import (
 
 class GenreList(APIView):
     def get(self, request):
-        buses = Genre.objects.all()
-        serializer = GenreSerializer(buses, many=True)
+        genre = Genre.objects.all()
+        serializer = GenreSerializer(genre, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -41,10 +42,7 @@ class GenreList(APIView):
 
 class GenreDetail(APIView):
     def get_object(self, pk):
-        try:
-            return Genre.objects.get(pk=pk)
-        except Genre.DoesNotExist:
-            raise Http404
+        return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk):
         genre = self.get_object(pk)
@@ -63,11 +61,11 @@ class GenreDetail(APIView):
 
     def patch(self, request, pk):
         genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, data=request.data)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -85,19 +83,11 @@ class ActorList(
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, request):
-        actor = self.get_queryset()
-        serializer = self.get_serializer_class()(actor, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
-    def post(self, request):
-        serializer = ActorSerializer(data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
 class ActorDetail(
