@@ -43,9 +43,10 @@ class GenreDetail(APIView):
         serializer = GenreSerializer(genre)
         return Response(serializer.data)
 
-    def put(self, request, pk):
+    def put(self, request, pk, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
         genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, data=request.data)
+        serializer = GenreSerializer(genre, data=request.data, partial=partial)
 
         if serializer.is_valid():
             serializer.save()
@@ -54,7 +55,7 @@ class GenreDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
-        return self.put(request, pk)
+        return self.put(request, pk, kwargs={"partial": True})
 
     def delete(self, request, pk):
         genre = self.get_object(pk)
