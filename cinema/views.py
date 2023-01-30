@@ -44,7 +44,7 @@ class GenreDetail(APIView):
         return Response(serializer.data)
 
     def put(self, request, pk, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
+        partial = kwargs.pop("partial", False)
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data, partial=partial)
 
