@@ -44,5 +44,7 @@ class CinemaHall(models.Model):
         verbose_name_plural = "cinema_halls"
 
     def __str__(self):
-        return f"{self.name} ({self.rows} rows, " \
-               f"{self.seats_in_row} seats in one row)"
+        return (
+            f"{self.name} ({self.rows} rows, "
+            f"{self.seats_in_row} seats in one row)"
+        )
