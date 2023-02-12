@@ -9,7 +9,7 @@ from cinema.serializers import (
     MovieSerializer,
     GenreSerializer,
     ActorSerializer,
-    CinemaHallSerializer
+    CinemaHallSerializer,
 )
 
 
@@ -74,7 +74,7 @@ class CinemaHallViewSet(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
-    viewsets.GenericViewSet
+    viewsets.GenericViewSet,
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
