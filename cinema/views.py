@@ -3,7 +3,6 @@ from django.http import Http404
 from rest_framework.response import Response
 from rest_framework import status, mixins, generics, viewsets
 
-from rest_framework.templatetags.rest_framework import data
 from rest_framework.views import APIView
 
 from cinema.models import Movie, Genre, CinemaHall, Actor
@@ -27,7 +26,7 @@ class GenreList(APIView):
 
         return Response(serializers.data, status=status.HTTP_200_OK)
 
-    def post(self, request: {data}) -> Response:
+    def post(self, request) -> Response:
         serializers = GenreSerializer(data=request.data)
         if serializers.is_valid():
             serializers.save()
