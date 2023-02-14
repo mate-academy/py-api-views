@@ -53,8 +53,7 @@ class GenreDetail(APIView):
 
 
 class ActorList(
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
+    generics.ListCreateAPIView,
     generics.GenericAPIView
 ):
     queryset = Actor.objects.all()
@@ -68,9 +67,7 @@ class ActorList(
 
 
 class ActorDetail(
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
+    generics.RetrieveUpdateDestroyAPIView,
     generics.GenericAPIView
 ):
     queryset = Actor.objects.all()
@@ -90,11 +87,8 @@ class ActorDetail(
 
 
 class CinemaHallViewSet(
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
+    generics.ListCreateAPIView,
+    generics.RetrieveUpdateDestroyAPIView,
     viewsets.GenericViewSet
 ):
     queryset = CinemaHall.objects.all()
