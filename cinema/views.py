@@ -52,38 +52,14 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(
-    generics.ListCreateAPIView,
-    generics.GenericAPIView
-):
+class ActorList(generics.ListCreateAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, request: HttpRequest, *args, **kwargs) -> Response:
-        return self.list(request, *args, **kwargs)
 
-    def post(self, request: HttpRequest, *args, **kwargs) -> Response:
-        return self.create(request, *args, **kwargs)
-
-
-class ActorDetail(
-    generics.RetrieveUpdateDestroyAPIView,
-    generics.GenericAPIView
-):
+class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
-
-    def get(self, request: HttpRequest, *args, **kwargs) -> Response:
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request: HttpRequest, *args, **kwargs) -> Response:
-        return self.update(request, *args, **kwargs)
-
-    def patch(self, request: HttpRequest, *args, **kwargs) -> Response:
-        return self.partial_update(request, *args, **kwargs)
-
-    def delete(self, request: HttpRequest, *args, **kwargs) -> Response:
-        return self.destroy(request, *args, **kwargs)
 
 
 class CinemaHallViewSet(
