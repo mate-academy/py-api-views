@@ -20,8 +20,6 @@ urlpatterns = [
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre_detail"),
     path("actors/", ActorList.as_view(), name="genre_list"),
     path("actors/<int:pk>/", ActorDetail.as_view(), name="genre_detail"),
-    path("", include(router.urls))
-
-]
+] + router.urls
 
 app_name = "cinema"
