@@ -3,40 +3,43 @@ from rest_framework import serializers
 from cinema.models import Movie, Actor, CinemaHall, Genre
 
 
-class ActorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Actor
-        fields = "__all__"
+class ActorSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
 
     def create(self, validated_data):
         return Actor.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.first_name = validated_data.get("first_name", instance.first_name)
-        instance.last_name = validated_data.get("last_name", instance.last_name)
+        instance.first_name = validated_data.get(
+            "first_name", instance.first_name
+        )
+        instance.last_name = validated_data.get(
+            "last_name", instance.last_name
+        )
         instance.save()
         return instance
 
 
-class GenreSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Genre
-        fields = "__all__"
+class GenreSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField()
 
     def create(self, validated_data):
         return Genre.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.first_name = validated_data.get("first_name", instance.first_name)
-        instance.last_name = validated_data.get("last_name", instance.last_name)
+        instance.name = validated_data.get("name", instance.name)
         instance.save()
         return instance
 
 
-class CinemaHallSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CinemaHall
-        fields = "__all__"
+class CinemaHallSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField()
+    rows = serializers.IntegerField()
+    seats_in_row = serializers.IntegerField()
 
     def create(self, validated_data):
         return CinemaHall.objects.create(**validated_data)
@@ -51,11 +54,13 @@ class CinemaHallSerializer(serializers.ModelSerializer):
         return instance
 
 
-class MovieSerializer(serializers.ModelSerializer):
-    # actors = ActorSerializer(many=True)
-    class Meta:
-        model = Movie
-        fields = "__all__"
+class MovieSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField()
+    description = serializers.CharField()
+    actors = list[int]
+    genres = list[int]
+    duration = serializers.IntegerField()
 
     def create(self, validated_data):
 
@@ -63,7 +68,9 @@ class MovieSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get("description", instance.description)
+        instance.description = validated_data.get(
+            "description", instance.description
+        )
         actors = validated_data.get("actors")
         if actors is not None:
             instance.actors.set(actors)
