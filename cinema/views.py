@@ -2,15 +2,15 @@ from rest_framework.decorators import api_view
 from rest_framework.generics import get_object_or_404
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import status, generics
+from rest_framework import status, generics, viewsets, mixins
 
 from rest_framework.views import APIView
 
-from cinema.models import Movie, Genre, Actor
+from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import (
     MovieSerializer,
     GenreSerializer,
-    ActorSerializer
+    ActorSerializer, CinemaHallSerializer
 )
 
 
@@ -86,15 +86,23 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(
-    generics.ListCreateAPIView
-):
+class ActorList(generics.ListCreateAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
 
-class ActorDetail(
-    generics.RetrieveUpdateDestroyAPIView
-):
+class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
+
+
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
