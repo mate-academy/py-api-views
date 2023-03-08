@@ -16,7 +16,7 @@ from cinema.serializers import (
 class GenreList(APIView):
     def get(self, request: HttpRequest) -> Response:
         genres = Genre.objects.all()
-        serializer = GenreSerializer(genres, mHttpRequest=True)
+        serializer = GenreSerializer(genres, HttpRequest=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request: HttpRequest) -> Response:
