@@ -10,7 +10,7 @@ class Genre(models.Model):
     name = models.CharField(max_length=63, unique=True)
 
 
-class CinemaHalla(models.Model):
+class CinemaHall(models.Model):
     name = models.CharField(max_length=63)
     rows = models.IntegerField()
     seats_in_row = models.IntegerField()
