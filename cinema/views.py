@@ -1,5 +1,4 @@
-from typing import Any
-
+from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from rest_framework import status, mixins, generics, viewsets
 from rest_framework.response import Response
@@ -15,12 +14,12 @@ from cinema.serializers import (
 
 
 class GenreList(APIView):
-    def get(self, request: Any) -> Response:
+    def get(self, request: HttpRequest) -> Response:
         genres = Genre.objects.all()
-        serializer = GenreSerializer(genres, many=True)
+        serializer = GenreSerializer(genres, mHttpRequest=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request: Any) -> Response:
+    def post(self, request: HttpRequest) -> Response:
         serializer = GenreSerializer(data=request.data)
 
         serializer.is_valid(raise_exception=True)
@@ -33,13 +32,13 @@ class GenreDetail(APIView):
         genre = get_object_or_404(Genre, id=pk)
         return genre
 
-    def get(self, request: Any, pk: int) -> Response:
+    def get(self, request: HttpRequest, pk: int) -> Response:
         genre = self.get_object(pk)
 
         serializer = GenreSerializer(genre)
         return Response(serializer.data)
 
-    def put(self, request: Any, pk: int) -> Response:
+    def put(self, request: HttpRequest, pk: int) -> Response:
         genre = self.get_object(pk)
 
         serializer = GenreSerializer(genre, data=request.data)
@@ -47,14 +46,14 @@ class GenreDetail(APIView):
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data)
 
-    def patch(self, request: Any, pk: int) -> Response:
+    def patch(self, request: HttpRequest, pk: int) -> Response:
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
-    def delete(self, request: Any, pk: int) -> Response:
+    def delete(self, request: HttpRequest, pk: int) -> Response:
         genre = self.get_object(pk)
 
         genre.delete()
@@ -69,10 +68,10 @@ class ActorList(
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, request: Any, *args, **kwargs) -> Response:
+    def get(self, request: HttpRequest, *args, **kwargs) -> Response:
         return self.list(request, *args, **kwargs)
 
-    def post(self, request: Any, *args, **kwargs) -> Response:
+    def post(self, request: HttpRequest, *args, **kwargs) -> Response:
         return self.create(request, *args, **kwargs)
 
 
@@ -85,16 +84,16 @@ class ActorDetail(
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, request: Any, *args, **kwargs) -> Response:
+    def get(self, request: HttpRequest, *args, **kwargs) -> Response:
         return self.retrieve(request, *args, **kwargs)
 
-    def put(self, request: Any, *args, **kwargs) -> Response:
+    def put(self, request: HttpRequest, *args, **kwargs) -> Response:
         return self.update(request, *args, **kwargs)
 
-    def patch(self, request: Any, *args, **kwargs) -> Response:
+    def patch(self, request: HttpRequest, *args, **kwargs) -> Response:
         return self.partial_update(request, *args, **kwargs)
 
-    def delete(self, request: Any, *args, **kwargs) -> Response:
+    def delete(self, request: HttpRequest, *args, **kwargs) -> Response:
         return self.destroy(request, *args, **kwargs)
 
 
