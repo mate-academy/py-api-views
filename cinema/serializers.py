@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from cinema.models import Movie
+from cinema.models import Movie, Actor, Genre
 
 
 class MovieSerializer(serializers.Serializer):
@@ -8,6 +8,8 @@ class MovieSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=255, required=True)
     description = serializers.CharField(required=True)
     duration = serializers.IntegerField(required=True)
+    actor = serializers.ManyRelatedField(child_relation=Actor)
+    genre = serializers.ManyRelatedField(child_relation=Genre)
 
     def create(self, validated_data):
         return Movie.objects.create(**validated_data)
@@ -18,7 +20,10 @@ class MovieSerializer(serializers.Serializer):
             "description", instance.description
         )
         instance.duration = validated_data.get("duration", instance.duration)
+        instance.actor = validated_data.get("actor", instance.actor)
+        instance.genre = validated_data.get("genre", instance.genre)
 
         instance.save()
 
         return instance
+
