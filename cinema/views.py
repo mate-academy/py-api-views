@@ -12,7 +12,7 @@ from cinema.serializers import (
 )
 
 
-class MovieModelViewSet(viewsets.ModelViewSet):
+class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
 
@@ -29,7 +29,7 @@ class CinemaHallViewSet(
     serializer_class = CinemaHallSerializer
 
 
-class ActorListView(
+class ActorList(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     generics.GenericAPIView
@@ -45,7 +45,7 @@ class ActorListView(
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetailView(
+class ActorDetail(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
     mixins.DestroyModelMixin,
@@ -65,7 +65,7 @@ class ActorDetailView(
         return self.destroy(request, *args, **kwargs)
 
 
-class GenreListView(APIView):
+class GenreList(APIView):
     def get(self, request: Request) -> Response:
         genre = Genre.objects.all()
         serializer = GenreSerializer(genre, many=True)
@@ -78,7 +78,7 @@ class GenreListView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class GenreDetailView(APIView):
+class GenreDetail(APIView):
     def get_object(self, request: Request, pk: int) -> Genre:
         return get_object_or_404(Genre, pk=pk)
 
