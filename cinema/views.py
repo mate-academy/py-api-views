@@ -58,8 +58,14 @@ class ActorDetail(
     def get(self, request: Request, *args, **kwargs) -> Response:
         return self.retrieve(request, *args, **kwargs)
 
+    def put(self, request: Request, *args, **kwargs) -> Response:
+        return self.update(request, *args, **kwargs)
+
     def post(self, request: Request, *args, **kwargs) -> Response:
         return self.update(request, *args, **kwargs)
+
+    def patch(self, request: Request, *args, **kwargs) -> Response:
+        return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request: Request, *args, **kwargs) -> Response:
         return self.destroy(request, *args, **kwargs)
@@ -79,22 +85,29 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, request: Request, pk: int) -> Genre:
+    def get_object(self, pk: int) -> Genre:
         return get_object_or_404(Genre, pk=pk)
 
     def get(self, request: Request, pk: int) -> Response:
-        genre = self.get_object(request, pk)
+        genre = self.get_object(pk)
         serializer = GenreSerializer(genre)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request: Request, pk: int) -> Response:
-        genre = self.get_object(request, pk)
+        genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def patch(self, request: Request, pk: int) -> Response:
+        genre = self.get_object(pk)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def delete(self, request: Request, pk: int) -> Response:
-        genre = self.get_object(request, pk)
+        genre = self.get_object(pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
