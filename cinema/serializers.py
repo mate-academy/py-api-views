@@ -16,7 +16,7 @@ class MovieSerializer(serializers.Serializer):
     def create(self, validated_data: dict) -> Optional[Movie]:
         return Movie.objects.create(**validated_data)
 
-    def update(self, instance, validated_data: dict) -> Optional[Movie]:
+    def update(self, instance: Movie, validated_data: dict) -> Optional[Movie]:
         instance.title = validated_data.get("title", instance.title)
         instance.description = validated_data.get(
             "description", instance.description
@@ -36,7 +36,7 @@ class ActorSerializer(serializers.Serializer):
     def create(self, validated_data: dict) -> Optional[Actor]:
         return Actor.objects.create(**validated_data)
 
-    def update(self, instance, validated_data: dict) -> Optional[Actor]:
+    def update(self, instance: Actor, validated_data: dict) -> Optional[Actor]:
         instance.first_name = validated_data.get(
             "first_name", instance.first_name
         )
@@ -56,7 +56,7 @@ class GenreSerializer(serializers.Serializer):
     def create(self, validated_data: dict) -> Optional[Genre]:
         return Genre.objects.create(**validated_data)
 
-    def update(self, instance, validated_data: dict) -> Optional[Genre]:
+    def update(self, instance: Genre, validated_data: dict) -> Optional[Genre]:
         instance.name = validated_data.get("name", instance.name)
 
         instance.save()
@@ -73,7 +73,11 @@ class CinemaHallSerializer(serializers.Serializer):
     def create(self, validated_data: dict) -> Optional[CinemaHall]:
         return CinemaHall.objects.create(**validated_data)
 
-    def update(self, instance, validated_data: dict) -> Optional[CinemaHall]:
+    def update(
+            self,
+            instance: CinemaHall,
+            validated_data: dict
+    ) -> Optional[CinemaHall]:
         instance.name = validated_data.get("name", instance.name)
         instance.rows = validated_data.get("rows", instance.rows)
         instance.seats_in_row = validated_data.get(
