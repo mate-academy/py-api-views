@@ -1,3 +1,4 @@
+from django.http import HttpRequest, HttpResponse
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins, viewsets
 
@@ -14,45 +15,42 @@ from cinema.serializers import (
 
 
 class GenreList(APIView):
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse:
         serializer = GenreSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class GenreDetail(APIView):
-    def get_object(self, pk):
+    def get_object(self, pk: int) -> Genre:
         return get_object_or_404(Genre, pk=pk)
 
-    def get(self, request, pk):
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request, pk):
+    def put(self, request: HttpRequest, pk: int) -> HttpResponse:
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def patch(self, request, pk):
+    def patch(self, request: HttpRequest, pk: int) -> HttpResponse:
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request, pk):
+    def delete(self, request: HttpRequest, pk: int) -> HttpResponse:
         genre = self.get_object(pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -67,10 +65,10 @@ class ActorList(
     queryset = Actor.objects.all().prefetch_related()
     serializer_class = ActorSerializer
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: HttpRequest, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
 
@@ -83,16 +81,16 @@ class ActorDetail(
     queryset = Actor.objects.all().prefetch_related()
     serializer_class = ActorSerializer
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-    def put(self, request, *args, **kwargs):
+    def put(self, request: HttpRequest, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
+    def patch(self, request: HttpRequest, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request: HttpRequest, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
 
