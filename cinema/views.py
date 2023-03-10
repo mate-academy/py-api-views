@@ -62,7 +62,7 @@ class ActorList(
     generics.GenericAPIView
 ):
     model = Actor
-    queryset = Actor.objects.all().prefetch_related()
+    queryset = Actor.objects.prefetch_related()
     serializer_class = ActorSerializer
 
     def get(self, request: HttpRequest, *args, **kwargs):
@@ -78,7 +78,7 @@ class ActorDetail(
     mixins.DestroyModelMixin,
     generics.GenericAPIView
 ):
-    queryset = Actor.objects.all().prefetch_related()
+    queryset = Actor.objects.prefetch_related()
     serializer_class = ActorSerializer
 
     def get(self, request: HttpRequest, *args, **kwargs):
