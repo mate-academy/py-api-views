@@ -11,7 +11,7 @@ from cinema.views import (
 )
 
 router = routers.DefaultRouter()
-router.register("movies/", MovieViewSet)
+router.register("movies", MovieViewSet)
 router.register("cinema_halls", CinemaHallViewSet)
 
 urlpatterns = [
