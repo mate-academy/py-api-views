@@ -13,7 +13,7 @@ from cinema.serializers import (
 )
 
 
-class MovieSet(viewsets.ModelViewSet):
+class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
 
