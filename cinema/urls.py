@@ -5,16 +5,16 @@ from cinema.views import (
     ActorDetail,
     GenreList,
     GenreDetail,
-    CinemaViewSet,
+    CinemaHallViewSet,
     MovieViewSet
 )
 
-cinemahall_list = CinemaViewSet.as_view(actions={
+cinemahall_list = CinemaHallViewSet.as_view(actions={
     "get": "list",
     "post": "create"
 }
 )
-cinemahall_detail = CinemaViewSet.as_view(actions={
+cinemahall_detail = CinemaHallViewSet.as_view(actions={
     "get": "retrieve",
     "put": "update",
     "patch": "partial_update",
@@ -30,12 +30,12 @@ urlpatterns = [
     path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
     path("genres/", GenreList.as_view(), name="genre-list"),
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
-    path("cinema-halls/", cinemahall_list, name="cinema-hall-list"),
+    path("cinema_halls/", cinemahall_list, name="cinema-hall-list"),
     path(
-        "cinema-halls/<int:pk>/",
+        "cinema_halls/<int:pk>/",
         cinemahall_detail,
         name="cinema-hall-detail"),
-    path("movies/", include(movie_router.urls)),
+    path("", include(movie_router.urls)),
 ]
 
 app_name = "cinema"
