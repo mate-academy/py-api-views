@@ -77,7 +77,8 @@ class MovieApiTests(TestCase):
         response = self.client.get("/api/cinema/movies/100/")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_put_movie(self):
+    def \
+            test_put_movie(self):
         self.client.put(
             "/api/cinema/movies/1/",
             {

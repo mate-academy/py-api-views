@@ -20,8 +20,8 @@ class Movie(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     duration = models.IntegerField()
-    actors = models.ManyToManyField(to=Actor)
-    genres = models.ManyToManyField(to=Genre)
+    actors = models.ManyToManyField(to=Actor, blank=True)
+    genres = models.ManyToManyField(to=Genre, blank=True)
 
     class Meta:
         ordering = ["title"]
