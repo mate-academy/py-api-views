@@ -42,7 +42,6 @@ class MovieApiTests(TestCase):
             },
         )
         db_movies = Movie.objects.all()
-        print(movies.json)
         self.assertEqual(movies.status_code, status.HTTP_201_CREATED)
         self.assertEqual(db_movies.count(), 3)
         self.assertEqual(db_movies.filter(title="Superman").count(), 1)
@@ -77,8 +76,7 @@ class MovieApiTests(TestCase):
         response = self.client.get("/api/cinema/movies/100/")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def \
-            test_put_movie(self):
+    def test_put_movie(self):
         self.client.put(
             "/api/cinema/movies/1/",
             {
