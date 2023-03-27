@@ -16,11 +16,10 @@ router.register("movies", MovieViewSet)
 router.register("cinema_halls", CinemaHallViewSet)
 
 urlpatterns = [
-    path("", include(router.urls)),
     path("genres/", GenreList.as_view(), name="genre-list"),
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
     path("actors/", ActorList.as_view(), name="actor-list"),
     path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
-]
+] + router.urls
 
 app_name = "cinema"
