@@ -4,19 +4,19 @@ from rest_framework.test import APIClient
 from rest_framework import status, viewsets
 
 from cinema.serializers import CinemaHallSerializer
-from cinema.models import CinemaHall
+from cinema.models import Cinemahall
 from cinema.views import CinemaHallViewSet
 
 
 class CinemaHallApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        CinemaHall.objects.create(
+        Cinemahall.objects.create(
             name="Blue",
             rows=15,
             seats_in_row=20,
         )
-        CinemaHall.objects.create(
+        Cinemahall.objects.create(
             name="VIP",
             rows=6,
             seats_in_row=8,
@@ -30,7 +30,7 @@ class CinemaHallApiTests(TestCase):
 
     def test_get_cinema_halls(self):
         response = self.client.get("/api/cinema/cinema_halls/")
-        serializer = CinemaHallSerializer(CinemaHall.objects.all(), many=True)
+        serializer = CinemaHallSerializer(Cinemahall.objects.all(), many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
@@ -43,7 +43,7 @@ class CinemaHallApiTests(TestCase):
                 "seats_in_row": 15,
             },
         )
-        db_cinema_halls = CinemaHall.objects.all()
+        db_cinema_halls = Cinemahall.objects.all()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(db_cinema_halls.count(), 3)
         self.assertEqual(db_cinema_halls.filter(name="Yellow").count(), 1)
@@ -51,7 +51,7 @@ class CinemaHallApiTests(TestCase):
     def test_get_cinema_hall(self):
         response = self.client.get("/api/cinema/cinema_halls/2/")
         serializer = CinemaHallSerializer(
-            CinemaHall(
+            Cinemahall(
                 id=2,
                 name="VIP",
                 rows=6,
@@ -74,7 +74,7 @@ class CinemaHallApiTests(TestCase):
                 "seats_in_row": 15,
             },
         )
-        cinema_hall_pk_1 = CinemaHall.objects.get(pk=1)
+        cinema_hall_pk_1 = Cinemahall.objects.get(pk=1)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
             [
@@ -97,13 +97,13 @@ class CinemaHallApiTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(CinemaHall.objects.get(id=1).name, "Green")
+        self.assertEqual(Cinemahall.objects.get(id=1).name, "Green")
 
     def test_delete_cinema_hall(self):
         response = self.client.delete(
             "/api/cinema/cinema_halls/1/",
         )
-        db_cinema_halls_id_1 = CinemaHall.objects.filter(id=1)
+        db_cinema_halls_id_1 = Cinemahall.objects.filter(id=1)
         self.assertEqual(db_cinema_halls_id_1.count(), 0)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
