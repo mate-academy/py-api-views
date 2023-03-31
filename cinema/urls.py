@@ -40,8 +40,6 @@ urlpatterns = [
         "cinema/actors/<int:pk>/",
         ActorDetail.as_view(),
         name="actors-detail"
-    ),
-    path("", include(router.urls))
-]
+    )] + router.urls
 
 app_name = "cinema"
