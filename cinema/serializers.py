@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from cinema.models import Movie, Actor, Genre, Cinemahall
+from cinema.models import Movie, Actor, Genre, CinemaHall
 
 
 class MovieSerializer(serializers.Serializer):
@@ -64,7 +64,7 @@ class CinemaHallSerializer(serializers.Serializer):
     seats_in_row = serializers.IntegerField()
 
     def create(self, validated_data):
-        return Cinemahall.objects.create(**validated_data)
+        return CinemaHall.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)

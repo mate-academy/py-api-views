@@ -16,7 +16,7 @@ class Genre(models.Model):
         return self.name
 
 
-class Cinemahall(models.Model):
+class CinemaHall(models.Model):
     name = models.CharField(max_length=255)
     rows = models.PositiveIntegerField()
     seats_in_row = models.PositiveIntegerField()
