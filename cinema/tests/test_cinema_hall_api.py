@@ -9,7 +9,7 @@ from cinema.views import CinemaHallViewSet
 
 
 class CinemaHallApiTests(TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.client = APIClient()
         CinemaHall.objects.create(
             name="Blue",
