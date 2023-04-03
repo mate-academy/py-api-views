@@ -105,10 +105,6 @@ class ActorDetail(
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
-    def partial_update(self, request, *args, **kwargs):
-        kwargs["partial"] = True
-        return self.update(request, *args, **kwargs)
-
 
 class CinemaHallViewSet(
     mixins.ListModelMixin,
