@@ -1,4 +1,4 @@
-from django.http import Http404
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins, viewsets
 from rest_framework.views import APIView
@@ -21,19 +21,15 @@ class GenreList(APIView):
 
     def post(self, request) -> Response:
         serializer = GenreSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class GenreDetail(APIView):
 
-    def get_object(self, pk) -> Movie:
-        try:
-            return Genre.objects.get(pk=pk)
-        except Genre.DoesNotExist:
-            raise Http404
+    def get_object(self, pk) -> Genre:
+        return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk) -> Response:
         genre = self.get_object(pk)
@@ -43,18 +39,16 @@ class GenreDetail(APIView):
     def put(self, request, pk) -> Response:
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
     def patch(self, request, pk) -> Response:
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
     def delete(self, request, pk) -> Response:
         genre = self.get_object(pk)
