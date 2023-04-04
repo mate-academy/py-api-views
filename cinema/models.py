@@ -2,14 +2,14 @@ from django.db import models
 
 
 class Actor(models.Model):
-    first_name = models.CharField(max_length=64)
-    last_name = models.CharField(max_length=64)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
     class Meta:
-        ordering = ["first_name"]
+        ordering = ["last_name"]
 
 
 class Genre(models.Model):
@@ -23,15 +23,12 @@ class Genre(models.Model):
 
 
 class CinemaHall(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=255)
     rows = models.IntegerField()
     seats_in_row = models.IntegerField()
 
-    def __str__(self):
-        return (
-            f"{self.name} "
-            f"(rows: {self.rows}, seats in row: {self.seats_in_row})"
-        )
+    def __str__(self) -> str:
+        return self.name
 
     class Meta:
         ordering = ["name"]
