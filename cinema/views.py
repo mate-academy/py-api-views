@@ -110,6 +110,9 @@ class ActorDetail(
 class CinemaHallViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet
 ):
     queryset = CinemaHall.objects.all()
