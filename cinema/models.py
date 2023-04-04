@@ -30,8 +30,8 @@ class Movie(models.Model):
     description = models.TextField()
     duration = models.IntegerField()
 
-    actors = models.ManyToManyField(to=Actor)
-    genres = models.ManyToManyField(to=Genre)
+    actors = models.ManyToManyField(to=Actor, blank=True)
+    genres = models.ManyToManyField(to=Genre, blank=True)
 
     class Meta:
         default_related_name = "movies"
