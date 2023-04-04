@@ -8,8 +8,6 @@ class MovieSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=255, required=True)
     description = serializers.CharField(required=True)
     duration = serializers.IntegerField(required=True)
-    actors = serializers.SerializerMethodField()
-    genres = serializers.SerializerMethodField()
 
     def create(self, validated_data):
         return Movie.objects.create(**validated_data)
@@ -43,7 +41,7 @@ class GenreSerializer(serializers.Serializer):
 class ActorSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     first_name = serializers.CharField(max_length=255, required=True)
-    second_name = serializers.CharField(max_length=255, required=True)
+    last_name = serializers.CharField(max_length=255, required=True)
 
     def create(self, validated_data):
         return Actor.objects.create(**validated_data)
@@ -53,9 +51,9 @@ class ActorSerializer(serializers.Serializer):
             "first_name",
             instance.first_name
         )
-        instance.second_name = validated_data.get(
-            "second_name",
-            instance.second_name
+        instance.last_name = validated_data.get(
+            "last_name",
+            instance.last_name
         )
         instance.save()
 
