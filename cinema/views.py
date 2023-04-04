@@ -7,7 +7,11 @@ from rest_framework import status, mixins
 from rest_framework.views import APIView
 
 from cinema.models import Movie, Genre, Actor
-from cinema.serializers import MovieSerializer, GenreSerializer
+from cinema.serializers import (
+    MovieSerializer,
+    GenreSerializer,
+    ActorSerializer
+)
 
 
 class GenreList(APIView):
@@ -65,5 +69,38 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(GenericAPIView):
+class ActorList(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    GenericAPIView
+):
     queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs) -> Response:
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs) -> Response:
+        return self.create(request, *args, **kwargs)
+
+
+class ActorDetail(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericAPIView
+):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs) -> Response:
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs) -> Response:
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs) -> Response:
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs) -> Response:
+        return self.destroy(request, *args, **kwargs)
