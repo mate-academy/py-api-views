@@ -108,8 +108,11 @@ class ActorDetail(
     def get(self, request: Request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-    def update(self, request: Request, *args, **kwargs):
+    def put(self, request: Request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
+    def patch(self, request: Request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request: Request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
