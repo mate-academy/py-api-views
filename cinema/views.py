@@ -5,12 +5,13 @@ from rest_framework.response import Response
 from rest_framework import status, mixins
 
 from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
 
-from cinema.models import Movie, Genre, Actor
+from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import (
     MovieSerializer,
     GenreSerializer,
-    ActorSerializer
+    ActorSerializer, CinemaHallSerializer
 )
 
 
@@ -104,3 +105,12 @@ class ActorDetail(
 
     def delete(self, request, *args, **kwargs) -> Response:
         return self.destroy(request, *args, **kwargs)
+
+
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    GenericViewSet
+):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
