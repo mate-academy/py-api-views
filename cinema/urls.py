@@ -14,30 +14,14 @@ from cinema.views import (
 router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
 
-cinemahall_list = CinemaHallViewSet.as_view(
+cinema_hall_list = CinemaHallViewSet.as_view(
     actions={
         "get": "list",
         "post": "create",
     }
 )
 
-cinemahall_detail = CinemaHallViewSet.as_view(
-    actions={
-        "get": "retrieve",
-        "put": "update",
-        "patch": "partial_update",
-        "delete": "destroy",
-    }
-)
-
-movie_list = CinemaHallViewSet.as_view(
-    actions={
-        "get": "list",
-        "post": "create",
-    }
-)
-
-movie_detail = CinemaHallViewSet.as_view(
+cinema_hall_detail = CinemaHallViewSet.as_view(
     actions={
         "get": "retrieve",
         "put": "update",
@@ -47,12 +31,7 @@ movie_detail = CinemaHallViewSet.as_view(
 )
 
 urlpatterns = [
-    path("movies/", include(router.urls)),
-    path(
-        "movies/<int:pk>/",
-        movie_detail,
-        name="movie-detail"
-    ),
+    path("", include(router.urls)),
     path(
         "genres/",
         GenreList.as_view(),
@@ -75,13 +54,13 @@ urlpatterns = [
     ),
     path(
         "cinemahalls/",
-        cinemahall_list,
-        name="cinemahall-list"
+        cinema_hall_list,
+        name="cinema-hall-list"
     ),
     path(
         "cinemahalls/<int:pk>/",
-        cinemahall_detail,
-        name="cinemahall-detail"
+        cinema_hall_detail,
+        name="cinema-hall-detail"
     ),
 ]
 
