@@ -45,7 +45,6 @@ class GenreDetail(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
@@ -112,8 +111,6 @@ class CinemaHallViewSet(
     serializer_class = CinemaHallSerializer
 
 
-class MovieViewSet(
-    viewsets.ModelViewSet
-):
+class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
