@@ -34,7 +34,7 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, pk):
+    def get_object(self, pk: int) -> Response:
         try:
             return Genre.objects.get(id=pk)
         except Genre.DoesNotExist:
