@@ -41,6 +41,7 @@ class MovieApiTests(TestCase):
                 "duration": 170,
             },
         )
+        print(movies.status_code)
         db_movies = Movie.objects.all()
         self.assertEqual(movies.status_code, status.HTTP_201_CREATED)
         self.assertEqual(db_movies.count(), 3)
