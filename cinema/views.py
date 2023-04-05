@@ -1,8 +1,7 @@
 from django.http import Http404
-from rest_framework.generics import GenericAPIView
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import status, mixins
+from rest_framework import generics, status, mixins
 
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
@@ -72,27 +71,12 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    GenericAPIView
-):
+class ActorList(generics.ListCreateAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, request, *args, **kwargs) -> Response:
-        return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs) -> Response:
-        return self.create(request, *args, **kwargs)
-
-
-class ActorDetail(
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    GenericAPIView
-):
+class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
