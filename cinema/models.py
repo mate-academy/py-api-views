@@ -21,7 +21,7 @@ class Movie(models.Model):
     description = models.TextField()
     duration = models.IntegerField()
     genres = models.ManyToManyField(Genre)
-    actors = models.ManyToManyField(Actor)
+    actors = models.ManyToManyField(Actor, related_name="movies")
 
     def __str__(self) -> str:
         return self.title
