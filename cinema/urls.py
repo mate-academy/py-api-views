@@ -3,11 +3,14 @@ from django.urls import path, include
 from rest_framework import routers
 
 from cinema.views import (
-    CinemaHallViewSet,
+    ActorList,
+    ActorDetail,
+
     GenreList,
     GenreDetail,
-    ActorList,
-    ActorDetail, MovieViewSet
+
+    MovieViewSet,
+    CinemaHallViewSet,
 )
 
 cinema_hall_list = CinemaHallViewSet.as_view(
