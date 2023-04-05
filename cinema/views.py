@@ -98,4 +98,3 @@ class CinemaHallList(generics.ListCreateAPIView):
 class CinemaHallDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
-
