@@ -35,7 +35,7 @@ class GenreDetail(APIView):
 
     def put(self, request, pk):
         genre = get_object_or_404(Genre, pk=pk)
-        serializer = GenreSerializer(genre, data=request.data, partial=True)
+        serializer = GenreSerializer(genre, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
