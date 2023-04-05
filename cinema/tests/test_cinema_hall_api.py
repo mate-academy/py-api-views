@@ -58,6 +58,8 @@ class CinemaHallApiTests(TestCase):
                 seats_in_row=8,
             )
         )
+        print(response)
+        print(serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
