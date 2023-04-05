@@ -5,13 +5,14 @@ from rest_framework.response import Response
 from rest_framework import status, mixins
 
 from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import (
-    MovieSerializer,
+    ActorSerializer,
+    CinemaHallSerializer,
     GenreSerializer,
-    ActorSerializer, CinemaHallSerializer
+    MovieSerializer,
 )
 
 
@@ -30,6 +31,7 @@ class GenreList(APIView):
                 serializer.data,
                 status=status.HTTP_201_CREATED
             )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GenreDetail(APIView):
@@ -117,3 +119,8 @@ class CinemaHallViewSet(
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
+
+
+class MovieViewSet(ModelViewSet):
+    queryset = Movie.objects.prefetch_related("actors", "genres")
+    serializer_class = MovieSerializer
