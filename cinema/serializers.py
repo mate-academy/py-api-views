@@ -25,9 +25,3 @@ class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = "__all__"
-
-    def get_actors(self, obj: Movie) -> list:
-        return [ActorSerializer(actor).data for actor in obj.actors.all()]
-
-    def get_genres(self, obj: Movie) -> list:
-        return [GenreSerializer(genre).data for genre in obj.genres.all()]

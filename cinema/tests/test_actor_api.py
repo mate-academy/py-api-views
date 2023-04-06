@@ -58,7 +58,6 @@ class ActorApiTests(TestCase):
 
     def test_get_actor(self):
         response = self.client.get("/api/cinema/actors/2/")
-        print(response)
         serializer = ActorSerializer(
             Actor(id=2, first_name="Keanu", last_name="Reeves")
         )
