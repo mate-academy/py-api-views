@@ -7,10 +7,10 @@ class GenreSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=255, required=True)
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> Genre:
         return Genre.objects.create(**validated_data)
 
-    def update(self, instance: Genre, validated_data) -> Genre:
+    def update(self, instance: Genre, validated_data: dict) -> Genre:
         instance.name = validated_data.get(
             "name",
             instance.name
@@ -24,10 +24,10 @@ class ActorSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=255, required=True)
     last_name = serializers.CharField(max_length=255, required=True)
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> Actor:
         return Actor.objects.create(**validated_data)
 
-    def update(self, instance: Actor, validated_data) -> Actor:
+    def update(self, instance: Actor, validated_data: dict) -> Actor:
         instance.first_name = validated_data.get(
             "first_name",
             instance.first_name
@@ -46,10 +46,10 @@ class MovieSerializer(serializers.Serializer):
     description = serializers.CharField(required=True)
     duration = serializers.IntegerField(required=True)
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> Movie:
         return Movie.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
+    def update(self, instance: Movie, validated_data: dict) -> Movie:
         instance.title = validated_data.get(
             "title",
             instance.title
@@ -72,10 +72,10 @@ class CinemaHallSerializer(serializers.Serializer):
     rows = serializers.IntegerField(required=True)
     seats_in_row = serializers.IntegerField(required=True)
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> CinemaHall:
         return CinemaHall.objects.create(**validated_data)
 
-    def update(self, instance: CinemaHall, validated_data) -> CinemaHall:
+    def update(self, instance: CinemaHall, validated_data: dict) -> CinemaHall:
         instance.name = validated_data.get(
             "name",
             instance.name
