@@ -12,8 +12,7 @@ class GenreSerializer(serializers.Serializer):
 
     def update(self, instance: Genre, validated_data) -> Genre:
         instance.name = validated_data.get(
-            "name"
-            ,
+            "name",
             instance.name
         )
         instance.save()
@@ -30,13 +29,11 @@ class ActorSerializer(serializers.Serializer):
 
     def update(self, instance: Actor, validated_data) -> Actor:
         instance.first_name = validated_data.get(
-            "first_name"
-            ,
+            "first_name",
             instance.first_name
         )
         instance.last_name = validated_data.get(
-            "last_name"
-            ,
+            "last_name",
             instance.last_name
         )
         instance.save()
@@ -80,18 +77,15 @@ class CinemaHallSerializer(serializers.Serializer):
 
     def update(self, instance: CinemaHall, validated_data) -> CinemaHall:
         instance.name = validated_data.get(
-            "name"
-            ,
+            "name",
             instance.name
         )
         instance.rows = validated_data.get(
-            "rows"
-            ,
+            "rows",
             instance.rows
         )
         instance.seats_in_row = validated_data.get(
-            "seats_in_row"
-            ,
+            "seats_in_row",
             instance.seats_in_row
         )
         instance.save()

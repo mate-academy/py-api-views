@@ -1,13 +1,21 @@
 from django.http import Http404
-from rest_framework.response import Response
 from rest_framework import status, generics, mixins, viewsets
-
-from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
-from cinema.models import Movie, Genre, Actor, CinemaHall
-from cinema.serializers import MovieSerializer, GenreSerializer, \
-    ActorSerializer, CinemaHallSerializer
+from cinema.models import (
+    Movie,
+    Genre,
+    Actor,
+    CinemaHall
+)
+from cinema.serializers import (
+    MovieSerializer,
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer
+)
 
 
 class GenreList(APIView):
@@ -31,8 +39,6 @@ class GenreDetail(APIView):
 
         if get_object_or_404(Genre, pk=pk):
             return get_object_or_404(Genre, pk=pk)
-        else:
-            raise Http404
 
     def get(self, request, pk):
         genre = self.get_object(pk)
@@ -121,3 +127,13 @@ class CinemaHallViewSet(
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
+
+    def get_queryset(self):
+        queryset = Movie.objects.all()
+
+        if self.action == "list" or self.action == "retrieve":
+            return Movie.objects.prefetch_related(
+                "genres",
+                "actors"
+            )
+        return queryset

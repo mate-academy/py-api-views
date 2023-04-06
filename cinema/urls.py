@@ -26,12 +26,12 @@ urlpatterns = [
     path(
         "cinema_halls/",
         cinema_hall_list,
-        name="cinema_hall-list"
+        name="cinema-hall-list"
     ),
     path(
         "cinema_halls/<int:pk>/",
         cinema_hall_detail,
-        name="cinema_hall-detail"
+        name="cinema-hall-detail"
     ),
     path(
         "genres/",
