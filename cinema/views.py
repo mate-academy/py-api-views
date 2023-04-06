@@ -26,7 +26,8 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, pk):
+    @staticmethod
+    def get_object(pk):
         return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk):
@@ -39,7 +40,7 @@ class GenreDetail(APIView):
         serializer = GenreSerializer(genre, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
