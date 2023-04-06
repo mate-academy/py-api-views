@@ -12,7 +12,7 @@ from cinema.views import (
 )
 
 router = routers.DefaultRouter()
-router.register("movies", MovieViewSet)
+router.register("movies", MovieViewSet, basename="movie")
 
 cinema_hall_list = CinemaHallViewSet.as_view({
     "get": "list",
