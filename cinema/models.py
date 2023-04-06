@@ -18,6 +18,10 @@ class CinemaHall(models.Model):
     rows = models.IntegerField()
     seats_in_row = models.IntegerField()
 
+    def __str__(self):
+        capacity = self.rows * self.seats_in_row
+        return f"Hall: {self.name}, Capacity: {capacity}"
+
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
