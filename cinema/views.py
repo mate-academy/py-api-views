@@ -71,7 +71,9 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, pk: int) -> Genre:
+
+    @staticmethod
+    def get_object(pk: int) -> Genre:
         return get_object_or_404(Genre, pk=pk)
 
     def get(self, request: Request, pk: int) -> Response:
