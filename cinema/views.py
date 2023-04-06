@@ -1,4 +1,5 @@
 from django.http import Http404
+from rest_framework.generics import get_object_or_404
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import generics, status, mixins
@@ -34,16 +35,13 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, pk: int) -> Response:
-        try:
-            return Genre.objects.get(id=pk)
-        except Genre.DoesNotExist:
-            raise Http404
+    def get_object(self, pk: int) -> Genre:
+        return get_object_or_404(Genre, id=pk)
 
     def get(self, request: Request, pk: int) -> Response:
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request: Request, pk: int) -> Response:
         genre = self.get_object(pk)
