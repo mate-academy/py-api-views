@@ -9,7 +9,7 @@ class MovieSerializer(serializers.Serializer):
     description = serializers.CharField(required=True)
     duration = serializers.IntegerField(required=True)
 
-    def create(self, validated_data: dict) -> dict:
+    def create(self, validated_data: dict) -> Movie:
         return Movie.objects.create(**validated_data)
 
     def update(self, instance: object, validated_data: dict) -> object:
@@ -31,7 +31,7 @@ class ActorSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=60, required=True)
     last_name = serializers.CharField(max_length=60, required=True)
 
-    def create(self, validated_data: dict) -> dict:
+    def create(self, validated_data: dict) -> Actor:
         return Actor.objects.create(**validated_data)
 
     def update(self, instance: object, validated_data: dict) -> object:
@@ -49,7 +49,7 @@ class GenreSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=60, required=True)
 
-    def create(self, validated_data: dict) -> dict:
+    def create(self, validated_data: dict) -> Genre:
         return Genre.objects.create(**validated_data)
 
     def update(self, instance: object, validated_data: dict) -> object:
@@ -64,7 +64,7 @@ class CinemaHallSerializer(serializers.Serializer):
     rows = serializers.IntegerField(required=True)
     seats_in_row = serializers.IntegerField(required=True)
 
-    def create(self, validated_data: dict) -> dict:
+    def create(self, validated_data: dict) -> CinemaHall:
         return CinemaHall.objects.create(**validated_data)
 
     def update(self, instance: object, validated_data: dict) -> object:

@@ -1,6 +1,6 @@
-from django.http import Http404, HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest
 
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, get_object_or_404
 from rest_framework.mixins import (
     ListModelMixin,
     CreateModelMixin,
@@ -38,16 +38,16 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, request: HttpRequest, pk: int) -> object:
-        try:
-            return Genre.objects.get(id=pk)
-        except Genre.DoesNotExist:
-            raise Http404
+    @staticmethod
+    def get_object(request: HttpRequest, pk: int) -> object:
+        return get_object_or_404(Genre, id=pk)
+
+    from rest_framework import status
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
-        bus = self.get_object(request, pk)
-        serializer = GenreSerializer(bus)
-        return Response(serializer.data)
+        genre = self.get_object(request, pk)
+        serializer = GenreSerializer(genre)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request: HttpRequest, pk: int) -> HttpResponse:
         bus = self.get_object(request, pk)
