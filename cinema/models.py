@@ -4,11 +4,11 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class CinemaHall(models.Model):
     name = models.CharField(max_length=63)
-    rows = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(100)]
+    rows = models.PositiveSmallIntegerField(
+        validators=[MaxValueValidator(100)]
     )
-    seats_in_row = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(100)]
+    seats_in_row = models.PositiveSmallIntegerField(
+        validators=[MaxValueValidator(100)]
     )
 
     def __str__(self):
