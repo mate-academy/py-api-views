@@ -1,5 +1,3 @@
-from django.http import Http404
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, mixins, generics, viewsets
 
@@ -30,7 +28,8 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, pk):
+    @staticmethod
+    def get_object(pk):
         return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk):
