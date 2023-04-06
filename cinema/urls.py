@@ -11,13 +11,13 @@ from cinema.views import (
 )
 
 
-cinema_halls_list = CinemaHallViewSet.as_view(
+cinema_hall_list = CinemaHallViewSet.as_view(
     actions={
         "get": "list",
         "post": "create",
     }
 )
-cinema_halls_detail = CinemaHallViewSet.as_view(
+cinema_hall_detail = CinemaHallViewSet.as_view(
     actions={
         "get": "retrieve",
         "put": "update",
@@ -31,13 +31,13 @@ router.register("movies", MovieViewSet)
 
 urlpatterns = [
     path("genres/", GenreList.as_view(), name="genre-list"),
-    path("genres/<int:pk>/", GenreDetail.as_view(), name="genres-detail"),
+    path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
     path("actors/", ActorList.as_view(), name="actor-list"),
     path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
-    path("cinema_halls/", cinema_halls_list, name="cinema_halls-list"),
+    path("cinema_halls/", cinema_hall_list, name="cinema_hall-list"),
     path(
         "cinema_halls/<int:pk>/",
-        cinema_halls_detail,
+        cinema_hall_detail,
         name="cinema_halls-detail"
     ),
     path("", include(router.urls))
