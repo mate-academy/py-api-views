@@ -12,17 +12,22 @@ from cinema.views import (
 
 router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
-cinema_halls_list = CinemaHallViewSet.as_view(
-    actions={"get": "list",
-             "post": "create"
-             })
 
-cinema_halls_detail = CinemaHallViewSet.as_view({
-    "get": "retrieve",
-    "put": "update",
-    "patch": "partial_update",
-    "delete": "destroy",
-})
+cinema_halls_list = CinemaHallViewSet.as_view(
+    {
+        "get": "list",
+        "post": "create"
+    }
+)
+
+cinema_halls_detail = CinemaHallViewSet.as_view(
+    {
+        "get": "retrieve",
+        "put": "update",
+        "patch": "partial_update",
+        "delete": "destroy",
+    }
+)
 
 urlpatterns = [
     path("genres/", GenreList.as_view(), name="genre-list"),
