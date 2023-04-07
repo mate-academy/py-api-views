@@ -1,4 +1,3 @@
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins, viewsets
 
@@ -15,12 +14,15 @@ from cinema.serializers import (
 
 
 class GenreList(APIView):
-    def get(self, request):
+
+    @staticmethod
+    def get(request):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         serializer = GenreSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -30,7 +32,9 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, pk):
+
+    @staticmethod
+    def get_object(pk):
         return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk):
