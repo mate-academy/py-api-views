@@ -26,5 +26,3 @@ class ActorAdmin(admin.ModelAdmin):
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
     pass
-
-
