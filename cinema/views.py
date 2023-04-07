@@ -42,8 +42,6 @@ class GenreDetail(APIView):
     def get_object(request: HttpRequest, pk: int) -> object:
         return get_object_or_404(Genre, id=pk)
 
-    from rest_framework import status
-
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
         genre = self.get_object(request, pk)
         serializer = GenreSerializer(genre)
