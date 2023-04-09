@@ -18,24 +18,25 @@ class MovieSerializer(serializers.Serializer):
     )
 
     def create(self, validated_data):
-        actors_data = validated_data.pop('actors')
-        genres_data = validated_data.pop('genres')
+        actors_data = validated_data.pop("actors")
+        genres_data = validated_data.pop("genres")
         movie = Movie.objects.create(**validated_data)
         movie.actors.set(actors_data)
         movie.genres.set(genres_data)
         return movie
 
     def update(self, instance, validated_data):
-        instance.title = validated_data.get('title', instance.title)
-        instance.description = validated_data.get('description', instance.description)
-        instance.duration = validated_data.get('duration', instance.duration)
+        instance.title = validated_data.get("title", instance.title)
+        instance.description = validated_data.get(
+            "description", instance.description)
+        instance.duration = validated_data.get("duration", instance.duration)
 
         if 'actors' in validated_data:
-            actors_data = validated_data.get('actors')
+            actors_data = validated_data.get("actors")
             instance.actors.set(actors_data)
 
         if 'genres' in validated_data:
-            genres_data = validated_data.get('genres')
+            genres_data = validated_data.get("genres")
             instance.genres.set(genres_data)
 
         instance.save()
@@ -51,8 +52,10 @@ class ActorSerializer(serializers.Serializer):
         return Actor.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.first_name = validated_data.get("first_name", instance.first_name)
-        instance.last_name = validated_data.get("last_name", instance.last_name)
+        instance.first_name = validated_data.get(
+            "first_name", instance.first_name)
+        instance.last_name = validated_data.get(
+            "last_name", instance.last_name)
 
         instance.save()
 
