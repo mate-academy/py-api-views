@@ -31,11 +31,11 @@ class MovieSerializer(serializers.Serializer):
             "description", instance.description)
         instance.duration = validated_data.get("duration", instance.duration)
 
-        if 'actors' in validated_data:
+        if "actors" in validated_data:
             actors_data = validated_data.get("actors")
             instance.actors.set(actors_data)
 
-        if 'genres' in validated_data:
+        if "genres" in validated_data:
             genres_data = validated_data.get("genres")
             instance.genres.set(genres_data)
 
