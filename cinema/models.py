@@ -5,14 +5,14 @@ class Actor(models.Model):
     first_name = models.CharField(max_length=63)
     last_name = models.CharField(max_length=63)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
 
 class Genre(models.Model):
     name = models.CharField(max_length=63, unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
