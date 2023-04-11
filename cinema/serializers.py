@@ -58,7 +58,6 @@ class GenreSerializer(serializers.Serializer):
             "name",
             instance.name
         )
-
         instance.save()
 
         return instance
