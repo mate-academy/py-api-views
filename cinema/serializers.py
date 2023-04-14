@@ -45,6 +45,7 @@ class GenreSerializer(serializers.Serializer):
 
 class CinemaHallSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(max_length=255, required=True)
     rows = serializers.IntegerField()
     seats_in_row = serializers.IntegerField()
 
@@ -52,6 +53,7 @@ class CinemaHallSerializer(serializers.Serializer):
         return CinemaHall.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
+        instance.name = validated_data.get("name", instance.name)
         instance.rows = validated_data.get("rows", instance.rows)
         instance.seats_in_row = validated_data.get(
             "seats_in_row", instance.seats_in_row
@@ -67,37 +69,17 @@ class MovieSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=255)
     description = serializers.CharField()
     duration = serializers.IntegerField()
-    actors = ActorSerializer(many=True)
-    genres = GenreSerializer(many=True)
 
     def create(self, validated_data):
-        actors_data = validated_data.pop("actors")
-        genres_data = validated_data.pop("genres")
-        movie = Movie.objects.create(**validated_data)
-
-        for actor_data in actors_data:
-            actor, created = Actor.objects.get_or_create(**actor_data)
-            movie.actors.add(actor)
-
-        for genre_data in genres_data:
-            genre, created = Genre.objects.get_or_create(**genre_data)
-            movie.genres.add(genre)
-
-        return movie
+        return Movie.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        actors_data = validated_data.pop("actors", None)
-        genres_data = validated_data.pop("genres", None)
-        movie = super().update(instance, validated_data)
+        instance.title = validated_data.get("title", instance.title)
+        instance.description = validated_data.get(
+            "description", instance.description
+        )
+        instance.duration = validated_data.get("duration", instance.duration)
 
-        if actors_data is not None:
-            for actor_data in actors_data:
-                actor, created = Actor.objects.get_or_create(**actor_data)
-                movie.actors.add(actor)
+        instance.save()
 
-        if genres_data is not None:
-            for genre_data in genres_data:
-                genre, created = Actor.objects.get_or_create(**genre_data)
-                movie.genres.add(genre)
-
-        return movie
+        return instance
