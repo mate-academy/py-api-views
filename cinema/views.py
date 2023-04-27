@@ -5,21 +5,21 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 
-from cinema.models import Movie
-from cinema.serializers import MovieSerializer
+from cinema.models import Genre
+from cinema.serializers import GenreSerializer
 
 
-class MovieList(APIView):
+class GenreList(APIView):
     def get(self, request):
-        movies = Movie.objects.all()
-        serializer = MovieSerializer(movies, many=True)
+        genres = Genre.objects.all()
+        serializer = GenreSerializer(genres, many=True)
         return Response(
             serializer.data,
             status=status.HTTP_200_OK
         )
 
     def post(self, request):
-        serializer = MovieSerializer(data=request.data)
+        serializer = GenreSerializer(data=request.data)
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -30,13 +30,13 @@ class MovieList(APIView):
         )
 
 
-class MovieDetail(APIView):
+class GenreDetail(APIView):
     def get_object(self, pk):
-        return get_object_or_404(Movie, pk=pk)
+        return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk):
-        movie = self.get_object(pk=pk)
-        serializer = MovieSerializer(movie)
+        genre = self.get_object(pk=pk)
+        serializer = GenreSerializer(genre)
 
         return Response(
             serializer.data,
@@ -44,8 +44,8 @@ class MovieDetail(APIView):
         )
 
     def put(self, request, pk):
-        movie = self.get_object(pk=pk)
-        serializer = MovieSerializer(movie, data=request.data)
+        genre = self.get_object(pk=pk)
+        serializer = GenreSerializer(genre, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -55,8 +55,8 @@ class MovieDetail(APIView):
         )
 
     def patch(self, request, pk):
-        movie = self.get_object(pk=pk)
-        serializer = MovieSerializer(movie, data=request.data)
+        genre = self.get_object(pk=pk)
+        serializer = GenreSerializer(genre, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -66,8 +66,8 @@ class MovieDetail(APIView):
         )
 
     def delete(self, request, pk):
-        movie = self.get_object(pk=pk)
-        movie.delete()
+        genre = self.get_object(pk=pk)
+        genre.delete()
 
         return Response(
             status=status.HTTP_204_NO_CONTENT
