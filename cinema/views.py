@@ -30,7 +30,7 @@ class GenreList(APIView):
 
 class GenreDetail(APIView):
     @staticmethod
-    def get_object(request: HttpRequest, pk: int) -> object:
+    def get_object(request, pk):
         return get_object_or_404(Genre, id=pk)
 
     def get(self, request, pk):
