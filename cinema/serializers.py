@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from cinema.models import (
     Movie, Genre, Actor,
-    CinemaHall
+    CinemaHall,
 )
 
 
@@ -57,7 +57,7 @@ class CinemaHallSerializer(serializers.Serializer):
         instance.name = validated_data.get("name", instance.name)
         instance.rows = validated_data.get("rows", instance.rows)
         instance.seats_in_row = validated_data.get(
-            "seat_in_row",
+            "seats_in_row",
             instance.seats_in_row
         )
 
