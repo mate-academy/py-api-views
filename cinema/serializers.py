@@ -8,7 +8,7 @@ from cinema.models import (
 
 class GenreSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(max_length=255, unique=True, required=True)
+    name = serializers.CharField(max_length=255, required=True)
 
     def create(self, validated_data):
         return Genre.objects.create(**validated_data)
