@@ -1,16 +1,17 @@
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics, mixins
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 
 from cinema.models import (
-    Movie, Genre
+    Movie, Genre, Actor
 )
 from cinema.serializers import (
-    MovieSerializer, GenreSerializer
+    MovieSerializer, GenreSerializer,
+    ActorSerializer,
 )
 
 
@@ -45,7 +46,7 @@ class GenreDetail(APIView):
         serializer = GenreSerializer(genre, data=request.data)
 
         if serializer.is_valid():
-            serialiser.save()
+            serializer.save()
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -55,7 +56,7 @@ class GenreDetail(APIView):
         serializer = GenreSerializer(genre, data=request.data, partial=True)
 
         serializer.is_valid(raise_exception=True)
-        serialiser.save()
+        serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -63,6 +64,49 @@ class GenreDetail(APIView):
         genre = self.get_object(pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ActorList(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    generics.GenericAPIView
+):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class ActorDetail(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView
+):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, pk):
+        actor = self.get_object(pk)
+        serializer = ActorSerializer(actor, data=request.data, partial=True)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 @api_view(["GET", "POST"])
