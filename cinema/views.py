@@ -19,14 +19,13 @@ class MovieViewSet(viewsets.ModelViewSet):
 
 
 class GenreList(APIView):
-    @staticmethod
-    def get(cls, request):
+
+    def get(self, request):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @staticmethod
-    def post(cls, request):
+    def post(self, request):
         serializer = GenreSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -36,8 +35,8 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    @staticmethod
-    def get_object(pk):
+
+    def get_object(self, pk):
         return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk):
