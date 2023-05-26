@@ -22,9 +22,9 @@ class GenreList(APIView):
     def post(self, request):
         serializer = GenreSerializer(data=request.data)
 
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class GenreDetail(APIView):
@@ -40,17 +40,17 @@ class GenreDetail(APIView):
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data)
 
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, pk):
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
 
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
         genre = self.get_object(pk)
@@ -109,6 +109,6 @@ class CinemaHallViewSet(
 
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.prefetch_related(
-        "actors"
-    ).prefetch_related("genres")
+        "actors", "genres"
+    )
     serializer_class = MovieSerializer
