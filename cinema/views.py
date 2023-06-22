@@ -31,8 +31,6 @@ class GenreList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class GenreDetail(APIView):
     def get_object(self, pk):
@@ -51,8 +49,6 @@ class GenreDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     def patch(self, request, pk):
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
@@ -61,7 +57,6 @@ class GenreDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         genre = self.get_object(pk)
