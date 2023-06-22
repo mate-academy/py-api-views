@@ -57,7 +57,6 @@ class GenreDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-
     def delete(self, request, pk):
         genre = self.get_object(pk)
         genre.delete()
