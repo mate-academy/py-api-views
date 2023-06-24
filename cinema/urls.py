@@ -14,20 +14,20 @@ router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
 
 cinema_hall_list = CinemaHallViewSet.as_view(
-            actions={
-                "get": "list",
-                "post": "create",
-            }
-        )
+    actions={
+        "get": "list",
+        "post": "create",
+    }
+)
 
 cinema_hall_detail = CinemaHallViewSet.as_view(
-            actions={
-                "get": "retrieve",
-                "put": "update",
-                "patch": "partial_update",
-                "delete": "destroy"
-            }
-        )
+    actions={
+        "get": "retrieve",
+        "put": "update",
+        "patch": "partial_update",
+        "delete": "destroy"
+    }
+)
 
 urlpatterns = [
     path("genres/", GenreList.as_view(), name="genre-list"),
