@@ -7,11 +7,15 @@ from rest_framework import status
 from rest_framework.generics import get_object_or_404
 
 from .models import Genre, Actor, Movie, CinemaHall
-from .serializers import GenreSerializer, ActorSerializer, MovieSerializer, CinemaHallSerializer
+from .serializers import (
+    GenreSerializer,
+    ActorSerializer,
+    MovieSerializer,
+    CinemaHallSerializer,
+)
 
 
 class GenreList(APIView):
-
     def get(self, request):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
@@ -28,26 +32,26 @@ class GenreList(APIView):
 class GenreDetail(APIView):
     def get_object(self, pk):
         return get_object_or_404(Genre, pk=pk)
-    
+
     def get(self, request, pk):
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def put(self, request, pk):
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def patch(self, request, pk):
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def delete(self, request, pk):
         genre = get_object_or_404(Genre, pk=pk)
         genre.delete()
@@ -55,7 +59,9 @@ class GenreDetail(APIView):
 
 
 class ActorList(
-    mixins.ListModelMixin, mixins.CreateModelMixin, GenericAPIView
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    GenericAPIView,
 ):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer

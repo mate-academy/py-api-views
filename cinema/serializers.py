@@ -24,15 +24,19 @@ class ActorSerializer(serializers.Serializer):
         return Actor.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.first_name = validated_data.get("first_name",
-                                                 instance.first_name)
-        instance.last_name = validated_data.get("last_name",
-                                                instance.last_name)
+        instance.first_name = validated_data.get(
+            "first_name",
+            instance.first_name,
+        )
+        instance.last_name = validated_data.get(
+            "last_name",
+            instance.last_name,
+        )
         instance.save()
         return instance
 
 
-class MovieSerializer(serializers.ModelSerializer):    
+class MovieSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255)
     description = serializers.CharField()
@@ -42,14 +46,17 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ['id', 'title', 'description', 'duration', 'actors', 'genres']
+        fields = ["id", "title", "description", "duration", "actors", "genres"]
 
     def create(self, validated_data):
         return Movie.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get("description", instance.description)
+        instance.description = validated_data.get(
+            "description",
+            instance.description,
+        )
         instance.duration = validated_data.get("duration", instance.duration)
 
         instance.save()
