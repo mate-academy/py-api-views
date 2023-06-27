@@ -34,7 +34,7 @@ urlpatterns = [
         "cinema_halls/<int:pk>/",
         cinema_hall_detail,
         name="cinema-hall-detail"
-        ),
+    ),
 ] + router.urls
 
 app_name = "cinema"
