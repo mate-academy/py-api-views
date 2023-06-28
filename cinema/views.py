@@ -7,7 +7,12 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
-from cinema.serializers import MovieSerializer, ActorSerializer, CinemaHallSerializer, GenreSerializer
+from cinema.serializers import (
+    MovieSerializer,
+    ActorSerializer,
+    CinemaHallSerializer,
+    GenreSerializer,
+)
 
 
 class GenreList(APIView):
@@ -32,7 +37,7 @@ class GenreDetail(APIView):
         try:
             return Genre.objects.get(id=pk)
         except Genre.DoesNotExist:
-            return Http404
+            raise Http404
 
     def get(self, request, pk):
         serializer = GenreSerializer(self.get_object(pk))
@@ -47,7 +52,9 @@ class GenreDetail(APIView):
         return Response(serializer.data)
 
     def patch(self, request, pk):
-        serializer = GenreSerializer(self.get_object(pk), data=request.data, partial=True)
+        serializer = GenreSerializer(
+            self.get_object(pk), data=request.data, partial=True
+        )
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -76,7 +83,7 @@ class CinemaHallViewSet(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
-    viewsets.GenericViewSet
+    viewsets.GenericViewSet,
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
