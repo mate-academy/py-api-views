@@ -109,7 +109,7 @@ class CinemaHallViewSet(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
-    viewsets.ModelViewSet
+    viewsets.GenericViewSet
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
