@@ -6,8 +6,12 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 
 from cinema.models import Genre, Actor, CinemaHall, Movie
-from cinema.serializers import GenreSerializer, ActorSerializer, \
-    CinemaHallSerializer, MovieSerializer
+from cinema.serializers import (
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer,
+    MovieSerializer
+)
 
 
 class GenreList(APIView):
