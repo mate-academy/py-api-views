@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers, viewsets
 
 from cinema.models import Movie, Actor, Genre, CinemaHall
 

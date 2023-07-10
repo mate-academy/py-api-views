@@ -47,7 +47,7 @@ def movie_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class GenreLIst(APIView):
+class GenreList(APIView):
     def get(self, request):
         genre = Genre.objects.all()
         serializer = GenreSerializer(genre, many=True)
@@ -106,3 +106,8 @@ class CinemaHallViewSet(
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
+
+
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
