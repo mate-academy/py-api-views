@@ -7,6 +7,7 @@ from cinema.models import Movie, Actor, CinemaHall, Genre
 class MovieAdmin(admin.ModelAdmin):
     pass
 
+
 admin.site.register(Actor)
 admin.site.register(CinemaHall)
 admin.site.register(Genre)
