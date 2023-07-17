@@ -70,7 +70,7 @@ class GenreDetail(APIView):
 
 
 class ActorList(generics.ListCreateAPIView):
-    queryset = Actor.object.all()
+    queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
 
