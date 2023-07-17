@@ -31,13 +31,13 @@ class ActorSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class GenreSerializers(serializers.ModelSerializer):
+class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         fields = "__all__"
 
 
-class CinemaHallSerializers(serializers.ModelSerializer):
+class CinemaHallSerializer(serializers.ModelSerializer):
     class Meta:
         model = CinemaHall
         fields = "__all__"
