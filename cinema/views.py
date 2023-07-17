@@ -18,19 +18,19 @@ from cinema.models import (
 from cinema.serializers import (
     MovieSerializer,
     ActorSerializer,
-    GenreSerializers,
-    CinemaHallSerializers,
+    GenreSerializer,
+    CinemaHallSerializer,
 )
 
 
 class GenreList(APIView):
     def get(self, request):
         genres = Genre.objects.all()
-        serializer = GenreSerializers(genres, many=True)
+        serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = GenreSerializers(data=request.data)
+        serializer = GenreSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -44,12 +44,12 @@ class GenreDetail(APIView):
 
     def get(self, request, pk):
         genre = self.get_object(pk)
-        serializer = GenreSerializers(genre)
+        serializer = GenreSerializer(genre)
         return Response(serializer.data)
 
     def put(self, request, pk):
         genre = self.get_object(pk)
-        serializer = GenreSerializers(genre, data=request.data)
+        serializer = GenreSerializer(genre, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -57,7 +57,7 @@ class GenreDetail(APIView):
 
     def patch(self, request, pk):
         genre = self.get_object(pk)
-        serializer = GenreSerializers(genre, data=request.data, partial=True)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -88,7 +88,7 @@ class CinemaHallViewSet(
     mixins.DestroyModelMixin,
 ):
     queryset = CinemaHall.objects.all()
-    serializer_class = CinemaHallSerializers
+    serializer_class = CinemaHallSerializer
 
 
 class MovieViewSet(viewsets.ModelViewSet):
