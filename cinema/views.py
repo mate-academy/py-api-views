@@ -1,4 +1,5 @@
 from django.http import Http404
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins, viewsets
 from rest_framework.views import APIView
@@ -35,10 +36,7 @@ class GenreList(APIView):
 class GenreDetail(APIView):
     @staticmethod
     def get_object(pk):
-        try:
-            return Genre.objects.get(pk=pk)
-        except Genre.DoesNotExist:
-            raise Http404
+        return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk):
         genre = self.get_object(pk)
