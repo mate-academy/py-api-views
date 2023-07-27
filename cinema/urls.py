@@ -7,21 +7,25 @@ from cinema.views import (
     ActorList,
     ActorDetail,
     CinemaHallViewSet,
-    MovieViewSet
+    MovieViewSet,
 )
 
 
-cinema_hall_list = CinemaHallViewSet.as_view(actions={
-    "get": "list",
-    "post": "create",
-})
+cinema_hall_list = CinemaHallViewSet.as_view(
+    actions={
+        "get": "list",
+        "post": "create",
+    }
+)
 
-cinema_hall_detail = CinemaHallViewSet.as_view(actions={
-    "get": "retrieve",
-    "put": "update",
-    "patch": "partial_update",
-    "delete": "destroy",
-})
+cinema_hall_detail = CinemaHallViewSet.as_view(
+    actions={
+        "get": "retrieve",
+        "put": "update",
+        "patch": "partial_update",
+        "delete": "destroy",
+    }
+)
 
 router = routers.SimpleRouter()
 router.register("movies", MovieViewSet)
@@ -37,7 +41,7 @@ urlpatterns = [
         cinema_hall_detail,
         name="cinema-hall-detail"
     ),
-    path("", include(router.urls))
+    path("", include(router.urls)),
 ]
 
 app_name = "cinema"
