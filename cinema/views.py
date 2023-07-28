@@ -7,8 +7,8 @@ from rest_framework.views import APIView
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import (
-    MovieSerializer,
     GenreSerializer,
+    MovieSerializer,
     ActorSerializer,
     CinemaHallSerializer
 )
