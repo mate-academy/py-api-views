@@ -49,4 +49,4 @@ class CinemaHall(models.Model):
         return self.rows * self.seats_in_row
 
     def __str__(self):
-        return f"Hall name: {self.name} "
+        return f"Hall name: {self.name}"
