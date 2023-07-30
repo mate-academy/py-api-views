@@ -1,45 +1,104 @@
-from rest_framework.decorators import api_view
+from rest_framework import status, generics, viewsets, mixins
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.request import Request
+from rest_framework.views import APIView
 
-from django.shortcuts import get_object_or_404
-
-from cinema.models import Movie
-from cinema.serializers import MovieSerializer
-
-
-@api_view(["GET", "POST"])
-def movie_list(request):
-    if request.method == "GET":
-        movies = Movie.objects.all()
-        serializer = MovieSerializer(movies, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    if request.method == "POST":
-        serializer = MovieSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+from cinema.models import (
+    Movie,
+    Genre,
+    Actor,
+    CinemaHall
+)
+from cinema.serializers import (
+    MovieSerializer,
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer
+)
 
 
-@api_view(["GET", "PUT", "DELETE"])
-def movie_detail(request, pk):
-    movie = get_object_or_404(Movie, pk=pk)
+class GenreList(APIView):
+    @staticmethod
+    def get(request: Request) -> Response:
+        genres = Genre.objects.all()
+        genre_serializer = GenreSerializer(genres, many=True)
+        return Response(genre_serializer.data, status=status.HTTP_200_OK)
 
-    if request.method == "GET":
-        serializer = MovieSerializer(movie)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    @staticmethod
+    def post(request: Request) -> Response:
+        genre_serializer = GenreSerializer(data=request.data)
+        if genre_serializer.is_valid():
+            genre_serializer.save()
+            return Response(
+                genre_serializer.data, status=status.HTTP_201_CREATED
+            )
+        return Response(
+            genre_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
 
-    if request.method == "PUT":
-        serializer = MovieSerializer(movie, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class GenreDetail(APIView):
+    @staticmethod
+    def get_object_or_404_(pk: int) -> Genre | Response:
+        return get_object_or_404(Genre, pk=pk)
 
-    if request.method == "DELETE":
-        movie.delete()
+    def get(self, request: Request, pk: int) -> Response:
+        genre = self.get_object_or_404_(pk)
+        genre_serializer = GenreSerializer(genre)
+        return Response(genre_serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request: Request, pk: int) -> Response:
+        genre = self.get_object_or_404_(pk)
+        genre_serializer = GenreSerializer(genre, data=request.data)
+        if genre_serializer.is_valid():
+            genre_serializer.save()
+            return Response(genre_serializer.data, status=status.HTTP_200_OK)
+        return Response(genre_serializer.data,
+                        status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request: Request, pk: int) -> Response:
+        genre = self.get_object_or_404_(pk)
+        genre_serializer = GenreSerializer(
+            genre, data=request.data, partial=True
+        )
+        if genre_serializer.is_valid():
+            genre_serializer.save()
+
+            return Response(genre_serializer.data, status=status.HTTP_200_OK)
+
+        return Response(
+            genre_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    def delete(self, request: Request, pk: int) -> Response:
+        genre = self.get_object_or_404_(pk)
+        genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ActorList(generics.ListCreateAPIView):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+
+class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
+
+
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
