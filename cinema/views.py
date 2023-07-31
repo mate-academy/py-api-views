@@ -148,5 +148,5 @@ class MovieViewSet(viewsets.ModelViewSet):
         pk = self.kwargs.get("pk")
         movie = Movie.objects.filter(pk=pk).first()
         if movie is None:
-            raise NotFound(f"Manufacturer with ID: {pk}, does not exist")
+            raise NotFound(f"Movie with ID: {pk}, does not exist")
         return movie
