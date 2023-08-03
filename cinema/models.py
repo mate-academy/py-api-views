@@ -33,4 +33,4 @@ class Movie(models.Model):
     duration = models.IntegerField()
 
     def __str__(self) -> str:
-        return self.title
+        return f"{self.title}"
