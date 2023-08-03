@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from cinema.models import Movie, Actor, Genre, CinemaHall
 
@@ -47,7 +48,12 @@ class ActorSerializer(serializers.Serializer):
 
 class GenreSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(max_length=255, required=True)
+    name = serializers.CharField(
+        max_length=255,
+        validators=[
+            UniqueValidator(queryset=Genre.objects.all())
+        ]
+    )
 
     def create(self, validated_data):
         return Genre.objects.create(**validated_data)
