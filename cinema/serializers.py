@@ -19,6 +19,19 @@ class CinemaHallSerializer(serializers.ModelSerializer):
         model = CinemaHall
         fields = ["name", "rows", "seats_in_row"]
 
+    def create(self, validated_data):
+        return CinemaHall.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name", instance.name)
+        instance.rows = validated_data.get("rows", instance.rows)
+        instance.seats_in_row = validated_data.get("seats_in_row", instance.seats_in_row)
+        instance.save()
+        return instance
+
+    def delete(self, instance):
+        instance.delete()
+
 
 class MovieSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
