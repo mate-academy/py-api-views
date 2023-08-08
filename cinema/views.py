@@ -69,7 +69,6 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# GenericViewSet for CinemaHall
 class CinemaHallViewSet(viewsets.GenericViewSet,
                         viewsets.mixins.ListModelMixin,
                         viewsets.mixins.CreateModelMixin,
@@ -80,7 +79,6 @@ class CinemaHallViewSet(viewsets.GenericViewSet,
     serializer_class = CinemaHallSerializer
 
 
-# ModelViewSet for Movie
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
