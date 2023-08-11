@@ -21,9 +21,6 @@ class CinemaHall(models.Model):
     rows = models.IntegerField()
     seats_in_row = models.IntegerField()
 
-    class Meta:
-        unique_together = ["rows", "seats_in_row"]
-
     def __str__(self):
         return self.name
 
