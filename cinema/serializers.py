@@ -4,6 +4,9 @@ from cinema.models import Actor, Genre, CinemaHall, Movie
 
 
 class ActorSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+
     class Meta:
         model = Actor
         fields = "__all__"
