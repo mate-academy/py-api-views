@@ -15,7 +15,8 @@ class CinemaHall(models.Model):
     seats_in_row = models.IntegerField()
 
     def __str__(self):
-        return f"Cinema name:{self.name} Num of rows and seats: {self.rows}&{self.seats_in_row}"
+        return f"Cinema name:{self.name} Num of rows and seats:" \
+               f" {self.rows}&{self.seats_in_row}"
 
 
 class Genre(models.Model):
