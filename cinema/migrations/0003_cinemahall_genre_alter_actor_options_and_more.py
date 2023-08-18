@@ -4,50 +4,65 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('cinema', '0002_actor'),
+        ("cinema", "0002_actor"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CinemaHall',
+            name="CinemaHall",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('rows', models.IntegerField()),
-                ('seats_in_rows', models.IntegerField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("rows", models.IntegerField()),
+                ("seats_in_rows", models.IntegerField()),
             ],
             options={
-                'ordering': ['name'],
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='Genre',
+            name="Genre",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, unique=True)),
             ],
             options={
-                'ordering': ['name'],
+                "ordering": ["name"],
             },
         ),
         migrations.AlterModelOptions(
-            name='actor',
-            options={'ordering': ['first_name', 'last_name']},
+            name="actor",
+            options={"ordering": ["first_name", "last_name"]},
         ),
         migrations.AlterModelOptions(
-            name='movie',
-            options={'ordering': ['title']},
+            name="movie",
+            options={"ordering": ["title"]},
         ),
         migrations.AddField(
-            model_name='movie',
-            name='actors',
-            field=models.ManyToManyField(related_name='movies', to='cinema.actor'),
+            model_name="movie",
+            name="actors",
+            field=models.ManyToManyField(related_name="movies", to="cinema.actor"),
         ),
         migrations.AddField(
-            model_name='movie',
-            name='genres',
-            field=models.ManyToManyField(related_name='movies', to='cinema.genre'),
+            model_name="movie",
+            name="genres",
+            field=models.ManyToManyField(related_name="movies", to="cinema.genre"),
         ),
     ]
