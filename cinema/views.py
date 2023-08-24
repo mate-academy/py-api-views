@@ -96,7 +96,7 @@ class ActorDetail(
         return self.update(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
@@ -107,11 +107,18 @@ class CinemaHallList(generics.ListCreateAPIView):
     serializer_class = CinemaHallSerializer
 
 
-class CinemaHallDetail(generics.RetrieveUpdateDestroyAPIView):
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
 
-class MoviesViewSet(viewsets.ModelViewSet):
+class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
