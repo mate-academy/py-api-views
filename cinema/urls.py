@@ -7,7 +7,8 @@ from cinema.views import (MovieViewSet,
                           GenreDetail,
                           ActorList,
                           ActorDetail,
-                          CinemaHallViewSet)
+                          CinemaHallViewSet
+                          )
 
 router = routers.DefaultRouter()
 router.register("cinema_halls", CinemaHallViewSet)
