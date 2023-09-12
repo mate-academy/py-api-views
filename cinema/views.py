@@ -9,7 +9,8 @@ from cinema.serializers import (
     MovieSerializer,
     GenreSerializer,
     ActorSerializer,
-    CinemaHallSerializer)
+    CinemaHallSerializer,
+)
 
 
 class GenreList(APIView):
@@ -55,8 +56,9 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(mixins.ListModelMixin, mixins.CreateModelMixin,
-                generics.GenericAPIView):
+class ActorList(
+    mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -67,9 +69,12 @@ class ActorList(mixins.ListModelMixin, mixins.CreateModelMixin,
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
-                  mixins.DestroyModelMixin,
-                  generics.GenericAPIView):
+class ActorDetail(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView,
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -86,12 +91,14 @@ class ActorDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemaHallViewSet(mixins.ListModelMixin,
-                        mixins.CreateModelMixin,
-                        mixins.RetrieveModelMixin,
-                        mixins.UpdateModelMixin,
-                        mixins.DestroyModelMixin,
-                        viewsets.GenericViewSet):
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
