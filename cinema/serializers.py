@@ -1,6 +1,25 @@
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 
-from cinema.models import Movie
+from cinema.models import Movie, Genre, CinemaHall, Actor
+
+
+class GenreSerializer(ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = "__all__"
+
+
+class CinemaHallSerializer(ModelSerializer):
+    class Meta:
+        model = CinemaHall
+        fields = "__all__"
+
+
+class ActorSerializer(ModelSerializer):
+    class Meta:
+        model = Actor
+        fields = "__all__"
 
 
 class MovieSerializer(serializers.Serializer):
