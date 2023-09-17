@@ -10,6 +10,7 @@ from cinema.views import (GenreList,
 
 router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
+router.register("cinema_halls", CinemaHallViewSet)
 
 cinema_hall_list = CinemaHallViewSet.as_view({
     "get": "list",
@@ -34,12 +35,6 @@ urlpatterns = [
     path("actors/<int:pk>/",
          ActorDetail.as_view(),
          name="actor-detail"),
-    path("cinema_halls/",
-         cinema_hall_list,
-         name="cinema-hall-list"),
-    path("cinema_halls/<int:pk>/",
-         cinema_hall_detail,
-         name="cinema-hall-detail")
 ]
 
 app_name = "cinema"
