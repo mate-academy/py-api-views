@@ -12,7 +12,10 @@ from cinema.models import (
 )
 
 from cinema.serializers import (
-    MovieSerializer, GenreSerializer, ActorSerializer, CinemaHallSerializer
+    MovieSerializer,
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer
 )
 
 
