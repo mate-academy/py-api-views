@@ -9,7 +9,12 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
-from cinema.serializers import MovieSerializer, GenreSerializer, ActorSerializer, CinemaHallSerializer
+from cinema.serializers import (
+    MovieSerializer,
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer,
+)
 
 
 class GenreList(APIView):
@@ -28,7 +33,6 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-
     def get(self, request, pk):
         genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre)
@@ -59,9 +63,7 @@ class GenreDetail(APIView):
 
 
 class ActorList(
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    GenericAPIView
+    mixins.ListModelMixin, mixins.CreateModelMixin, GenericAPIView
 ):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
@@ -77,10 +79,11 @@ class ActorDetail(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
-    GenericAPIView
+    GenericAPIView,
 ):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
+
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -100,7 +103,7 @@ class CinemaHallViewSet(
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
     mixins.ListModelMixin,
-    GenericViewSet
+    GenericViewSet,
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
