@@ -2,8 +2,12 @@ from django.urls import path, include
 from rest_framework import routers
 
 from cinema.views import (
-    MovieViewSet, GenreList, GenreDetail,
-    ActorList, ActorDetail, CinemaHallViewSet
+    MovieViewSet,
+    GenreList,
+    GenreDetail,
+    ActorList,
+    ActorDetail,
+    CinemaHallViewSet
 )
 
 cinema_hall_list = CinemaHallViewSet.as_view(actions={
