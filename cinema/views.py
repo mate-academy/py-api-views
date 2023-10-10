@@ -5,7 +5,10 @@ from django.shortcuts import get_object_or_404
 
 
 from cinema.models import (
-    Movie, Genre, Actor, CinemaHall
+    Movie,
+    Genre,
+    Actor,
+    CinemaHall
 )
 
 from cinema.serializers import (
