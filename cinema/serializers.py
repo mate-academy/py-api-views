@@ -22,9 +22,6 @@ class CinemaHallSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
-    actors = ActorSerializer(many=True)
-    genres = GenreSerializer(many=True)
-
     class Meta:
         model = Movie
-        fields = "__any__"
+        fields = ("title", "description", "duration")
