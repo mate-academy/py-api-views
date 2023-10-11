@@ -15,14 +15,10 @@ from cinema.serializers import (
 )
 
 
-class GenreView(APIView):
-    def get(self, request, pk):
-        if pk is not None:
-            genres = Genre.objects.all()
-            serializer = GenreSerializer(genres)
-        else:
-            genre = get_object_or_404(Genre, pk)
-            serializer = GenreSerializer(genre)
+class GenreList(APIView):
+    def get(self, request):
+        genres = Genre.objects.all()
+        serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -30,34 +26,38 @@ class GenreView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk):
-        genre = get_object_or_404(Genre, pk)
-        genre.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class GenreDetail(APIView):
+    def get(self, request, pk):
+        genre = get_object_or_404(Genre, pk=pk)
+        serializer = GenreSerializer(genre)
+        return Response(serializer.data)
 
     def put(self, request, pk):
-        genre = get_object_or_404(Genre, pk)
+        genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
-        genre = get_object_or_404(Genre, pk)
+        genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, pk):
+        genre = get_object_or_404(Genre, pk=pk)
+        genre.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-class ActorListView(
+
+class ActorList(
     mixins.CreateModelMixin, mixins.ListModelMixin, GenericAPIView
 ):
     queryset = Actor.objects.all()
@@ -70,7 +70,7 @@ class ActorListView(
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetailView(
+class ActorDetail(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
@@ -92,7 +92,7 @@ class ActorDetailView(
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemaHallView(
+class CinemaHallViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
@@ -104,6 +104,6 @@ class CinemaHallView(
     serializer_class = CinemaHallSerializer
 
 
-class MovieView(viewsets.ModelViewSet):
+class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
