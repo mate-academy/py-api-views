@@ -7,7 +7,9 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import (
     ListModelMixin,
     CreateModelMixin,
-    UpdateModelMixin
+    UpdateModelMixin,
+    RetrieveModelMixin,
+    DestroyModelMixin,
 )
 
 from django.shortcuts import get_object_or_404
@@ -71,7 +73,6 @@ class GenreDetail(APIView):
 class ActorList(
     ListModelMixin,
     CreateModelMixin,
-    UpdateModelMixin,
     GenericAPIView
 ):
     queryset = Actor.objects.all()
@@ -80,9 +81,30 @@ class ActorList(
     def get(self, request: Request, *args, **kwargs) -> Response:
         return self.list(request, *args, **kwargs)
 
-    def post(self, request: Request, *args, **kwargs):
+    def post(self, request: Request, *args, **kwargs) -> Response:
         return self.create(request, *args, **kwargs)
 
+
+class ActorDetail(
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+    GenericAPIView
+):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request: Request, *args, **kwargs) -> Response:
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request: Request, *args, **kwargs) -> Response:
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request: Request, *args, **kwargs) -> Response:
+        return self.destroy(request, *args, **kwargs)
 
 
 @api_view(["GET", "POST"])
