@@ -19,6 +19,7 @@ class MovieSerializer(serializers.ModelSerializer):
             "genres",
             "duration",
         ]
+        depth = 1
 
 
 class ActorSerializer(serializers.ModelSerializer):
