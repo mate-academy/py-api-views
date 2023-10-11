@@ -3,6 +3,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.request import Request
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import (
+    ListModelMixin,
+    CreateModelMixin,
+    UpdateModelMixin
+)
 
 from django.shortcuts import get_object_or_404
 
@@ -14,7 +20,8 @@ from cinema.models import (
 )
 from cinema.serializers import (
     MovieSerializer,
-    GenreSerializer
+    GenreSerializer,
+    ActorSerializer,
 )
 
 
@@ -59,6 +66,23 @@ class GenreDetail(APIView):
         genre_object = self.get_object(pk=pk)
         genre_object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ActorList(
+    ListModelMixin,
+    CreateModelMixin,
+    UpdateModelMixin,
+    GenericAPIView
+):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request: Request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
 
 
 @api_view(["GET", "POST"])

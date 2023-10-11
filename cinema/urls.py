@@ -4,7 +4,8 @@ from cinema.views import (
     movie_list,
     movie_detail,
     GenreList,
-    GenreDetail
+    GenreDetail,
+    ActorList
 )
 
 urlpatterns = [
@@ -12,6 +13,7 @@ urlpatterns = [
     path("movies/<int:pk>/", movie_detail, name="movie-detail"),
     path("genres/", GenreList.as_view(), name="genre-list"),
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
+    path("actors/", ActorList.as_view(), name="actor-list"),
 ]
 
 app_name = "cinema"
