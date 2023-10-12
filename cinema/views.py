@@ -33,6 +33,11 @@ class GenreDetail(APIView):
         genre = get_object_or_404(Genre.objects.all(), pk=pk)
         return genre
 
+    def get(self, request, pk):
+        genre = self.get_object(pk=pk)
+        serializer = GenreSerializer(genre)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def put(self, request, pk):
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data)
