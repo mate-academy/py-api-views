@@ -1,5 +1,6 @@
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework import status, generics, mixins, viewsets
+from rest_framework import status, mixins, viewsets
 
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
@@ -54,14 +55,39 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(generics.ListCreateAPIView):
+class ActorList(
+    mixins.ListModelMixin, mixins.CreateModelMixin, GenericAPIView
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
-class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class ActorDetail(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericAPIView,
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 class CinemaHallViewSet(
