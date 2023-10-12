@@ -28,7 +28,7 @@ router.register("movies", MovieViewSet)
 urlpatterns = [
     path(
         "",
-        include(routers.urls)
+        include(router.urls)
     ),
     path(
         "genres/", GenreList.as_view(),
