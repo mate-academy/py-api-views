@@ -24,7 +24,7 @@ class MovieSerializer(serializers.Serializer):
         return instance
 
 
-class ActorSerializer(serializers.ModelSerializer):
+class ActorSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     first_name = serializers.CharField(max_length=255)
     last_name = serializers.CharField(max_length=255)
@@ -43,7 +43,7 @@ class ActorSerializer(serializers.ModelSerializer):
         return instance
 
 
-class GenreSerializer(serializers.ModelSerializer):
+class GenreSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=255)
 
@@ -56,7 +56,7 @@ class GenreSerializer(serializers.ModelSerializer):
         return instance
 
 
-class CinemaHallSerializer(serializers.ModelSerializer):
+class CinemaHallSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=255)
     rows = serializers.IntegerField()
