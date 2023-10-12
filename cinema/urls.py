@@ -22,8 +22,8 @@ cinema_hall_detail = CinemaHallViewSet.as_view(actions={
     "delete": "destroy"
 })
 
-routers = routers.DefaultRouter
-routers.register("movies", MovieViewSet)
+router = routers.DefaultRouter()
+router.register("movies", MovieViewSet)
 
 urlpatterns = [
     path(
