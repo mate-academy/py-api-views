@@ -151,7 +151,7 @@ class ActorDetail(
             self, request,
             *args, **kwargs):
         return self.destroy(
-            request,*args,
+            request, *args,
             **kwargs)
 
 
