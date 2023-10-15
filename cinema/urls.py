@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 
 from rest_framework import routers
 
@@ -21,8 +21,6 @@ urlpatterns = [
 
     path("actors/", ActorList.as_view(), name="actor-list"),
     path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
-
-    path("", include(router.urls)),
-]
+] + router.urls
 
 app_name = "cinema"
