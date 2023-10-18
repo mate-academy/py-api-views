@@ -36,7 +36,6 @@ class GenreList(APIView):
         return Response(serialized_data.data, status=status.HTTP_201_CREATED)
 
 
-
 class GenreDetail(APIView):
     def get_object(self, pk):
         return get_object_or_404(Genre, pk=pk)
