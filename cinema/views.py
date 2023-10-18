@@ -31,7 +31,7 @@ class GenreList(APIView):
 
     def post(self, request: Request) -> Response:
         serialized_data = GenreSerializer(data=request.data)
-        if serialized_data.is_valid():
+        if serialized_data.is_valid(raise_exception=True):
             serialized_data.save()
             return Response(
                 serialized_data.data, status=status.HTTP_201_CREATED
@@ -53,14 +53,14 @@ class GenreDetail(APIView):
     def put(self, request: Request, pk: int) -> Response:
         genre_object = self.get_object(pk=pk)
         serializer = GenreSerializer(genre_object, data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request: Request, pk: int) -> Response:
         genre_object = self.get_object(pk=pk)
         serializer = GenreSerializer(genre_object, data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
 
