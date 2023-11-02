@@ -39,11 +39,13 @@ class MovieSerializer(serializers.Serializer):
             instance.duration
         )
 
-        actors_data = validated_data.pop("actors")
-        genres_data = validated_data.pop("genres")
+        actors_data = validated_data.get("actors")
+        genres_data = validated_data.get("genres")
 
-        instance.actors.set(actors_data)
-        instance.genres.set(genres_data)
+        if actors_data is not None:
+            instance.actors.set(actors_data)
+        if genres_data is not None:
+            instance.genres.set(genres_data)
 
         instance.save()
 
