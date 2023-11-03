@@ -25,7 +25,6 @@ cinema_hall_detail = CinemaHallViewSet.as_view(actions={
 })
 
 urlpatterns = [
-    path("", include(router.urls)),
     path("cinema_halls/", cinema_hall_list, name="cinema-hall-list"),
     path(
         "cinema_halls/<int:pk>/",
@@ -36,7 +35,7 @@ urlpatterns = [
     path("actors/", ActorList.as_view(), name="actor-list"),
     path("genres/", GenreList.as_view(), name="genre-list"),
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
-]
+] +  router.urls
 
 
 app_name = "cinema"
