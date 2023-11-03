@@ -17,7 +17,7 @@ class MovieSerializer(serializers.Serializer):
         queryset=Genre.objects.all()
     )
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> Movie:
         actors_data = validated_data.pop("actors")
         genres_data = validated_data.pop("genres")
         movie = Movie.objects.create(**validated_data)
@@ -25,7 +25,7 @@ class MovieSerializer(serializers.Serializer):
         movie.genres.set(genres_data)
         return movie
 
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data) -> Movie:
         instance.title = validated_data.get(
             "title",
             instance.title
@@ -56,10 +56,10 @@ class GenreSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=255)
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> Genre:
         return Genre.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data) -> Genre:
         instance.name = validated_data.get(
             "name",
             instance.name
@@ -73,10 +73,10 @@ class ActorSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=255)
     last_name = serializers.CharField(max_length=255)
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> Actor:
         return Actor.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data) -> Actor:
         instance.first_name = validated_data.get(
             "first_name",
             instance.first_name
@@ -95,10 +95,10 @@ class CinemaHallSerializer(serializers.Serializer):
     rows = serializers.IntegerField()
     seats_in_row = serializers.IntegerField()
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> CinemaHall:
         return CinemaHall.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data) -> CinemaHall:
         instance.name = validated_data.get(
             "name",
             instance.name
