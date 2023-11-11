@@ -70,9 +70,6 @@ class ActorList(
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
 
 class ActorDetail(
     mixins.RetrieveModelMixin,
@@ -91,6 +88,9 @@ class ActorDetail(
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
 
 class CinemaHallViewSet(
