@@ -20,7 +20,7 @@ class GenreList(APIView):
     def post(self, request):
         serializer = GenreSerializer(data=request.data)
 
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -37,7 +37,7 @@ class GenreDetail(APIView):
         genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre, data=request.data)
 
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
 
@@ -47,7 +47,7 @@ class GenreDetail(APIView):
         genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
 
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
 
