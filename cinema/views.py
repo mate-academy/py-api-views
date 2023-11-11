@@ -31,13 +31,20 @@ class GenreDetail(APIView):
         return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk):
-        movie = self.get_object(pk)
-        serializer = MovieSerializer(movie)
+        name = self.get_object(pk)
+        serializer = GenreSerializer(name)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
         movie = self.get_object(pk)
-        serializer = MovieSerializer(movie, data=request.data)
+        serializer = GenreSerializer(movie, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request, pk):
+        movie = self.get_object(pk)
+        serializer = GenreSerializer(movie, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -61,6 +68,9 @@ class ActorList(
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
 
