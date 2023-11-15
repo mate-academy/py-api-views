@@ -24,7 +24,6 @@ class GenreList(APIView):
         serializer.save()
 
 
-
 class GenreDetail(APIView):
     def get_object(self, pk) -> Genre:
         return get_object_or_404(Genre, pk=pk)
