@@ -7,7 +7,7 @@ class Actor(models.Model):
 
 
 class Genre(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
 
 
 class CinemaHall(models.Model):
@@ -19,14 +19,13 @@ class CinemaHall(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    related_name = "movies"
     actors = models.ManyToManyField(
         to=Actor,
-        related_name=related_name
+        related_name="movies"
     )
     genres = models.ManyToManyField(
         to=Genre,
-        related_name=related_name
+        related_name="movies"
     )
     duration = models.IntegerField()
 
