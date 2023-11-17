@@ -1,13 +1,16 @@
+from rest_framework import generics, viewsets
 from rest_framework.response import Response
-from rest_framework import status, generics, mixins, viewsets
-from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework import mixins
 from django.shortcuts import get_object_or_404
-from cinema.models import Movie, Genre, Actor, CinemaHall
+from rest_framework.views import APIView
+
+from cinema.models import Movie, CinemaHall, Actor, Genre
 from cinema.serializers import (
     MovieSerializer,
+    CinemaHallSerializer,
     ActorSerializer,
-    GenreSerializer,
-    CinemaHallSerializer
+    GenreSerializer
 )
 
 
@@ -26,30 +29,30 @@ class GenreList(APIView):
 
 class GenreDetail(APIView):
     def get_object(self, pk):
-        return get_object_or_404(Genre, pk=pk)
+        return get_object_or_404(Genre, id=pk)
 
     def get(self, request, pk):
-        genre = self.get_object(pk)
-        serializer = GenreSerializer(genre)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer = GenreSerializer(self.get_object(pk))
+        return Response(serializer.data)
 
     def put(self, request, pk):
-        genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, data=request.data)
+        serializer = GenreSerializer(
+            self.get_object(pk), data=request.data
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data)
 
     def patch(self, request, pk):
-        genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, data=request.data, partial=True)
+        serializer = GenreSerializer(
+            self.get_object(pk), data=request.data, partial=True
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data)
 
     def delete(self, request, pk):
-        genre = self.get_object(pk)
-        genre.delete()
+        self.get_object(pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -91,10 +94,10 @@ class ActorDetail(
 
 
 class CinemaHallViewSet(
-    mixins.CreateModelMixin,
     mixins.ListModelMixin,
-    mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.CreateModelMixin,
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet
 ):
