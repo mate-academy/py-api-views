@@ -29,7 +29,7 @@ class GenreList(APIView):
         serializer = GenreSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -54,12 +54,11 @@ class GenreDetail(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def patch(self, request, pk) -> Response:
+    def patch(self, request, pk):
         genre = self.get_object(pk)
         serializer = GenreSerializer(
             genre,
             data=request.data,
-            partial=True
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -101,6 +100,13 @@ class ActorDetail(
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
+    def patch(self, request, *args, **kwargs) -> Response:
+        actor = self.get_object()
+        serializer = ActorSerializer(actor, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
@@ -115,4 +121,3 @@ class CinemaHallViewSet(
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
-
