@@ -7,7 +7,7 @@ from rest_framework.mixins import (ListModelMixin,
                                    DestroyModelMixin)
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, get_object_or_404
 from rest_framework.views import APIView
 from cinema.serializers import (MovieSerializer,
                                 GenreSerializer,
@@ -33,10 +33,7 @@ class GenreList(APIView):
 
 class GenreDetail(APIView):
     def get_genre(self, pk):
-        try:
-            return Genre.objects.get(pk=pk)
-        except Genre.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk: int):
         serializer = GenreSerializer(self.get_genre(pk))
@@ -61,6 +58,7 @@ class GenreDetail(APIView):
 
     def delete(self, request, pk: int):
         self.get_genre(pk).delete()
+
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -109,6 +107,6 @@ class CinemaHallViewSet(
     serializer_class = CinemaHallSerializer
 
 
-class MovieModelViewSet(ModelViewSet):
+class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
