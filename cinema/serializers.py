@@ -11,9 +11,7 @@ class MovieSerializer(serializers.Serializer):
 
     class Meta:
         model = Movie
-        fields = [
-            "id", "title", "description", "duration", "actors", "genres"
-        ]
+        fields = "__all__"
 
     def create(self, validated_data):
         return Movie.objects.create(**validated_data)
@@ -34,18 +32,18 @@ class GenreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Genre
-        fields = ["id", "name"]
+        fields = "__all__"
 
 
 class ActorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Actor
-        fields = ["id", "first_name", "last_name"]
+        fields = "__all__"
 
 
 class CinemaHallSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CinemaHall
-        fields = ["id", "name", "rows", "seats_in_row"]
+        fields = "__all__"
