@@ -1,15 +1,19 @@
 from django.urls import path, include
 from rest_framework import routers
-from cinema.views import (MovieViewSet, GenreList,
-                          GenreDetail, ActorList,
-                          ActorDetail, CinemaHallViewSet)
+from cinema.views import (MovieViewSet,
+                          GenreList,
+                          GenreDetail,
+                          ActorList,
+                          ActorDetail,
+                          CinemaHallViewSet)
 
 
 cinemahall_list = CinemaHallViewSet.as_view(
-    actions={"get": "list", "post": "create"})
-cinemahall_detail = CinemaHallViewSet.as_view(
-    actions={"get": "retrieve", "put": "update",
-             "patch": "partial_update", "delete": "destroy"})
+    actions={"get": "list","post": "create"})
+cinemahall_detail = CinemaHallViewSet.as_view(actions={"get": "retrieve",
+                                                       "put": "update",
+                                                       "patch": "partial_update",
+                                                       "delete": "destroy"})
 router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
 
