@@ -3,57 +3,6 @@ from rest_framework import serializers
 from cinema.models import Movie, Actor, Genre, CinemaHall
 
 
-class MovieSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField(max_length=255)
-    description = serializers.CharField()
-    duration = serializers.IntegerField()
-    actors = serializers.PrimaryKeyRelatedField(
-        queryset=Actor.objects.all(), many=True
-    )
-    genres = serializers.PrimaryKeyRelatedField(
-        queryset=Genre.objects.all(), many=True
-    )
-
-    def create(self, validated_data):
-        actors = validated_data.pop("actors")
-        genres = validated_data.pop("genres")
-
-        movie = Movie.objects.create(**validated_data)
-        movie.actors.set(actors)
-        movie.genres.set(genres)
-
-        return movie
-
-    def update(self, instance, validated_data):
-        actors_data = validated_data.pop("actors", None)
-        genres_data = validated_data.pop("genres", None)
-
-        instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get(
-            "description", instance.description
-        )
-        instance.duration = validated_data.get("duration", instance.duration)
-
-        is_partial = self.context["request"].method == "PATCH"
-
-        if actors_data:
-            if is_partial:
-                instance.actors.add(*actors_data)
-            else:
-                instance.actors.set(actors_data)
-
-        if genres_data:
-            if is_partial:
-                instance.genres.add(*genres_data)
-            else:
-                instance.genres.set(genres_data)
-
-        instance.save()
-
-        return instance
-
-
 class ActorSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     first_name = serializers.CharField(max_length=255)
@@ -107,6 +56,53 @@ class CinemaHallSerializer(serializers.Serializer):
             "seats_in_row",
             instance.seats_in_row
         )
+
+        instance.save()
+
+        return instance
+
+
+class MovieSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=255)
+    description = serializers.CharField()
+    duration = serializers.IntegerField()
+    actors = ActorSerializer(many=True)
+    genres = GenreSerializer(many=True)
+
+    def create(self, validated_data):
+        actors = validated_data.pop("actors")
+        genres = validated_data.pop("genres")
+
+        movie = Movie.objects.create(**validated_data)
+        movie.actors.set(actors)
+        movie.genres.set(genres)
+
+        return movie
+
+    def update(self, instance, validated_data):
+        actors_data = validated_data.pop("actors", None)
+        genres_data = validated_data.pop("genres", None)
+
+        instance.title = validated_data.get("title", instance.title)
+        instance.description = validated_data.get(
+            "description", instance.description
+        )
+        instance.duration = validated_data.get("duration", instance.duration)
+
+        is_partial = self.context["request"].method == "PATCH"
+
+        if actors_data:
+            if is_partial:
+                instance.actors.add(*actors_data)
+            else:
+                instance.actors.set(actors_data)
+
+        if genres_data:
+            if is_partial:
+                instance.genres.add(*genres_data)
+            else:
+                instance.genres.set(genres_data)
 
         instance.save()
 
