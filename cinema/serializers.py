@@ -10,12 +10,10 @@ class MovieSerializer(serializers.Serializer):
     duration = serializers.IntegerField()
     actors = serializers.PrimaryKeyRelatedField(
         queryset=Actor.objects.all(),
-        required=False,
         many=True
     )
     genres = serializers.PrimaryKeyRelatedField(
         queryset=Genre.objects.all(),
-        required=False,
         many=True
     )
 
@@ -44,9 +42,15 @@ class MovieSerializer(serializers.Serializer):
         genres_data = validated_data.get("genres", [])
 
         if actors_data:
-            instance.actors.set(actors_data)
+            if self.context["request"].method != "PATCH":
+                instance.actors.add(*actors_data)
+            else:
+                instance.actors.set(actors_data)
         if genres_data:
-            instance.genres.set(genres_data)
+            if self.context["request"].method != "PATCH":
+                instance.genres.add(*genres_data)
+            else:
+                instance.genres.set(genres_data)
 
         instance.save()
 
