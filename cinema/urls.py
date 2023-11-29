@@ -19,10 +19,12 @@ cinemahall_list = CinemaHallViewSet.as_view(
     }
 )
 cinemahall_detail = CinemaHallViewSet.as_view(
-    actions={"get": "retrieve",
+    actions={
+        "get": "retrieve",
              "put": "update",
              "patch": "partial_update",
-             "delete": "destroy"}
+             "delete": "destroy"
+    }
 )
 
 urlpatterns = [
