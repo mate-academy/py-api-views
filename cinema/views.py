@@ -5,7 +5,8 @@ from rest_framework import status, viewsets, mixins, generics
 from rest_framework.views import APIView
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
-from cinema.serializers import MovieSerializer, GenreSerializer, ActorSerializer, CinemaHallSerializer
+from cinema.serializers import (MovieSerializer, GenreSerializer,
+                                ActorSerializer, CinemaHallSerializer)
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -69,7 +70,10 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+class ActorList(
+    mixins.ListModelMixin, mixins.CreateModelMixin,
+    generics.GenericAPIView
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -80,7 +84,10 @@ class ActorList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generic
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+class ActorDetail(
+    mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin, generics.GenericAPIView
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
