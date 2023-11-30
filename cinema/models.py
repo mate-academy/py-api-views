@@ -18,8 +18,8 @@ class Genre(models.Model):
 
 class CinemaHall(models.Model):
     name = models.CharField(max_length=63)
-    rows = models.IntegerField()
-    seats_in_row = models.IntegerField()
+    rows = models.PositiveIntegerField()
+    seats_in_row = models.PositiveIntegerField()
 
     def __str__(self):
         return self.name
