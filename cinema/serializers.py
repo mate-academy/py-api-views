@@ -58,20 +58,16 @@ class MovieSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255)
     description = serializers.CharField()
-    actors = ActorSerializer(many=True)
-    genres = GenreSerializer(many=True)
+    actors = ActorSerializer(many=True, required=False)
+    genres = GenreSerializer(many=True, required=False)
     duration = serializers.IntegerField()
 
     def create(self, validated_data):
-        actors_data = validated_data.pop("actors")
-        genres_data = validated_data.pop("genres")
+        actors_data = validated_data.pop("actors", [])
+        genres_data = validated_data.pop("genres", [])
         movie = Movie.objects.create(**validated_data)
-        for actor_data in actors_data:
-            actor, _ = Actor.objects.get_or_create(**actor_data)
-            movie.actors.add(actor)
-        for genre_data in genres_data:
-            genre, _ = Genre.objects.get_or_create(**genre_data)
-            movie.gernes.add(genre)
+        movie.actors.set(actors_data)
+        movie.genres.set(genres_data)
 
         return movie
 
@@ -81,17 +77,11 @@ class MovieSerializer(serializers.Serializer):
             "description", instance.description
         )
         instance.duration = validated_data.get("duration", instance.duration)
-        actors_data = validated_data.pop("actors")
-        genres_data = validated_data.pop("genres")
-        instance.actors.clear()
-        instance.genres.clear()
-        for actor_data in actors_data:
-            actor, _ = Actor.objects.get_or_create(**actor_data)
-            instance.actors.add(actor)
-        for genre_data in genres_data:
-            genre, _ = Genre.objects.get_or_create(**genre_data)
-            instance.genres.add(genre)
-
+        actors_data = validated_data.pop("actors", [])
+        genres_data = validated_data.pop("genres", [])
+        if actors_data:
+            instance.actors.set(actors_data)
+        if genres_data:
+            instance.genres.set(genres_data)
         instance.save()
-
         return instance
