@@ -42,7 +42,7 @@ class GenreDetail(APIView):
         genre = self.get_object(pk=pk)
         serializer = GenreSerializer(genre)
 
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request: HttpRequest, pk: int) -> HttpResponse:
         genre = self.get_object(pk=pk)
@@ -50,7 +50,7 @@ class GenreDetail(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -60,7 +60,7 @@ class GenreDetail(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -107,9 +107,11 @@ class ActorDetail(mixins.RetrieveModelMixin,
 
 
 class CinemaHallViewSet(viewsets.GenericViewSet,
-                        mixins.ListModelMixin, mixins.CreateModelMixin,
-                        mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
-                        mixins.DestroyModelMixin, generics.GenericAPIView):
+                        mixins.ListModelMixin,
+                        mixins.CreateModelMixin,
+                        mixins.RetrieveModelMixin,
+                        mixins.UpdateModelMixin,
+                        mixins.DestroyModelMixin):
 
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
