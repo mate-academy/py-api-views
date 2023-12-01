@@ -36,3 +36,4 @@ endpoints should work:
 * `DELETE api/cinema/<entity>/<pk>/` - should delete the entity with given id
 
 ### Note: Check your code using this [checklist](checklist.md) before pushing your solution.
+ 
