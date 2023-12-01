@@ -8,6 +8,7 @@ from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import (MovieSerializer, GenreSerializer,
                                 ActorSerializer, CinemaHallSerializer)
 
+from django.shortcuts import get_object_or_404
 
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
@@ -32,20 +33,14 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, pk):
-        try:
-            return Genre.objects.get(pk=pk)
-        except Genre.DoesNotExist:
-            raise Http404
-
     def get(self, request, pk):
-        genre = self.get_object(pk)
+        genre = get_object_or_404(Genre, id=pk)
         serializer = GenreSerializer(genre)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
-        genre = self.get_object(pk)
+        genre = get_object_or_404(Genre, id=pk)
         serializer = GenreSerializer(genre, data=request.data)
 
         if serializer.is_valid():
@@ -55,7 +50,7 @@ class GenreDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
-        genre = self.get_object(pk)
+        genre = get_object_or_404(Genre, id=pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
 
         if serializer.is_valid():
@@ -65,7 +60,7 @@ class GenreDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        genre = self.get_object(pk)
+        genre = get_object_or_404(Genre, id=pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

@@ -1,5 +1,5 @@
 from django.db import models
-
+from rest_framework.exceptions import ValidationError
 
 class Genre(models.Model):
     name = models.CharField(max_length=63, unique=True)
@@ -27,6 +27,7 @@ class Movie(models.Model):
         return self.title
 
 
+
 class CinemaHall(models.Model):
     name = models.CharField(max_length=255)
     rows = models.IntegerField()
@@ -34,3 +35,13 @@ class CinemaHall(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    def clean(self):
+        if self.rows <= 0:
+            raise ValidationError({
+                "row": "Rows must be greater then 0"
+            })
+        if self.seats_in_row <= 0:
+            raise ValidationError({
+                "seats_in_row": "Seats in row must be greater then 0"
+            })
