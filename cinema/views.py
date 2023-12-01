@@ -10,6 +10,7 @@ from cinema.serializers import (MovieSerializer, GenreSerializer,
 
 from django.shortcuts import get_object_or_404
 
+
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
