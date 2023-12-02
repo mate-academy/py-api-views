@@ -24,10 +24,8 @@ cinema_hall_detail = CinemaHallViewSet.as_view(
     }
 )
 
-
 router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
-
 
 urlpatterns = [
     path("", include(router.urls)),

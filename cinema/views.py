@@ -72,12 +72,10 @@ class ActorList(mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetail(
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    generics.GenericAPIView
-):
+class ActorDetail(mixins.RetrieveModelMixin,
+                  mixins.UpdateModelMixin,
+                  mixins.DestroyModelMixin,
+                  generics.GenericAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
