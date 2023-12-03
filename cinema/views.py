@@ -13,12 +13,12 @@ from cinema.serializers import (MovieSerializer,
 
 
 class GenreList(APIView):
-    def get(self, request) -> Response:
+    def get(self, request):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data, status.HTTP_200_OK)
 
-    def post(self, request) -> Response:
+    def post(self, request):
         serializer = GenreSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
