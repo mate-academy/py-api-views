@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.generics import GenericAPIView, get_object_or_404
 from rest_framework.views import APIView
+
 from cinema.serializers import (MovieSerializer,
                                 GenreSerializer,
                                 ActorSerializer,

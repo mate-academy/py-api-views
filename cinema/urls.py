@@ -12,10 +12,12 @@ from cinema.views import (GenreList,
 cinema_hall_list = CinemaHallViewSet.as_view(actions={"get": "list",
                                                       "post": "create"})
 cinema_hall_detail = CinemaHallViewSet.as_view(
-    actions={"get": "retrieve",
-             "put": "update",
-             "patch": "partial_update",
-             "delete": "destroy"}
+    actions={
+        "get": "retrieve",
+        "put": "update",
+        "patch": "partial_update",
+        "delete": "destroy"
+    }
 )
 
 router = routers.DefaultRouter()
@@ -29,8 +31,8 @@ urlpatterns = [
     path("cinema_halls/", cinema_hall_list, name="cinema_hall-list"),
     path("cinema_halls/<int:pk>/",
          cinema_hall_detail,
-         name="cinema_hall-detail"),
-    path("", include(router.urls))
+         name="cinema-hall-detail"),
+    path("/", include(router.urls))
 ]
 
 app_name = "cinema"
