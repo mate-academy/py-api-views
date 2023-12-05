@@ -24,6 +24,7 @@ router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
 
 urlpatterns = [
+    path("", include(router.urls))
     path("genres/", GenreList.as_view(), name="genre-list"),
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
     path("actors/", ActorList.as_view(), name="actor-list"),
@@ -32,7 +33,6 @@ urlpatterns = [
     path("cinema_halls/<int:pk>/",
          cinema_hall_detail,
          name="cinema-hall-detail"),
-    path("", include(router.urls))
 ]
 
 app_name = "cinema"
