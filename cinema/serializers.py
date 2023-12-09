@@ -6,22 +6,41 @@ from cinema.models import Movie, Actor, Genre, CinemaHall
 class MovieSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255)
-    actors = serializers.PrimaryKeyRelatedField(queryset=Actor.objects.all(), many=True)
-    genres = serializers.PrimaryKeyRelatedField(queryset=Genre.objects.all(), many=True)
+    actors = serializers.PrimaryKeyRelatedField(
+        queryset=Actor.objects.all(),
+        many=True
+    )
+    genres = serializers.PrimaryKeyRelatedField(
+        queryset=Genre.objects.all(),
+        many=True
+    )
     description = serializers.CharField()
     duration = serializers.IntegerField()
 
     def create(self, validated_data):
-        return Movie.objects.create(**validated_data)
+        actors_data = validated_data.pop('actors', [])
+        genres_data = validated_data.pop('genres', [])
+        movie = Movie.objects.create(**validated_data)
+
+        for actor in actors_data:
+            movie.actors.add(actor)
+
+        for genre in genres_data:
+            movie.genres.add(genre)
+
+        return movie
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get("title", instance.title)
         instance.description = validated_data.get(
             "description", instance.description
         )
-        instance.actors.set(validated_data.get("actors", instance.actors.all()))
-        instance.genres.set(validated_data.get("genres", instance.genres.all()))
         instance.duration = validated_data.get("duration", instance.duration)
+        actors_data = validated_data.get("actors", [])
+        genres_data = validated_data.get("genres", [])
+
+        instance.actors.set(actors_data)
+        instance.genres.set(genres_data)
 
         instance.save()
 
@@ -60,7 +79,7 @@ class GenreSerializer(serializers.Serializer):
 
 class CinemaHallSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
-    row = serializers.IntegerField()
+    rows = serializers.IntegerField()
     seats_in_row = serializers.IntegerField()
 
     def create(self, validated_data):
@@ -68,7 +87,7 @@ class CinemaHallSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)
-        instance.row = validated_data.get("row", instance.row)
+        instance.rows = validated_data.get("rows", instance.rows)
         instance.seats_in_row = validated_data.get("seats_in_row", instance.seats_in_row)
 
         instance.save()

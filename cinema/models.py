@@ -18,7 +18,7 @@ class Genre(models.Model):
 
 class CinemaHall(models.Model):
     name = models.CharField(max_length=255)
-    row = models.IntegerField()
+    rows = models.IntegerField()
     seats_in_row = models.IntegerField()
 
     def __str__(self):
@@ -28,8 +28,8 @@ class CinemaHall(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    actors = models.ForeignKey(Actor, on_delete=models.CASCADE, related_name="movie")
-    genres = models.ForeignKey(Genre, on_delete=models.CASCADE, related_name="movie")
+    actors = models.ManyToManyField("Actor", related_name="movies")
+    genres = models.ManyToManyField("Genre", related_name="movies")
     duration = models.IntegerField()
 
     def __str__(self):
