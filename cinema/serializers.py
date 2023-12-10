@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from cinema.models import Movie
 from cinema.models import Movie, Genre, Actor, CinemaHall
 
 
@@ -28,9 +27,15 @@ class MovieSerializer(serializers.Serializer):
         return movie
 
     def update(self, instance, validated_data):
-        instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get("description", instance.description)
-        instance.duration = validated_data.get("duration", instance.duration)
+        instance.title = validated_data.get(
+            "title", instance.title
+        )
+        instance.description = validated_data.get(
+            "description", instance.description
+        )
+        instance.duration = validated_data.get(
+            "duration", instance.duration
+        )
 
         instance.save()
 
