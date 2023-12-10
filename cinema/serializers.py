@@ -21,13 +21,8 @@ class MovieSerializer(serializers.Serializer):
         actors_data = validated_data.pop("actors", [])
         genres_data = validated_data.pop("genres", [])
         movie = Movie.objects.create(**validated_data)
-
-        for actor in actors_data:
-            movie.actors.add(actor)
-
-        for genre in genres_data:
-            movie.genres.add(genre)
-
+        movie.actors.set(actors_data)
+        movie.genres.set(genres_data)
         return movie
 
     def update(self, instance, validated_data):
