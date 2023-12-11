@@ -82,10 +82,10 @@ class ActorList(
 
 
 class ActorDetail(
-    generics.GenericAPIView,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
+    generics.GenericAPIView,
 ):
 
     queryset = Actor.objects.all()
