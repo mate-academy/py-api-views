@@ -24,12 +24,12 @@ class MovieSerializer(serializers.Serializer):
 
         movie = Movie.objects.create(**validated_data)
 
-        for data in actors:
-            actor, _ = Actor.objects.get_or_create(**data)
-            movie.actors.add(actor)
-        for data in genres:
-            genre, _ = Genre.objects.get_or_create(**data)
-            movie.genres.add(genre)
+        for actor in actors:
+            actor_data, _ = Actor.objects.get_or_create(**actor)
+            movie.actors.add(actor_data)
+        for genre in genres:
+            genre_data, _ = Genre.objects.get_or_create(**genre)
+            movie.genres.add(genre_data)
 
         return movie
 
