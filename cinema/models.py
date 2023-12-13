@@ -28,8 +28,8 @@ class CinemaHall(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    actors = models.ManyToManyField(Actor, related_name="movies")
-    genres = models.ManyToManyField(Genre, related_name="movies")
+    actors = models.ManyToManyField(Actor, related_name="movie_actors")
+    genres = models.ManyToManyField(Genre, related_name="movie_genres")
     duration = models.IntegerField()
 
     def __str__(self):
