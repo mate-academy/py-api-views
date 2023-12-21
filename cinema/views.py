@@ -22,7 +22,7 @@ class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ActorSerializer
 
 
-class GenreListView(APIView):
+class GenreList(APIView):
     def get(self, request):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
@@ -38,7 +38,7 @@ class GenreListView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class GenreDetailView(APIView):
+class GenreDetail(APIView):
     def get_object(self, pk):
         try:
             return Genre.objects.get(pk=pk)
