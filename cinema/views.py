@@ -42,7 +42,7 @@ class GenreDetail(APIView):
         serializer.save()
         return Response(
             data=serializer.data,
-            status=status.HTTP_201_CREATED
+            status=status.HTTP_200_OK
         )
 
     def patch(self, request, pk):
