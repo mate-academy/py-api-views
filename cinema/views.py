@@ -33,7 +33,7 @@ class GenreDetail(APIView):
     def get(self, request, pk):
         try:
             genres = Genre.objects.get(id=pk)
-        except:
+        except Exception:
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = GenreSerializer(genres)
         return Response(data=serializer.data)
@@ -48,7 +48,7 @@ class GenreDetail(APIView):
     def delete(self, request, pk):
         try:
             Genre.objects.get(id=pk).delete()
-        except:
+        except Exception:
             return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
