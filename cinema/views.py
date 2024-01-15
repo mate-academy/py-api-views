@@ -31,10 +31,7 @@ class GenreList(APIView):
 
 class GenreDetail(APIView):
     def get(self, request, pk):
-        try:
-            genres = Genre.objects.get(id=pk)
-        except Exception:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        genres = Genre.objects.get_or_404(id=pk)
         serializer = GenreSerializer(genres)
         return Response(data=serializer.data)
 
@@ -46,14 +43,11 @@ class GenreDetail(APIView):
         return Response(data=serializer.data)
 
     def delete(self, request, pk):
-        try:
-            Genre.objects.get(id=pk).delete()
-        except Exception:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        Genre.objects.get_or_404(id=pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def patch(self, request, pk):
-        genres = Genre.objects.get(id=pk)
+        genres = Genre.objects.get_or_404(id=pk)
         serializer = GenreSerializer(genres, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
