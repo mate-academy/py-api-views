@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import mixins, status
 from rest_framework import generics
 from rest_framework.response import Response
@@ -31,7 +32,7 @@ class GenreList(APIView):
 
 class GenreDetail(APIView):
     def get(self, request, pk):
-        genres = Genre.objects.get_or_404(id=pk)
+        genres = get_object_or_404(Genre, id=pk)
         serializer = GenreSerializer(genres)
         return Response(data=serializer.data)
 
@@ -43,11 +44,11 @@ class GenreDetail(APIView):
         return Response(data=serializer.data)
 
     def delete(self, request, pk):
-        Genre.objects.get_or_404(id=pk).delete()
+        get_object_or_404(Genre, id=pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def patch(self, request, pk):
-        genres = Genre.objects.get_or_404(id=pk)
+        genres = get_object_or_404(Genre, id=pk)
         serializer = GenreSerializer(genres, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
