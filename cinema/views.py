@@ -35,7 +35,8 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, request, pk):
+    def get_object(self):
+        pk = self.kwargs.get("pk")
         try:
             return Genre.objects.get(pk=pk)
         except Genre.DoesNotExist:
@@ -100,12 +101,15 @@ class ActorDetail(generics.GenericAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class CinemaHallList(generics.ListCreateAPIView):
-    queryset = CinemaHall.objects.all()
-    serializer_class = CinemaHallSerializer
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
 
-
-class CinemaHallDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
