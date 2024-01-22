@@ -15,7 +15,6 @@ router.register("cinema_halls", CinemaHallViewSet)
 
 
 urlpatterns = [
-    path("", include(router.urls)),
     path("genres/", GenreList.as_view()),
     path("genres/<int:pk>/", GenreDetail.as_view()),
     path("actors/<int:pk>/", ActorDetail.as_view()),
@@ -27,6 +26,6 @@ urlpatterns = [
                                     "put": "update",
                                     "patch": "partial_update",
                                     "delete": "destroy"}))
-]
+] + router.urls
 
 app_name = "cinema"
