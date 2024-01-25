@@ -4,8 +4,8 @@ from rest_framework import status, generics, mixins
 
 from django.shortcuts import get_object_or_404
 
-from cinema.models import Movie, Genre
-from cinema.serializers import MovieSerializer, GenreSerializer
+from cinema.models import Movie, Genre, Actor
+from cinema.serializers import MovieSerializer, GenreSerializer, ActorSerializer
 
 
 @api_view(["GET", "POST"])
@@ -65,6 +65,37 @@ class GenreDetail(
 
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+class ActorList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class ActorDetail(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView
+):
+
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
