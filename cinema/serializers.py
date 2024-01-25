@@ -72,6 +72,20 @@ class MovieSerializer(serializers.Serializer):
     duration = serializers.IntegerField()
 
     def create(self, validated_data):
+        # data = request.data
+        # new_movie = Movie.objects.create(
+        #     title=data["title"],
+        #     description=data["description"],
+        #     duration=data["duration"]
+        # )
+        # new_movie.save()
+        # for genre in data["genres"]:
+        #     genre_objects = Genre.objects.get(pk=genre["pk"])
+        #     new_movie.genres.add(genre_objects)
+        # for actor in data["actors"]:
+        #     actor_objects = Actor.objects.get(id=actor["pk"])
+        #     new_movie.actors.add(actor_objects)
+        # serializer = new_movie
         return Movie.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
@@ -79,8 +93,6 @@ class MovieSerializer(serializers.Serializer):
         instance.description = validated_data.get(
             "description", instance.description
         )
-        instance.actors = validated_data.set("actors")
-        instance.genres = validated_data.set("genres")
         instance.duration = validated_data.get("duration", instance.duration)
 
         instance.save()

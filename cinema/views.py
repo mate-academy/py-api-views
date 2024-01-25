@@ -111,7 +111,6 @@ class CinemaHallViewSet(
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet,
 ):
-    context_object_name = "cinema_halls"
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
