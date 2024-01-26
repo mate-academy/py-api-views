@@ -1,4 +1,3 @@
-from django.http import Http404
 from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import (
@@ -10,7 +9,6 @@ from rest_framework.response import Response
 from rest_framework import status, generics, viewsets, mixins
 
 from django.shortcuts import get_object_or_404
-from rest_framework.reverse import reverse_lazy
 from rest_framework.views import APIView
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
@@ -38,7 +36,6 @@ class GenreList(APIView):
 class GenreDetail(APIView):
     def get_object(self, pk):
         return get_object_or_404(Genre, pk=pk)
-        # return [genre for genre in Genre.objects.get(pk=pk)]
 
     def get(self, request, pk=None):
         genre = self.get_object(pk)
