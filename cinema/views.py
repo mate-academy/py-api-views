@@ -21,7 +21,7 @@ class MovieViewSet(viewsets.ModelViewSet):
 class GenreList(APIView):
 
     def get(self, request):
-        genres = Genre.objects.all().prefetch_related("movies__actors")
+        genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -38,7 +38,7 @@ class GenreDetail(APIView):
 
     def get_object(self, pk):
         return get_object_or_404(
-            Genre.objects.prefetch_related("movies__actors"),
+            Genre.objects.all(),
             pk=pk
         )
 
@@ -51,7 +51,7 @@ class GenreDetail(APIView):
             self.get_object(pk=pk),
             data=request.data
         )
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -76,12 +76,12 @@ class GenreDetail(APIView):
 
 
 class ActorList(generics.ListCreateAPIView):
-    queryset = Actor.objects.all().prefetch_related("movies__genres")
+    queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
 
 class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Actor.objects.all().prefetch_related("movies__genres")
+    queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
 
