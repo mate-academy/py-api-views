@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 
 from rest_framework import routers
 
@@ -27,7 +27,6 @@ router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
 
 urlpatterns = [
-    path("", include(router.urls)),
     path("genres/", GenreList.as_view(), name="genre=list"),
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
     path("actors/", ActorList.as_view(), name="actor-list"),
@@ -38,6 +37,6 @@ urlpatterns = [
         cinema_hall_detail,
         name="cinema-hall-detail"
     )
-]
+] + router.urls
 
 app_name = "cinema"
