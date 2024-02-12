@@ -1,15 +1,22 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from rest_framework import mixins, generics, viewsets
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from cinema.models import Movie, Actor, CinemaHall
-from cinema.serializers import MovieSerializer, ActorSerializer, CinemaHallSerializer
+from cinema.serializers import (MovieSerializer,
+                                ActorSerializer,
+                                CinemaHallSerializer)
 from .models import Genre
 from .serializers import GenreSerializer
-from rest_framework import mixins, generics, viewsets
+
+
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
 
 
 class CinemaHallViewSet(
@@ -18,15 +25,15 @@ class CinemaHallViewSet(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
-    viewsets.GenericViewSet
+    viewsets.GenericViewSet,
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
 
-class ActorList(mixins.ListModelMixin,
-                mixins.CreateModelMixin,
-                generics.GenericAPIView):
+class ActorList(
+    mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -37,10 +44,12 @@ class ActorList(mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetail(mixins.RetrieveModelMixin,
-                  mixins.UpdateModelMixin,
-                  mixins.DestroyModelMixin,
-                  generics.GenericAPIView):
+class ActorDetail(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView,
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
