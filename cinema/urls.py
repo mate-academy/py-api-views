@@ -5,7 +5,8 @@ from cinema.views import (movie_list,
                           GenreList,
                           GenreDetail,
                           ActorList,
-                          ActorDetail)
+                          ActorDetail,
+                          CinemaHallViewSet, )
 
 urlpatterns = [
     path("movies/",
@@ -26,6 +27,20 @@ urlpatterns = [
     path("actors/<int:pk>/",
          ActorDetail.as_view(),
          name="actor-detail", ),
+    path("cinema-halls/",
+         CinemaHallViewSet.as_view(actions={
+             "get": "list",
+             "post": "create",
+         }),
+         name="cinema-hall-list"),
+    path("cinema-halls/<int:pk>/",
+         CinemaHallViewSet.as_view(actions={
+             "get": "retrieve",
+             "put": "update",
+             "patch": "partial_update",
+             "delete": "destroy",
+         }),
+         name="cinema-hall-detail"),
 ]
 
 app_name = "cinema"

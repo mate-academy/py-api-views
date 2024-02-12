@@ -5,11 +5,23 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from cinema.models import Movie, Actor
-from cinema.serializers import MovieSerializer, ActorSerializer
+from cinema.models import Movie, Actor, CinemaHall
+from cinema.serializers import MovieSerializer, ActorSerializer, CinemaHallSerializer
 from .models import Genre
 from .serializers import GenreSerializer
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, viewsets
+
+
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
 
 
 class ActorList(mixins.ListModelMixin,
