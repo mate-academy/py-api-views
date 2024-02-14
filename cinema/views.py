@@ -4,7 +4,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from cinema.models import Genre, Actor, CinemaHall, Movie
-from cinema.serializers import GenreSerializer, ActorSerializer, CinemaHallSerializer, MovieSerializer
+from cinema.serializers import (
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer,
+    MovieSerializer
+)
 
 
 @api_view(["GET", "POST"])
