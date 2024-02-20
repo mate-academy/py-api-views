@@ -90,7 +90,7 @@ class ActorDetail(
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemaViewSet(
+class CinemaHallViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
