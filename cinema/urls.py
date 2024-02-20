@@ -7,17 +7,20 @@ from cinema.views import (
     GenreDetail,
     ActorList,
     ActorDetail,
-    CinemaHallList,
-    CinemaHallDetail
+    CinemaViewSet,
 )
 
-CINEMA_HALL_LIST_ACTIONS = {"get": "list", "post": "create"}
-CINEMA_HALL_DETAIL_ACTIONS = {
+CINEMA_LIST = CinemaViewSet.as_view({
+    "get": "list",
+    "post": "create",
+})
+
+CINEMA_DETAIL = CinemaViewSet.as_view({
     "get": "retrieve",
     "put": "update",
     "patch": "partial_update",
-    "delete": "destroy"
-}
+    "delete": "destroy",
+})
 
 urlpatterns = [
     path("movies/", movie_list, name="movie-list"),
@@ -28,12 +31,12 @@ urlpatterns = [
     path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
     path(
         "cinema_halls/",
-        CinemaHallList.as_view(CINEMA_HALL_LIST_ACTIONS),
+        CINEMA_LIST,
         name="cinema-hall-list"
     ),
     path(
         "cinema_halls/<int:pk>/",
-        CinemaHallDetail.as_view(CINEMA_HALL_DETAIL_ACTIONS),
+        CINEMA_DETAIL,
         name="cinema-hall-detail"
     ),
 ]
