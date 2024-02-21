@@ -1,9 +1,10 @@
 from rest_framework import serializers
+from rest_framework.serializers import Serializer
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
 
 
-class MovieSerializer(serializers.Serializer):
+class MovieSerializer(Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255)
     description = serializers.CharField()
@@ -24,7 +25,7 @@ class MovieSerializer(serializers.Serializer):
         return instance
 
 
-class GenreSerializer(serializers.Serializer):
+class GenreSerializer(Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=64)
 
@@ -38,7 +39,7 @@ class GenreSerializer(serializers.Serializer):
         return instance
 
 
-class ActorSerializer(serializers.Serializer):
+class ActorSerializer(Serializer):
     id = serializers.IntegerField(read_only=True)
     first_name = serializers.CharField(max_length=64)
     last_name = serializers.CharField(max_length=64)
@@ -58,7 +59,7 @@ class ActorSerializer(serializers.Serializer):
         return instance
 
 
-class CinemaHallSerializer(serializers.Serializer):
+class CinemaHallSerializer(Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=64)
     rows = serializers.IntegerField()

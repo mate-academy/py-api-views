@@ -9,7 +9,5 @@ class MovieAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Genre)
-
 admin.site.register(Actor)
-
 admin.site.register(CinemaHall)
