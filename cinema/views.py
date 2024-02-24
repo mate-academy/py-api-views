@@ -101,18 +101,6 @@ class ActorDetail(
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemaHallViewSet(
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet
-):
-    queryset = CinemaHall.objects.all()
-    serializer_class = CinemaHallSerializer
-
-
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
@@ -126,3 +114,15 @@ class MovieViewSet(viewsets.ModelViewSet):
             )
 
         return self.queryset
+
+
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer

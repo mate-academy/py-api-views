@@ -14,13 +14,13 @@ class ActorSerializer(serializers.ModelSerializer):
         fields = ("id", "first_name", "last_name",)
 
 
-class CinemaHallSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CinemaHall
-        fields = ("id", "name", "rows", "seats_in_row",)
-
-
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = ("id", "title", "description", "duration", "actors", "genres")
+
+
+class CinemaHallSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CinemaHall
+        fields = ("id", "name", "rows", "seats_in_row",)
