@@ -46,12 +46,19 @@ class GenreDetail(APIView):
         serializer = GenreSerializer(genre, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(request.data, status=status.HTTP_201_CREATED)
+        return Response(request.data)
+
+    def patch(self, request, pk):
+        genre = self.get_object(pk)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(request.data)
 
     def delete(self, request, pk):
         genre = self.get_object(pk)
         genre.delete()
-        return Response(request.data, status=status.HTTP_200_OK)
+        return Response(request.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class ActorList(generics.ListCreateAPIView):
