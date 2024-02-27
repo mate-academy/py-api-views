@@ -54,31 +54,6 @@ class GenreDetail(APIView):
         genre = self.get_object(pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    # def get_object(self, pk: int) -> Genre:
-    #     return get_object_or_404(Genre, pk=pk)
-    #
-    # def get(self, request, pk: int) -> Response:
-    #     serializer = GenreSerializer(self.get_object(pk=pk))
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    #
-    # def put(self, request, pk: int) -> Response:
-    #     serializer = GenreSerializer(self.get_object(pk=pk), data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(request.data, status=status.HTTP_200_OK)
-    #
-    # def patch(self, request, pk):
-    #     serializer = GenreSerializer(self.get_object(pk=pk),
-    #                                  data=request.data,
-    #                                  partial=True)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(request.data)
-    #
-    # def delete(self, request, pk: int) -> Response:
-    #     genre = self.get_object(pk=pk)
-    #     genre.delete()
-    #     return Response(request.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class ActorList(
@@ -115,7 +90,7 @@ class ActorDetail(
         return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs) -> Response:
-        return self.delete(request, *args, **kwargs)
+        return self.destroy(request, *args, **kwargs)
 
 
 class CinemaHallViewSet(
