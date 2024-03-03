@@ -5,16 +5,11 @@ from cinema.models import Movie, Actor, Genre, CinemaHall
 
 class MovieSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField(max_length=255)
+    title = serializers.CharField(
+        max_length=255,
+        required=True
+    )
     description = serializers.CharField()
-    actors = serializers.PrimaryKeyRelatedField(
-        queryset=Actor.objects.all(),
-        many=True
-    )
-    genres = serializers.PrimaryKeyRelatedField(
-        queryset=Genre.objects.all(),
-        many=True
-    )
     duration = serializers.IntegerField()
 
     def create(self, validated_data):
@@ -25,8 +20,6 @@ class MovieSerializer(serializers.Serializer):
         instance.description = validated_data.get(
             "description", instance.description
         )
-        instance.actors = validated_data.get("actors", instance.actors)
-        instance.genres = validated_data.get("genres", instance.genres)
         instance.duration = validated_data.get("duration", instance.duration)
 
         instance.save()
@@ -35,8 +28,15 @@ class MovieSerializer(serializers.Serializer):
 
 
 class ActorSerializer(serializers.Serializer):
-    first_name = serializers.CharField(max_length=255)
-    last_name = serializers.CharField(max_length=255)
+    id = serializers.IntegerField(read_only=True)
+    first_name = serializers.CharField(
+        max_length=255,
+        required=True
+    )
+    last_name = serializers.CharField(
+        max_length=255,
+        required=True
+    )
 
     def create(self, validated_data):
         return Actor.objects.create(**validated_data)
@@ -55,7 +55,11 @@ class ActorSerializer(serializers.Serializer):
 
 
 class GenreSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=255)
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(
+        max_length=255,
+        required=True
+    )
 
     def create(self, validated_data):
         return Genre.objects.create(**validated_data)
@@ -67,7 +71,11 @@ class GenreSerializer(serializers.Serializer):
 
 
 class CinemaHallSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=255)
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(
+        max_length=255,
+        required=True
+    )
     rows = serializers.IntegerField()
     seats_in_row = serializers.IntegerField()
 
