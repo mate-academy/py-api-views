@@ -6,12 +6,13 @@ from rest_framework import status, generics, mixins, viewsets
 from django.shortcuts import get_object_or_404
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
-from cinema.serializers import(
+from cinema.serializers import (
     MovieSerializer,
     GenreSerializer,
     ActorSerializer,
     CinemaHallSerializer
 )
+
 
 class GenreList(APIView):
     def get(self, request, format=None):
@@ -28,7 +29,7 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get_object(self, pk:int) -> Genre:
+    def get_object(self, pk: int) -> Genre:
         return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk: int) -> Response:
