@@ -5,7 +5,10 @@ from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
-from cinema.serializers import MovieSerializer, GenreSerializer, ActorSerializer, CinemaHallSerializer
+from cinema.serializers import (MovieSerializer,
+                                GenreSerializer,
+                                ActorSerializer,
+                                CinemaHallSerializer)
 
 
 class GenreList(APIView):
@@ -42,7 +45,11 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+class ActorList(
+    generics.GenericAPIView,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -57,7 +64,8 @@ class ActorDetail(
     generics.GenericAPIView,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin):
+    mixins.DestroyModelMixin
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -90,7 +98,8 @@ class CinemaHallDetail(
     generics.GenericAPIView,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin):
+    mixins.DestroyModelMixin
+):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
