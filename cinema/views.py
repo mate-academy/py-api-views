@@ -1,3 +1,4 @@
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework import status, generics, viewsets, mixins
 from rest_framework.views import APIView
@@ -42,44 +43,31 @@ class GenreDetail(APIView):
         genre_serializer.save()
         return Response(genre_serializer.data, status=status.HTTP_200_OK)
 
+    def patch(self, request, pk):
+        genre = self.get_object(pk)
+        genre_serializer = GenreSerializer(
+            genre,
+            data=request.data,
+            partial=True
+        )
+        genre_serializer.is_valid(raise_exception=True)
+        genre_serializer.save()
+        return Response(request.data, status=status.HTTP_200_OK)
+
     def delete(self, request, pk):
         genre = self.get_object(pk)
         genre.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(request.data, status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(
-    generics.GenericAPIView,
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin
-):
+class ActorList(generics.ListCreateAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-
-class ActorDetail(
-    generics.GenericAPIView,
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin
-):
+class ActorDetail(RetrieveUpdateDestroyAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
 
 
 class CinemaHallViewSet(

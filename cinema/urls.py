@@ -39,8 +39,7 @@ urlpatterns = [
         "cinema_halls/<int:pk>/",
         cinema_hall_actions,
         name="cinema-hall-actions"
-    ),
-    path("", include(router.urls))
-]
+    )
+] + router.urls
 
 app_name = "cinema"
