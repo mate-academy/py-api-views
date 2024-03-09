@@ -10,7 +10,10 @@ from rest_framework import routers
 
 cinema_hall_list = CinemaHallViewSet.as_view({"get": "list", "post": "create"})
 cinema_hall_detail = CinemaHallViewSet.as_view(
-    {"get": "retrieve", "put": "update", "delete": "destroy", "patch": "partial_update"})
+    {"get": "retrieve",
+     "put": "update",
+     "delete": "destroy",
+     "patch": "partial_update"})
 router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
 
