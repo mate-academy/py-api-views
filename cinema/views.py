@@ -40,6 +40,14 @@ class GenreDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def patch(self, request, pk) -> Response:
+        genre = self.get_genre(pk=pk)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def delete(self, request, pk) -> Response:
         self.get_genre(pk=pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -75,6 +83,9 @@ class ActorDetail(
     def put(self, request, *args, **kwargs) -> Response:
         return self.update(request, *args, **kwargs)
 
+    def patch(self, request, *args, **kwargs) -> Response:
+        return self.partial_update(request, *args, **kwargs)
+
     def delete(self, request, *args, **kwargs) -> Response:
         return self.destroy(request, *args, **kwargs)
 
@@ -109,10 +120,13 @@ class CinemaHallDetail(
     def put(self, request, *args, **kwargs) -> Response:
         return self.update(request, *args, **kwargs)
 
+    def patch(self, request, *args, **kwargs) -> Response:
+        return self.partial_update(request, *args, **kwargs)
+
     def delete(self, request, *args, **kwargs) -> Response:
         return self.destroy(request, *args, **kwargs)
 
 
-class MovieViewList(viewsets.ModelViewSet):
+class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
