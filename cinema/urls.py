@@ -1,10 +1,11 @@
 from django.urls import path, include
-from cinema.views import (MovieViewSet,
-                          GenreList,
-                          GenreDetail,
-                          ActorList,
-                          ActorDetail,
-                          CinemaHallViewSet)
+from cinema.views import (
+    MovieViewSet,
+    GenreList,
+    GenreDetail,
+    ActorList,
+    ActorDetail,
+    CinemaHallViewSet)
 from rest_framework import routers
 
 cinema_hall_list = CinemaHallViewSet.as_view({"get": "list", "post": "create"})
