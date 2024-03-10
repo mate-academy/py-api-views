@@ -1,5 +1,4 @@
 from django.urls import path, include
-
 from cinema.views import (MovieViewSet,
                           GenreList,
                           GenreDetail,
