@@ -23,7 +23,7 @@ Create views for models interaction endpoints via different class-based views:
 - For the `Actor` model use a `GenericAPIView`
 - For the `CinemaHall` model use a `GenericViewSet`
 - For the `Movie` model use a `ModelViewSet` and `routers`
-
+ 
 Feel free to add more data using admin panel, if needed.
 
 For every `<entity>` from `actors`, `genres`, `cinema_halls`, `movies`, such
