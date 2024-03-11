@@ -1,14 +1,18 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
 from cinema.views import (
-    movie_list,
-    movie_detail,
+    MovieViewSet,
     GenreListView,
     GenreDetailView,
     ActorListView,
     ActorDetailView,
     CinemaHallViewSet
 )
+
+router = routers.DefaultRouter()
+router.register("movies", MovieViewSet)
+
 
 cinema_hall_list_view = CinemaHallViewSet.as_view(
     actions={
@@ -25,9 +29,9 @@ cinema_hall_detail_view = CinemaHallViewSet.as_view(
         "delete": "destroy"
     }
 )
+
 urlpatterns = [
-    path("movies/", movie_list, name="movie-list"),
-    path("movies/<int:pk>/", movie_detail, name="movie-detail"),
+    path("", include(router.urls)),
     path("genres/", GenreListView.as_view(), name="genre-list"),
     path("genres/<int:pk>/", GenreDetailView.as_view(), name="genre-detail"),
     path("actors/", ActorListView.as_view(), name="actor-list"),
