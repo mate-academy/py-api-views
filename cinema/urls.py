@@ -3,10 +3,10 @@ from rest_framework import routers
 
 from cinema.views import (
     MovieViewSet,
-    GenreListView,
-    GenreDetailView,
-    ActorListView,
-    ActorDetailView,
+    GenreList,
+    GenreDetail,
+    ActorList,
+    ActorDetail,
     CinemaHallViewSet
 )
 
@@ -32,12 +32,12 @@ cinema_hall_detail_view = CinemaHallViewSet.as_view(
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("genres/", GenreListView.as_view(), name="genre-list"),
-    path("genres/<int:pk>/", GenreDetailView.as_view(), name="genre-detail"),
-    path("actors/", ActorListView.as_view(), name="actor-list"),
-    path("actors/<int:pk>/", ActorDetailView.as_view(), name="actor-detail"),
-    path("cinema-halls/", cinema_hall_list_view, name="cinema-hall-list"),
-    path("cinema-halls/<int:pk>/", cinema_hall_detail_view, name="cinema-hall-detail"),
+    path("genres/", GenreList.as_view(), name="genre-list"),
+    path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
+    path("actors/", ActorList.as_view(), name="actor-list"),
+    path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
+    path("cinema_halls/", cinema_hall_list_view, name="cinema-hall-list"),
+    path("cinema_halls/<int:pk>/", cinema_hall_detail_view, name="cinema-hall-detail"),
 
 ]
 
