@@ -42,7 +42,7 @@ class GenreSerializer(serializers.Serializer):
         return Genre.objects.create(**validated_data)
 
     def update(self, instance, validated_data) -> Genre:
-        instance.name = validated_data.get("name", validated_data.name)
+        instance.name = validated_data.get("name", instance.name)
 
         instance.save()
 
