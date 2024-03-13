@@ -1,4 +1,5 @@
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -8,14 +9,13 @@ from cinema.models import Movie
 from cinema.serializers import MovieSerializer
 
 
-@api_view(["GET", "POST"])
-def movie_list(request):
-    if request.method == "GET":
+class MovieList(APIView):
+    def get(self, request) -> Response:
         movies = Movie.objects.all()
         serializer = MovieSerializer(movies, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    if request.method == "POST":
+    def post(self, request) -> Response:
         serializer = MovieSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -24,22 +24,22 @@ def movie_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET", "PUT", "DELETE"])
-def movie_detail(request, pk):
-    movie = get_object_or_404(Movie, pk=pk)
+class MovieDetail(APIView):
+    def get_object(self, pk) -> Movie:
+        return get_object_or_404(Movie, pk=pk)
 
-    if request.method == "GET":
-        serializer = MovieSerializer(movie)
+    def get(self, request, pk: int) -> Response:
+        serializer = MovieSerializer(self.get_object(pk=pk))
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    if request.method == "PUT":
-        serializer = MovieSerializer(movie, data=request.data)
+    def put(self, request, pk: int) -> Response:
+        serializer = MovieSerializer(self.get_object(pk=pk), data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    if request.method == "DELETE":
-        movie.delete()
+    def delete(self, request, pk: int) -> Response:
+        self.get_object(pk=pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
