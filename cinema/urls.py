@@ -1,10 +1,13 @@
-from django.urls import path
+from rest_framework import routers
+from django.urls import path, include
 
-from cinema.views import movie_list, movie_detail
+from cinema.views import MovieViewSet
+
+router = routers.DefaultRouter()
+router.register("movies", MovieViewSet)
 
 urlpatterns = [
-    path("movies/", movie_list, name="movie-list"),
-    path("movies/<int:pk>/", movie_detail, name="movie-detail"),
+    path("", include(router.urls))
 ]
 
 app_name = "cinema"
