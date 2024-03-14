@@ -52,7 +52,9 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def patch(self, request, pk: int) -> Response:
-        serializer = GenreSerializer(self.get_object(pk=pk), request.data, partial=True)
+        serializer = GenreSerializer(
+            self.get_object(pk=pk), request.data, partial=True
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
