@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework import status, request, mixins, generics, viewsets
+from rest_framework import status, mixins, generics, viewsets
 
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
@@ -10,7 +10,7 @@ from cinema.models import (
     Actor,
     CinemaHall,
 )
-from cinema.serializers import(
+from cinema.serializers import (
     MovieSerializer,
     GenreSerializer,
     ActorSerializer,
@@ -24,6 +24,7 @@ class MovieViewSet(viewsets.ModelViewSet):
 
 
 class GenreList(APIView):
+
     def get(self, request) -> Response:
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
