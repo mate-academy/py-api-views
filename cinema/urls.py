@@ -12,7 +12,12 @@ from cinema.views import (
 
 app_name = "cinema"
 
-cinema_hall_list = CinemaHallViewSet.as_view(actions={"get": "list", "post": "create"})
+cinema_hall_list = CinemaHallViewSet.as_view(
+    actions={
+        "get": "list",
+        "post": "create"
+    }
+)
 cinema_hall_detail = CinemaHallViewSet.as_view(
     actions={
         "get": "retrieve",
@@ -34,7 +39,7 @@ urlpatterns = [
     path("cinema-halls/", cinema_hall_list, name="cinema-hall-list"),
     path(
         "cinema-halls/<int:pk>/",
-       cinema_hall_detail,
+        cinema_hall_detail,
         name="cinema-hall-detail"
     ),
     path("", include(router.urls))
