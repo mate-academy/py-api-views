@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from cinema.models import Movie
+from cinema.models import Movie, Actor, Genre, CinemaHall
 
 
 class MovieSerializer(serializers.Serializer):
@@ -18,7 +18,24 @@ class MovieSerializer(serializers.Serializer):
             "description", instance.description
         )
         instance.duration = validated_data.get("duration", instance.duration)
-
         instance.save()
 
         return instance
+
+
+class ActorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Actor
+        fields = ["id", "first_name", "last_name"]
+
+
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ["name"]
+
+
+class CinemaHallSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CinemaHall
+        fields = ["name", "rows", "seats_in_row"]
