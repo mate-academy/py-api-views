@@ -8,7 +8,7 @@ from cinema.views import (
     CinemaDetailView,
     GenreListView,
     GenreDetailView,
-    MovieViewSet
+    MovieViewSet,
 )
 
 router = routers.DefaultRouter()
@@ -21,7 +21,7 @@ urlpatterns = [
     path("genres/<int:pk>/", GenreDetailView.as_view(), name="genres-detail"),
     path("cinemas/", CinemaListView.as_view(), name="cinemas-list"),
     path("cinemas/<int:pk>/", CinemaDetailView.as_view(), name="cinemas-detail"),
-    path("", include(router.urls))
+    path("", include(router.urls)),
 ]
 
 app_name = "cinema"

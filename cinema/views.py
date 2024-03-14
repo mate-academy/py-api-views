@@ -8,7 +8,7 @@ from cinema.serializers import (
     ActorSerializer,
     CinemaHallSerializer,
     GenreSerializer,
-    MovieSerializer
+    MovieSerializer,
 )
 
 
@@ -45,9 +45,7 @@ class GenreDetailView(APIView):
 
     def patch(self, request, pk: int) -> Response:
         serializer = GenreSerializer(
-            self.get_object(pk),
-            data=request.data,
-            partial=True
+            self.get_object(pk), data=request.data, partial=True
         )
         if serializer.is_valid():
             serializer.save()
@@ -59,9 +57,9 @@ class GenreDetailView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorListView(generics.ListAPIView,
-                    mixins.ListModelMixin,
-                    mixins.CreateModelMixin):
+class ActorListView(
+    generics.ListAPIView, mixins.ListModelMixin, mixins.CreateModelMixin
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -76,7 +74,7 @@ class ActorDetailView(
     generics.GenericAPIView,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin
+    mixins.DestroyModelMixin,
 ):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer

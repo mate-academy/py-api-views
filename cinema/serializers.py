@@ -14,9 +14,7 @@ class MovieSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get(
-            "description", instance.description
-        )
+        instance.description = validated_data.get("description", instance.description)
         instance.duration = validated_data.get("duration", instance.duration)
 
         instance.save()
@@ -27,17 +25,17 @@ class MovieSerializer(serializers.Serializer):
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = ['id', 'name']
-        extra_kwargs = {'name': {'max_length': 255, 'unique': True}}
+        fields = ["id", "name"]
+        extra_kwargs = {"name": {"max_length": 255, "unique": True}}
 
 
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actor
-        fields = ['id', 'first_name', 'last_name']
+        fields = ["id", "first_name", "last_name"]
 
 
 class CinemaHallSerializer(serializers.ModelSerializer):
     class Meta:
         model = CinemaHall
-        fields = ['id', 'name', 'rows', 'seats_in_row']
+        fields = ["id", "name", "rows", "seats_in_row"]
