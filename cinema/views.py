@@ -16,13 +16,13 @@ from cinema.serializers import (MovieSerializer,
 
 
 class GenreList(APIView):
-    def get(self, _: Request) -> Response:
+    def get(self, request: Request) -> Response:
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, _: Request) -> Response:
+    def post(self, request: Request) -> Response:
         serializer = GenreSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -33,26 +33,26 @@ class GenreDetail(APIView):
     def get_object(self, pk: int) -> Genre:
         return get_object_or_404(Genre, pk=pk)
 
-    def get(self, _: Request, pk: int) -> Response:
+    def get(self, request: Request, pk: int) -> Response:
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, _: Request, pk: int) -> Response:
+    def put(self, request: Request, pk: int) -> Response:
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def patch(self, _: Request, pk: int) -> Response:
+    def patch(self, request: Request, pk: int) -> Response:
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, _: Request, pk: int) -> Response:
+    def delete(self, request: Request, pk: int) -> Response:
         genre = self.get_object(pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -64,10 +64,10 @@ class ActorList(mixins.ListModelMixin,
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, _: Request, *args, **kwargs) -> Response:
+    def get(self, request: Request, *args, **kwargs) -> Response:
         return self.list(request, *args, **kwargs)
 
-    def post(self, _: Request, *args, **kwargs) -> Response:
+    def post(self, request: Request, *args, **kwargs) -> Response:
         return self.create(request, *args, **kwargs)
 
 
@@ -78,16 +78,16 @@ class ActorDetail(mixins.RetrieveModelMixin,
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, _: Request, *args, **kwargs) -> Response:
+    def get(self, request: Request, *args, **kwargs) -> Response:
         return self.retrieve(request, *args, **kwargs)
 
-    def put(self, _: Request, *args, **kwargs) -> Response:
+    def put(self, request: Request, *args, **kwargs) -> Response:
         return self.update(request, *args, **kwargs)
 
-    def delete(self, _: Request, *args, **kwargs) -> Response:
+    def delete(self, request: Request, *args, **kwargs) -> Response:
         return self.destroy(request, *args, **kwargs)
 
-    def patch(self, _: Request, *args, **kwargs) -> Response:
+    def patch(self, request: Request, *args, **kwargs) -> Response:
         return self.partial_update(request, *args, **kwargs)
 
 
@@ -101,23 +101,23 @@ class CinemaHallViewSet(mixins.ListModelMixin,
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
-    def list(self, _, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def create(self, _, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrieve(self, _, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def update(self, _, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -133,7 +133,7 @@ class CinemaHallViewSet(mixins.ListModelMixin,
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def destroy(self, _, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
