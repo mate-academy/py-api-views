@@ -50,7 +50,10 @@ class GenreDetail(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return Response(
+            serializer.errors,
+            status=status.HTTP_405_METHOD_NOT_ALLOWED
+        )
 
     def delete(self, request, pk: int) -> Response:
         self.get_object(pk).delete()
