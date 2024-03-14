@@ -24,15 +24,14 @@ urlpatterns = [
         "get": "list",
         "post": "create",
     }
-    ),
-         name="cinema-hall-list"),
+    ), name="cinema-hall-list"),
     path("cinemahall/<int:pk>/", CinemaHallDetail.as_view(actions={
         "get": "retrieve",
         "put": "update",
         "patch": "partial_update",
         "delete": "destroy"
     }
-    ), name='cinema-hall-detail'),
+    ), name="cinema-hall-detail"),
     path("", include(router.urls)),
 ]
 

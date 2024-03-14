@@ -76,7 +76,11 @@ class ActorDetail(
         return self.delete(request, *args, **kwargs)
 
 
-class CinemaHallList(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
+class CinemaHallList(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin
+):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
