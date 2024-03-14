@@ -97,8 +97,8 @@ class ActorDetail(
     def patch(self, request: Request, *args, **kwargs) -> Response:
         return self.partial_update(request, *args, **kwargs)
 
-    def delete(self, request: Request, pk: int) -> Response:
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request: Request, *args, **kwargs) -> Response:
+        return self.destroy(request, *args, **kwargs)
 
 
 class CinemaHallList(generics.ListCreateAPIView):
