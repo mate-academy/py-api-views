@@ -8,9 +8,6 @@ class Movie(models.Model):
     actors = models.ManyToManyField("Actor", related_name="movie")
     genres = models.ManyToManyField("Genre", related_name="movie")
 
-    def __str__(self):
-        return self.title
-
 
 class Actor(models.Model):
     first_name = models.CharField(max_length=255)
