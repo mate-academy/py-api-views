@@ -21,8 +21,8 @@ class MovieViewSet(viewsets.ModelViewSet):
 class GenreList(APIView):
 
     def get(self, request) -> Response:
-        genres = Movie.objects.all()
-        serializer = MovieSerializer(genres, many=True)
+        genres = Genre.objects.all()
+        serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request) -> Response:
@@ -107,12 +107,12 @@ class ActorDetail(
 
 
 class CinemaHallViewSet(
-    viewsets.GenericViewSet,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
