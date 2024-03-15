@@ -15,7 +15,12 @@ from cinema.views import (
 router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
 
-cinemahall_list = CinemaHallViewSet.as_view(actions={"get": "list", "post": "create"})
+cinemahall_list = CinemaHallViewSet.as_view(
+    actions={
+        "get": "list",
+        "post": "create"
+    }
+)
 cinemahall_detail = CinemaHallViewSet.as_view(
     actions={
         "get": "retrieve",
