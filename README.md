@@ -19,8 +19,8 @@ Use the following command to load prepared data from fixture to test and debug y
   `python manage.py loaddata cinema_serviсe_db_data.json`.
 
 Create views for models interaction endpoints via different class-based views:
-- For the `Genre` model use an `APIView`
-- For the `Actor` model use a `GenericAPIView`
+- For the `Genre` model use an `APIView` +
+- For the `Actor` model use a `GenericAPIView` +
 - For the `CinemaHall` model use a `GenericViewSet`
 - For the `Movie` model use a `ModelViewSet` and `routers`
 
