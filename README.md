@@ -12,10 +12,10 @@ the ones you wrote in Django ORM module. Modules should have such fields:
 - `Movie`: `title`, `description`, `actors`, `genres`, `duration`. (note: you 
 already have a new field here) 
 
-Create serializers for all these models. Do not use related serializers for
+Create serializers for [all these models. Do not use related serializers for
 ManyToMany relations.
 
-Use the following command to load prepared data from fixture to test and debug your code:
+Use](https://github.com/twonumberfortyfives/py-api-views.git) the following command to load prepared data from fixture to test and debug your code:
   `python manage.py loaddata cinema_serviсe_db_data.json`.
 
 Create views for models interaction endpoints via different class-based views:
