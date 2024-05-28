@@ -27,4 +27,67 @@ class Migration(migrations.Migration):
                 ("duration", models.IntegerField()),
             ],
         ),
+        migrations.CreateModel(
+            name="Actor",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("first_name", models.CharField(max_length=30)),
+                ("last_name", models.CharField(max_length=30)),
+            ],
+        ),
+        migrations.CreateModel(
+            name="CinemaHall",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("rows", models.IntegerField(default=1)),
+                ("seats_in_raw", models.IntegerField(default=1)),
+            ],
+        ),
+        migrations.CreateModel(
+            name="Genre",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=30, unique=True)),
+            ],
+        ),
+        migrations.AddField(
+            model_name="movie",
+            name="actors",
+            field=models.ManyToManyField(related_name="movies", to="cinema.actor"),
+        ),
+        migrations.AddField(
+            model_name="movie",
+            name="genres",
+            field=models.ManyToManyField(related_name="movies", to="cinema.genre"),
+        ),
+        migrations.RenameField(
+            model_name="cinemahall",
+            old_name="seats_in_raw",
+            new_name="seats_in_row",
+        ),
     ]
