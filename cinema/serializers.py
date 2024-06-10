@@ -19,6 +19,8 @@ class ActorSerializer(serializers.ModelSerializer):
 
 
 class GenreSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(max_length=100, required=False)
+
     class Meta:
         model = Genre
         fields = ["id", "name"]
@@ -26,13 +28,13 @@ class GenreSerializer(serializers.ModelSerializer):
 
 class MovieSerializer(serializers.ModelSerializer):
     actors = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Actor.objects.all()
+        many=True, queryset=Actor.objects.all(), required=False
     )
     genres = serializers.PrimaryKeyRelatedField(
-        queryset=Genre.objects.all(), many=True
+        queryset=Genre.objects.all(), many=True, required=False
     )
     cinema_hall = serializers.PrimaryKeyRelatedField(
-        queryset=CinemaHall.objects.all()
+        queryset=CinemaHall.objects.all(), required=False
     )
 
     class Meta:
@@ -48,9 +50,9 @@ class MovieSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data: dict) -> Movie:
-        actors = validated_data.pop("actors")
-        genres = validated_data.pop("genres")
-        cinema_hall = validated_data.pop("cinema_hall")
+        actors = validated_data.pop("actors", [])
+        genres = validated_data.pop("genres", [])
+        cinema_hall = validated_data.pop("cinema_hall", None)
         movie = Movie.objects.create(
             **validated_data, cinema_hall=cinema_hall
         )
