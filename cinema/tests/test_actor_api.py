@@ -111,3 +111,4 @@ class ActorApiTests(TestCase):
             "/api/cinema/actors/1000/",
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
