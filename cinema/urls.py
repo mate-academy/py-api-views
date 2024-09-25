@@ -23,10 +23,9 @@ urlpatterns = [
         name="actor-detail",
     ),
     path("genres/", GenreAPIView.as_view(), name="genre-list-create"),
-    path(
-        "genres/<int:pk>/",
-        GenreDetailAPIView.as_view(),
-        name="genre-detail"
-    ),
+    path("genres/<int:pk>/",
+         GenreDetailAPIView.as_view(),
+         name="genre-detail"
+         ),
     path("", include(router.urls)),
 ]
