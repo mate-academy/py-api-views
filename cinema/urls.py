@@ -1,10 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from cinema.views import (
-    ActorListCreateView,
-    ActorRetrieveUpdateDestroyView,
+from .views import (
     GenreAPIView,
     GenreDetailAPIView,
+    ActorAPIView,
+    ActorDetailAPIView,
     CinemaHallViewSet,
     MovieViewSet,
 )
@@ -12,20 +12,25 @@ from cinema.views import (
 app_name = "cinema"
 
 router = DefaultRouter()
-router.register(r"movies", MovieViewSet)
-router.register(r"cinema_halls", CinemaHallViewSet)
+router.register(r"cinema/movies", MovieViewSet, basename="movies")
+router.register(
+    r"cinema/cinema_halls",
+    CinemaHallViewSet,
+    basename="cinema_halls"
+)
 
 urlpatterns = [
-    path("actors/", ActorListCreateView.as_view(), name="actor-list-create"),
+    path("cinema/genres/", GenreAPIView.as_view(), name="genre-list"),
     path(
-        "actors/<int:pk>/",
-        ActorRetrieveUpdateDestroyView.as_view(),
-        name="actor-detail",
+        "cinema/genres/<int:pk>/",
+        GenreDetailAPIView.as_view(),
+        name="genre-detail"
     ),
-    path("genres/", GenreAPIView.as_view(), name="genre-list-create"),
-    path("genres/<int:pk>/",
-         GenreDetailAPIView.as_view(),
-         name="genre-detail"
-         ),
+    path("cinema/actors/", ActorAPIView.as_view(), name="actor-list"),
+    path(
+        "cinema/actors/<int:pk>/",
+        ActorDetailAPIView.as_view(),
+        name="actor-detail"
+    ),
     path("", include(router.urls)),
 ]
