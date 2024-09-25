@@ -101,7 +101,11 @@ class CinemaHallViewSet(
 
     def patch(self, request, pk):
         cinema_hall = get_object_or_404(CinemaHall, pk=pk)
-        serializer = CinemaHallSerializer(cinema_hall, data=request.data, partial=True)
+        serializer = CinemaHallSerializer(
+            cinema_hall,
+            data=request.data,
+            partial=True
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
