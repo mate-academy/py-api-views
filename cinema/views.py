@@ -44,7 +44,11 @@ class GenreDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk: int) -> Response:
-        serializer = GenreSerializer(self.get_object(pk=pk), data=request.data, partial=True)
+        serializer = GenreSerializer(
+            self.get_object(pk=pk),
+            data=request.data,
+            partial=True
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
