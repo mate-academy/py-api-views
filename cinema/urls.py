@@ -1,11 +1,8 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    GenreAPIView,
-    ActorListCreateAPIView,
-    ActorRetrieveUpdateDestroyAPIView,
     CinemaHallViewSet,
-    MovieViewSet
+    MovieViewSet, ActorList, GenreList, ActorDetail
 )
 
 app_name = "cinema"
@@ -26,17 +23,17 @@ router.register(
 urlpatterns = [
     path(
         "genres/",
-        GenreAPIView.as_view(),
+        GenreList.as_view(),
         name="genre-list"
     ),
     path(
         "actors/",
-        ActorListCreateAPIView.as_view(),
+        ActorList.as_view(),
         name="actor-list-create"
     ),
     path(
         "actors/<int:pk>/",
-        ActorRetrieveUpdateDestroyAPIView.as_view(),
+        ActorDetail.as_view(),
         name="actor-detail"
     ),
     path(
