@@ -1,10 +1,9 @@
 from django.test import TestCase
-
-from rest_framework.test import APIClient
 from rest_framework import status, viewsets
+from rest_framework.test import APIClient
 
-from cinema.serializers import CinemaHallSerializer
 from cinema.models import CinemaHall
+from cinema.serializers import CinemaHallSerializer
 from cinema.views import CinemaHallViewSet
 
 
