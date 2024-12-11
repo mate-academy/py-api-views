@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "cinema",
+    "cinema_service",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
