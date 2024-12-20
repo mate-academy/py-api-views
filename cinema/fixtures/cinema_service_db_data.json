@@ -1,0 +1,37 @@
+[
+    {
+        "model": "cinema.actor",
+        "pk": 1,
+        "fields": {
+            "first_name": "Leonardo",
+            "last_name": "DiCaprio"
+        }
+    },
+    {
+        "model": "cinema.genre",
+        "pk": 1,
+        "fields": {
+            "name": "Drama"
+        }
+    },
+    {
+        "model": "cinema.cinemahall",
+        "pk": 1,
+        "fields": {
+            "name": "Main Hall",
+            "rows": 10,
+            "seats_in_row": 20
+        }
+    },
+    {
+        "model": "cinema.movie",
+        "pk": 1,
+        "fields": {
+            "title": "Inception",
+            "description": "A mind-bending thriller",
+            "duration": 148,
+            "actors": [1],
+            "genres": [1]
+        }
+    }
+]
