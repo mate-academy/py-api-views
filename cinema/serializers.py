@@ -9,11 +9,13 @@ class MovieSerializer(serializers.Serializer):
     description = serializers.CharField(required=True)
     actors = serializers.ListField(
         child=serializers.IntegerField(),
-        write_only=True
+        write_only=True,
+        required=False
     )
     genres = serializers.ListField(
         child=serializers.IntegerField(),
-        write_only=True
+        write_only=True,
+        required=False
     )
     duration = serializers.IntegerField(required=True)
 
@@ -24,8 +26,11 @@ class MovieSerializer(serializers.Serializer):
             duration=validated_data["duration"]
         )
 
-        movie.actors.set(validated_data.get("actors", []))
-        movie.genres.set(validated_data.get("genres", []))
+        actors = Actor.objects.filter(id__in=validated_data.get("actors", []))
+        genres = Genre.objects.filter(id__in=validated_data.get("genres", []))
+
+        movie.actors.set(actors)
+        movie.genres.set(genres)
 
         return movie
 
@@ -34,9 +39,11 @@ class MovieSerializer(serializers.Serializer):
         instance.description = validated_data.get(
             "description", instance.description
         )
+        actors = Actor.objects.filter(id__in=validated_data.get("actors", []))
+        genres = Genre.objects.filter(id__in=validated_data.get("genres", []))
 
-        instance.actors.set(validated_data.get("actors", instance.actors))
-        instance.genres.set(validated_data.get("genres", instance.genres))
+        instance.actors.set(actors)
+        instance.genres.set(genres)
 
         instance.duration = validated_data.get("duration", instance.duration)
 
