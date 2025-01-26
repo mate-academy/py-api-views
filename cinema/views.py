@@ -12,7 +12,7 @@ from cinema.serializers import (
 )
 
 
-class GenreListAPIView(APIView):
+class GenreList(APIView):
     def get(self, request):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
@@ -25,7 +25,7 @@ class GenreListAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class GenreDetailAPIView(APIView):
+class GenreDetail(APIView):
     def get(self, request, pk):
         genre = get_object_or_404(Genre, pk=pk)
         return Response(GenreSerializer(genre).data, status=status.HTTP_200_OK)
@@ -50,17 +50,17 @@ class GenreDetailAPIView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorListApiView(generics.ListCreateAPIView):
+class ActorList(generics.ListCreateAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
 
-class ActorDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
 
-class CinemaHallApiViewSet(
+class CinemaHallViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
@@ -72,6 +72,6 @@ class CinemaHallApiViewSet(
     serializer_class = CinemaHallSerializer
 
 
-class MovieApiViewSet(viewsets.ModelViewSet):
+class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
