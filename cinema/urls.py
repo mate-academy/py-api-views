@@ -25,3 +25,5 @@ urlpatterns = [
     ),
     path("", include(router.urls)),
 ]
+
+namespace = "cinema"
