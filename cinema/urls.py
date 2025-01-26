@@ -26,4 +26,4 @@ urlpatterns = [
     path("", include(router.urls)),
 ]
 
-namespace = "cinema"
+app_name = "cinema"
