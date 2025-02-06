@@ -77,7 +77,7 @@ class MovieApiTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_put_movie(self):
-        self.client.put(
+        resp = self.client.put(
             "/api/cinema/movies/1/",
             {
                 "title": "Watchman",
