@@ -16,7 +16,8 @@ from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import (
     MovieSerializer,
     GenreSerializer,
-    ActorSerializer, CinemaHallSerializer
+    ActorSerializer,
+    CinemaHallSerializer
 )
 
 
