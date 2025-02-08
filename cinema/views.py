@@ -1,9 +1,9 @@
 from rest_framework.mixins import (
-                ListModelMixin,
-                CreateModelMixin,
-                RetrieveModelMixin,
-                UpdateModelMixin,
-                DestroyModelMixin
+    ListModelMixin,
+    CreateModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin
 )
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -18,6 +18,7 @@ from cinema.serializers import (
     GenreSerializer,
     ActorSerializer, CinemaHallSerializer
 )
+
 
 class GenreList(APIView):
     def get(self, request):
