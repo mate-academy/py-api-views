@@ -83,6 +83,16 @@ class ActorDetail(
         return self.destroy(request, *args, **kwargs)
 
 
+class CinemaHallList(generics.ListCreateAPIView):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
+
+
+class CinemaHallDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
+
+
 @api_view(["GET", "POST"])
 def movie_list(request):
     if request.method == "GET":
