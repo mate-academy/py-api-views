@@ -69,7 +69,7 @@ class CinemaHallSerializer(serializers.Serializer):
     rows = serializers.IntegerField(
         validators=[MinValueValidator(0)]
     )
-    seats_in_rows = serializers.IntegerField(
+    seats_in_row = serializers.IntegerField(
         validators=[MinValueValidator(0)]
     )
 
@@ -79,9 +79,9 @@ class CinemaHallSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)
         instance.rows = validated_data.get("rows", instance.rows)
-        instance.seats_in_rows = validated_data.get(
-            "seats_in_rows",
-            instance.seats_in_rows
+        instance.seats_in_row = validated_data.get(
+            "seats_in_row",
+            instance.seats_in_row
         )
 
         instance.save()
