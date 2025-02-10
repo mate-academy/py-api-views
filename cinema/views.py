@@ -30,16 +30,28 @@ class GenreDetail(APIView):
     def get_object(self, pk):
         return get_object_or_404(Genre, pk=pk)
 
+    def get(self, request, pk) -> Response:
+        serializer = GenreSerializer(self.get_object(pk=pk))
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def put(self, request, pk) -> Response:
-        genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, data=request.data)
+        serializer = GenreSerializer(self.get_object(pk=pk), data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request, pk) -> Response:
+        serializer = GenreSerializer(
+            self.get_object(pk=pk),
+            data=request.data,
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk) -> Response:
-        genre = self.get_object(pk)
-        genre.delete()
+        self.get_object(pk=pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -72,6 +84,9 @@ class ActorDetail(
 
     def put(self, request, *args, **kwargs) -> Response:
         return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs) -> Response:
+        return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs) -> Response:
         return self.destroy(request, *args, **kwargs)
