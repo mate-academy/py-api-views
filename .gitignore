@@ -5,6 +5,4 @@
 .DS_Store
 venv/
 .pytest_cache/
-**__pycache__/
-*.pyc
 db.sqlite3
