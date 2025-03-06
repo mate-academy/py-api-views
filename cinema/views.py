@@ -80,6 +80,9 @@ class ActorDetail(
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
 ):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 

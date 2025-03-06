@@ -34,8 +34,8 @@ class MovieSerializer(serializers.Serializer):
         actors = validated_data.pop("actors")
         genres = validated_data.pop("genres")
         movie = Movie.objects.create(**validated_data)
-        movie.actors.add(actors)
-        movie.genres.add(genres)
+        movie.actors.add(*actors)
+        movie.genres.add(*genres)
         movie.save()
         return movie
 
