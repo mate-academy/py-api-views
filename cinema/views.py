@@ -11,7 +11,7 @@ from .serializers import (
     MovieSerializer,
     GenreSerializer,
     ActorSerializer,
-    CinamaHallSerializer
+    CinemaHallSerializer
 )
 
 
@@ -39,19 +39,21 @@ class GenreDetail(APIView):
 
     def put(self, request, pk):
         genre = self.get_object(pk)
-        serializer = GenreSerializer(genre)
-        if serializer.is_valid():
+        serializer = GenreSerializer(genre, data=request.data)
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQEUST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         genre = self.get_object(pk)
         genre.delete()
-        return Response(status=status.HTTP_204_NO_CONNECT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ActorList(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
@@ -68,6 +70,8 @@ class ActorList(
 
 
 class ActorDetail(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
@@ -95,7 +99,7 @@ class CinemaHallViewSet(
     viewsets.GenericViewSet
 ):
     queryset = CinemaHall.objects.all()
-    serializer_class = CinamaHallSerializer
+    serializer_class = CinemaHallSerializer
 
 
 class MovieViewSet(viewsets.ModelViewSet):
