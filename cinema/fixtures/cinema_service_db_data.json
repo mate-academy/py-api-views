@@ -1,0 +1,20 @@
+[
+  {
+    "model": "cinema.movie",
+    "pk": 1,
+    "fields": {
+      "title": "Movie Title",
+      "description": "Description of the movie",
+      "duration": 120
+    }
+  },
+  {
+    "model": "cinema.movie",
+    "pk": 2,
+    "fields": {
+      "title": "Another Movie",
+      "description": "Another movie description",
+      "duration": 90
+    }
+  }
+]
