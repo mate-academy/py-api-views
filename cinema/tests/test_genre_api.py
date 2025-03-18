@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 from cinema.serializers import GenreSerializer
 from cinema.models import Genre
-from cinema.views import GenreList, GenreDetail
+from cinema.views import GenreView
 
 
 class GenreApiTests(TestCase):
@@ -20,24 +20,24 @@ class GenreApiTests(TestCase):
         )
 
     def test_genre_list_is_subclass(self):
-        self.assertTrue(issubclass(GenreList, APIView))
+        self.assertTrue(issubclass(GenreView, APIView))
 
     def test_genre_list_is_not_subclass(self):
         items = [generics.GenericAPIView, viewsets.GenericViewSet]
 
         for item in items:
             with self.subTest(str(item).split(".")[2]):
-                self.assertFalse(issubclass(GenreList, item))
+                self.assertFalse(issubclass(GenreView, item))
 
     def test_genre_detail_is_subclass(self):
-        self.assertTrue(issubclass(GenreDetail, APIView))
+        self.assertTrue(issubclass(GenreView, APIView))
 
     def test_genre_detail_is_not_subclass(self):
         items = [generics.GenericAPIView, viewsets.GenericViewSet]
 
         for item in items:
             with self.subTest(str(item).split(".")[2]):
-                self.assertFalse(issubclass(GenreDetail, item))
+                self.assertFalse(issubclass(GenreView, item))
 
     def test_get_genres(self):
         response = self.client.get("/api/cinema/genres/")
