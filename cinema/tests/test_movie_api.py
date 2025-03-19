@@ -1,12 +1,11 @@
 from django.test import TestCase
-
-from rest_framework.test import APIClient
 from rest_framework import status
-
-from cinema.serializers import MovieSerializer
-from cinema.models import Movie
-from cinema.views import MovieViewSet
+from rest_framework.test import APIClient
 from rest_framework.viewsets import ModelViewSet
+
+from cinema.models import Movie
+from cinema.serializers import MovieSerializer
+from cinema.views import MovieViewSet
 
 
 class MovieApiTests(TestCase):
