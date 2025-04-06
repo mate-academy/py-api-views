@@ -5,3 +5,12 @@ flake8-variables-names==0.0.5
 pep8-naming==0.13.2
 django-debug-toolbar==3.2.4
 djangorestframework==3.13.1
+
+pip~=23.2.1
+wheel~=0.41.2
+pytz~=2025.2
+asgiref~=3.8.1
+sqlparse~=0.5.3
+pyflakes~=2.5.0
+pycodestyle~=2.9.1
+setuptools~=68.2.0
