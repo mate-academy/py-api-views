@@ -1,4 +1,3 @@
-from django.core.validators import MinValueValidator
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -42,12 +41,8 @@ class ActorSerializer(serializers.Serializer):
 class CinemaHallSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=100)
-    rows = serializers.IntegerField(
-        validators=[MinValueValidator(1)]
-    )
-    seats_in_row = serializers.IntegerField(
-        validators=[MinValueValidator(1)]
-    )
+    rows = serializers.IntegerField(min_value=1)
+    seats_in_row = serializers.IntegerField(min_value=1)
 
     def create(self, validated_data):
         return CinemaHall.objects.create(**validated_data)
@@ -73,9 +68,7 @@ class MovieSerializer(serializers.Serializer):
         queryset=Genre.objects.all(),
         required=False
     )
-    duration = serializers.IntegerField(
-        validators=[MinValueValidator(1)]
-    )
+    duration = serializers.IntegerField(min_value=1)
 
     def create(self, validated_data):
         actors = validated_data.pop("actors", [])
