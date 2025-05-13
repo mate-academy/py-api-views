@@ -56,11 +56,7 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(
-    generics.ListCreateAPIView,
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin
-):
+class ActorList(generics.ListCreateAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -71,12 +67,7 @@ class ActorList(
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetail(
-    generics.GenericAPIView,
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-):
+class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 

@@ -34,5 +34,8 @@ class Movie(models.Model):
     genres = models.ManyToManyField(Genre, related_name="movies")
 
     def __str__(self) -> str:
+        actor_names = ", ".join(str(actor) for actor in self.actors.all())
+        genre_names = ", ".join(str(genre) for genre in self.genres.all())
         return (f"title - {self.title} "
-                f"actors: {self.actors.all()} genres: {self.genres.all()}")
+                f"| actors: {actor_names} "
+                f"| genres: {genre_names}")
