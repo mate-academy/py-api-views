@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import NotFound
 
 from django.shortcuts import get_object_or_404
 
@@ -64,7 +65,7 @@ class GenreDetail(APIView):
         try:
             return Genre.objects.get(pk=pk)
         except Genre.DoesNotExist:
-            raise status.HTTP_404_NOT_FOUND
+            raise NotFound("A genre with this ID does not exist.")
 
     def get(self, request, pk):
         genre = self.get_object(pk)
