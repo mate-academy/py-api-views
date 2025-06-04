@@ -18,7 +18,7 @@ class CinemaHallSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'rows', 'seats_in_row']
 
 
-class MovieSerializer(serializers.Serializer):
+class MovieSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255)
     description = serializers.CharField()
