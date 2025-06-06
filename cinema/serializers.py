@@ -19,27 +19,33 @@ class CinemaHallSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField(max_length=255)
-    description = serializers.CharField()
-    duration = serializers.IntegerField()
-    actors = ActorSerializer(many=True, read_only=True)
-    genres = GenreSerializer(many=True, read_only=True)
+    actors = serializers.PrimaryKeyRelatedField(many=True, queryset=Actor.object.all())
+    genres = serializers.PrimaryKeyRelatedField(many=True, queryset=Genre.object.all())
 
     class Meta:
         model = Movie
         fields = ['id', 'title', 'description', 'duration', 'actors', 'genres']
 
     def create(self, validated_data):
-        return Movie.objects.create(**validated_data)
+        actors = validated_data.pop('actors', [])
+        genres = validated_data.pop('genres', [])
+        movie = Movie.objects.create(**validated_data)
+        movie.actors.set(actors)
+        movie.genres.set(genres)
+        return movie
 
     def update(self, instance, validated_data):
-        instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get(
-            "description", instance.description
-        )
-        instance.duration = validated_data.get("duration", instance.duration)
+        actors = validated_data.pop('actors', None)
+        genres = validated_data.pop('genres', None)
 
+        instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.duration = validated_data.get('duration', instance.duration)
         instance.save()
+
+        if actors is not None:
+            instance.actors.set(actors)
+        if genres is not None:
+            instance.genres.set(genres)
 
         return instance
