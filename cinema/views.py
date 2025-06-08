@@ -1,4 +1,4 @@
-from rest_framework import generics, viewsets, status
+from rest_framework import generics, viewsets
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,7 +8,10 @@ from rest_framework.exceptions import NotFound
 from django.shortcuts import get_object_or_404
 
 from cinema.models import Movie, Actor, Genre, CinemaHall
-from cinema.serializers import MovieSerializer, ActorSerializer, GenreSerializer, CinemaHallSerializer
+from cinema.serializers import (MovieSerializer,
+                                ActorSerializer,
+                                GenreSerializer,
+                                CinemaHallSerializer)
 
 
 @api_view(["GET", "POST"])
@@ -47,6 +50,7 @@ def movie_detail(request, pk):
         movie.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 class GenreList(APIView):
     def get(self, request):
         genres = Genre.objects.all()
@@ -59,6 +63,7 @@ class GenreList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class GenreDetail(APIView):
     def get_object(self, pk):
@@ -90,17 +95,23 @@ class GenreDetail(APIView):
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 class ActorListCreate(generics.ListCreateAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
+
 
 class ActorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-class CinemaHallViewSet(viewsets.GenericViewSet, generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+
+class CinemaHallViewSet(viewsets.GenericViewSet,
+                        generics.ListCreateAPIView,
+                        generics.RetrieveUpdateDestroyAPIView):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
+
 
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
