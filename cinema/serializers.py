@@ -23,9 +23,9 @@ class CinemaHallSerializer(serializers.ModelSerializer):
 
 class MovieSerializer(serializers.ModelSerializer):
     actors = serializers.PrimaryKeyRelatedField(many=True,
-                                                queryset=Actor.object.all())
+                                                queryset=Actor.objects.all())
     genres = serializers.PrimaryKeyRelatedField(many=True,
-                                                queryset=Genre.object.all())
+                                                queryset=Genre.objects.all())
 
     class Meta:
         model = Movie
@@ -43,10 +43,12 @@ class MovieSerializer(serializers.ModelSerializer):
         actors = validated_data.pop("actors", None)
         genres = validated_data.pop("genres", None)
 
-        instance.title = validated_data.get("title", instance.title)
+        instance.title = validated_data.get("title",
+                                            instance.title)
         instance.description = validated_data.get("description",
                                                   instance.description)
-        instance.duration = validated_data.get("duration", instance.duration)
+        instance.duration = validated_data.get("duration",
+                                               instance.duration)
         instance.save()
 
         if actors is not None:
