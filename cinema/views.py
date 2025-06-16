@@ -59,7 +59,7 @@ class GenreDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self,request,pk):
+    def delete(self, request, pk):
         genre = self.get_object(pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -76,11 +76,13 @@ class ActorList(ListModelMixin, CreateModelMixin, GenericAPIView):
     def post(self, request):
         return self.create(request)
 
+
 class ActorDetail(RetrieveModelMixin,
-                         UpdateModelMixin,
-                         DestroyModelMixin,
-                         GenericAPIView
-                         ):
+                  UpdateModelMixin,
+                  DestroyModelMixin,
+                  GenericAPIView
+                  ):
+
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
