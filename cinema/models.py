@@ -19,19 +19,21 @@ class Actor(models.Model):
     last_name = models.CharField(max_length=255)
 
     def __str__(self):
-        return (f"First_name: {self.first_name},"
-                f"Last_name: {self.last_name}")
+        return f"First_name: {self.first_name}," f"Last_name: {self.last_name}"
 
 
 class Genre(models.Model):
     name = models.CharField(max_length=255)
 
-
     class Meta:
         constraints = [
-            UniqueConstraint(fields=
-                            [ "name",], name="unique_name")]
-
+            UniqueConstraint(
+                fields=[
+                    "name",
+                ],
+                name="unique_name",
+            )
+        ]
 
     def __str__(self):
         return self.name
@@ -43,6 +45,8 @@ class CinemaHall(models.Model):
     seats_in_row = models.IntegerField()
 
     def __str__(self):
-        return (f"cinema hall: {self.name},"
-                f"rows: {self.rows},"
-                f"seats: {self.seats_in_row}")
+        return (
+            f"cinema hall: {self.name},"
+            f"rows: {self.rows},"
+            f"seats: {self.seats_in_row}"
+        )

@@ -9,15 +9,19 @@ class MovieSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=255)
     description = serializers.CharField()
     duration = serializers.IntegerField()
+    actors = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Actor.objects.all()
+    )
+    genres = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Genre.objects.all()
+    )
 
     def create(self, validated_data):
         return Movie.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get(
-            "description", instance.description
-        )
+        instance.description = validated_data.get("description", instance.description)
         instance.duration = validated_data.get("duration", instance.duration)
 
         instance.save()
@@ -44,10 +48,9 @@ class ActorSerializer(serializers.Serializer):
 
 class GenreSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(max_length=255,
-                                 validators=[
-                                     UniqueValidator(queryset=Genre.objects.all())
-                                 ])
+    name = serializers.CharField(
+        max_length=255, validators=[UniqueValidator(queryset=Genre.objects.all())]
+    )
 
     def create(self, validated_data):
         return Genre.objects.create(**validated_data)
@@ -72,10 +75,10 @@ class CinemaHallSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)
         instance.rows = validated_data.get("rows", instance.rows)
-        instance.seats_in_row = validated_data.get("seats_in_row", instance.seats_in_row)
+        instance.seats_in_row = validated_data.get(
+            "seats_in_row", instance.seats_in_row
+        )
 
         instance.save()
 
         return instance
-
-
