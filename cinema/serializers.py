@@ -11,21 +11,41 @@ from cinema.models import (
 class MovieSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255, required=True)
+    actors = serializers.PrimaryKeyRelatedField(many=True,
+                                                queryset=Actor.objects.all())
+    genres = serializers.PrimaryKeyRelatedField(many=True,
+                                                queryset=Genre.objects.all())
     description = serializers.CharField(required=True)
     duration = serializers.IntegerField(required=True)
 
     def create(self, validated_data):
-        return Movie.objects.create(**validated_data)
+        actors = validated_data.pop("actors", None)
+        genres = validated_data.pop("genres", None)
+
+        movie = Movie.objects.create(**validated_data)
+
+        if actors is not None:
+            movie.actors.set(actors)
+        if genres is not None:
+            movie.genres.set(genres)
+
+        return movie
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get(
-            "description", instance.description
-        )
+        instance.description = validated_data.get("description",
+                                                  instance.description)
         instance.duration = validated_data.get("duration", instance.duration)
 
-        instance.save()
+        actors = validated_data.get("actors", None)
+        if actors is not None:
+            instance.actors.set(actors)
 
+        genres = validated_data.get("genres", None)
+        if genres is not None:
+            instance.genres.set(genres)
+
+        instance.save()
         return instance
 
 
