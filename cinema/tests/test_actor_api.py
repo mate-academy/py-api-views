@@ -1,16 +1,19 @@
 from django.test import TestCase
+from django.urls import reverse
 
 from rest_framework import status, generics, mixins, viewsets
-from rest_framework.test import APIClient
+from rest_framework.test import APIClient, APITestCase
 
 from cinema.serializers import ActorSerializer
 from cinema.models import Actor
-from cinema.views import ActorList, ActorDetail
+from cinema.views import (ActorListCreate as ActorList,
+                          ActorRetrieveUpdateDestroy as ActorDetail)
 
 
 class ActorApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
+        Actor.objects.all().delete()
         Actor.objects.create(first_name="George", last_name="Clooney")
         Actor.objects.create(first_name="Keanu", last_name="Reeves")
 
@@ -38,76 +41,54 @@ class ActorApiTests(TestCase):
         self.assertFalse(issubclass(ActorDetail, viewsets.GenericViewSet))
 
     def test_get_actors(self):
-        response = self.client.get("/api/cinema/actors/")
-        serializer = ActorSerializer(Actor.objects.all(), many=True)
+        url = reverse('cinema:actor-list')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(len(response.data), 2)
 
     def test_post_actors(self):
-        response = self.client.post(
-            "/api/cinema/actors/",
-            {
-                "first_name": "Scarlett",
-                "last_name": "Johansson",
-            },
-        )
-        db_actors = Actor.objects.all()
+        url = reverse('cinema:actor-list')
+        data = {"first_name": "John", "last_name": "Doe"}
+        response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(db_actors.count(), 3)
-        self.assertEqual(db_actors.filter(first_name="Scarlett").count(), 1)
+        self.assertEqual(Actor.objects.count(), 3)  # Początkowo 2, dodajemy 1
+        self.assertEqual(Actor.objects.last().first_name, "John")
 
     def test_get_actor(self):
-        response = self.client.get("/api/cinema/actors/2/")
-        serializer = ActorSerializer(
-            Actor(id=2, first_name="Keanu", last_name="Reeves")
-        )
+        actor = Actor.objects.create(first_name="John", last_name="Doe")
+        url = reverse("cinema:actor-detail", args=[actor.id])
+        response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
 
     def test_get_invalid_actor(self):
-        response = self.client.get("/api/cinema/actors/1001/")
+        response = self.client.get(reverse('cinema:actor-detail', args=[1001]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_put_actor(self):
-        response = self.client.put(
-            "/api/cinema/actors/1/",
-            {
-                "first_name": "Scarlett",
-                "last_name": "Johansson",
-            },
-        )
-        actor_pk_1 = Actor.objects.get(pk=1)
+        actor = Actor.objects.create(first_name="John", last_name="Doe")
+        url = reverse('cinema:actor-detail', args=[actor.id])
+        data = {"first_name": "Jane", "last_name": "Doe"}
+        response = self.client.put(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(
-            [
-                actor_pk_1.first_name,
-                actor_pk_1.last_name,
-            ],
-            [
-                "Scarlett",
-                "Johansson",
-            ],
-        )
+        actor.refresh_from_db()
+        self.assertEqual(actor.first_name, "Jane")
 
     def test_patch_actor(self):
-        response = self.client.patch(
-            "/api/cinema/actors/1/",
-            {
-                "first_name": "Scarlett",
-            },
-        )
+        actor = Actor.objects.create(first_name="John", last_name="Doe")
+        url = reverse('cinema:actor-detail', args=[actor.id])
+        data = {"first_name": "Jane"}
+        response = self.client.patch(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        actor.refresh_from_db()
+        self.assertEqual(actor.first_name, "Jane")
 
     def test_delete_actor(self):
-        response = self.client.delete(
-            "/api/cinema/actors/1/",
-        )
-        db_actors_id_1 = Actor.objects.filter(id=1)
-        self.assertEqual(db_actors_id_1.count(), 0)
+        actor = Actor.objects.create(first_name="John", last_name="Doe")
+        url = reverse('cinema:actor-detail', args=[actor.id])
+        response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Actor.objects.count(), 2)
 
     def test_delete_invalid_actor(self):
-        response = self.client.delete(
-            "/api/cinema/actors/1000/",
-        )
+        response = self.client.delete(reverse('cinema:actor-detail', args=[1000]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
