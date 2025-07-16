@@ -88,7 +88,7 @@ class ActorDetail(
         return self.update(request, *args, **kwargs)
 
     def patch(self, request: HttpRequest, *args, **kwargs) -> Response:
-        return self.partial_update(request, request, *args, **kwargs)
+        return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request: HttpRequest, *args, **kwargs) -> Response:
         return self.destroy(request, *args, **kwargs)

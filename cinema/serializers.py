@@ -77,9 +77,10 @@ class MovieSerializer(serializers.Serializer):
             for genre in genres:
                 try:
                     genres_instances.append(Genre.objects.get(pk=genre["id"]))
-                except genre.DoesNotExist:
+                except Genre.DoesNotExist:
+                    genre_id = genre["id"]
                     raise serializers.ValidationError(
-                        f"Genre with id {genre["id"]} does not exist."
+                        f"Genre with id {genre_id} does not exist."
                     )
             movie.genres.set(genres_instances)
 
@@ -89,9 +90,10 @@ class MovieSerializer(serializers.Serializer):
             for actor in actors:
                 try:
                     actors_instances.append(Actor.objects.get(pk=actor["id"]))
-                except actor.DoesNotExist:
+                except Actor.DoesNotExist:
+                    actor_id = actor["id"]
                     raise serializers.ValidationError(
-                        f"Actor with id {actor["id"]} does not exist."
+                        f"Actor with id {actor_id} does not exist."
                     )
             movie.actors.set(actors_instances)
 
@@ -114,9 +116,10 @@ class MovieSerializer(serializers.Serializer):
             for genre in genres:
                 try:
                     genres_instances.append(Genre.objects.get(pk=genre["id"]))
-                except genre.DoesNotExist:
+                except Genre.DoesNotExist:
+                    genre_id = genre["id"]
                     raise serializers.ValidationError(
-                        f"Genre with id {genre["id"]} does not exist."
+                        f"Genre with id {genre_id} does not exist."
                     )
             instance.genres.set(genres_instances)
 
@@ -126,9 +129,10 @@ class MovieSerializer(serializers.Serializer):
             for actor in actors:
                 try:
                     actors_instances.append(Actor.objects.get(pk=actor["id"]))
-                except actor.DoesNotExist:
+                except Actor.DoesNotExist:
+                    actor_id = actor["id"]
                     raise serializers.ValidationError(
-                        f"Actor with id {actor["id"]} does not exist."
+                        f"Actor with id {actor_id} does not exist."
                     )
             instance.actors.set(actors_instances)
 
