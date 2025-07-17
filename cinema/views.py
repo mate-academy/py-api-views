@@ -8,7 +8,10 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
-from cinema.serializers import MovieSerializer, GenreSerializer, ActorSerializer, CinemaHallSerializer
+from cinema.serializers import (MovieSerializer,
+                                GenreSerializer,
+                                ActorSerializer,
+                                CinemaHallSerializer)
 
 
 class GenreList(APIView):
@@ -55,7 +58,9 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+class ActorList(GenericAPIView,
+                mixins.ListModelMixin,
+                mixins.CreateModelMixin):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -85,6 +90,7 @@ class ActorDetail(GenericAPIView,
 
     def delete(self, request: HttpRequest, *args, **kwargs) -> Response:
         return self.destroy(request, *args, **kwargs)
+
 
 class CinemaHallViewSet(viewsets.GenericViewSet,
                         mixins.ListModelMixin,
