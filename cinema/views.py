@@ -69,7 +69,7 @@ class GenreDetail(APIView):
 
 
 class ActorList(
-    generics.ListAPIView,
+    generics.GenericAPIView,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
 ):
@@ -84,7 +84,7 @@ class ActorList(
 
 
 class ActorDetail(
-    generics.ListAPIView,
+    generics.GenericAPIView,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
