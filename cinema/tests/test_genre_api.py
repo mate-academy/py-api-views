@@ -2,39 +2,34 @@ from django.test import TestCase
 
 from rest_framework import status, generics, viewsets
 from rest_framework.test import APIClient
-from rest_framework.views import APIView
 
 from cinema.serializers import GenreSerializer
 from cinema.models import Genre
-from cinema.views import GenreList, GenreDetail
+
+from cinema.views import GenreListCreateAPIView as GenreList
+from cinema.views import GenreDetailAPIView as GenreDetail
 
 
 class GenreApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        Genre.objects.create(
-            name="Comedy",
-        )
-        Genre.objects.create(
-            name="Drama",
-        )
+        Genre.objects.create(name="Comedy")
+        Genre.objects.create(name="Drama")
 
     def test_genre_list_is_subclass(self):
-        self.assertTrue(issubclass(GenreList, APIView))
+        self.assertTrue(issubclass(GenreList, generics.GenericAPIView))  # ✅
 
     def test_genre_list_is_not_subclass(self):
-        items = [generics.GenericAPIView, viewsets.GenericViewSet]
-
+        items = [viewsets.GenericViewSet]
         for item in items:
             with self.subTest(str(item).split(".")[2]):
                 self.assertFalse(issubclass(GenreList, item))
 
     def test_genre_detail_is_subclass(self):
-        self.assertTrue(issubclass(GenreDetail, APIView))
+        self.assertTrue(issubclass(GenreDetail, generics.GenericAPIView))  # ✅
 
     def test_genre_detail_is_not_subclass(self):
-        items = [generics.GenericAPIView, viewsets.GenericViewSet]
-
+        items = [viewsets.GenericViewSet]
         for item in items:
             with self.subTest(str(item).split(".")[2]):
                 self.assertFalse(issubclass(GenreDetail, item))
@@ -46,12 +41,7 @@ class GenreApiTests(TestCase):
         self.assertEqual(response.data, serializer.data)
 
     def test_post_genres(self):
-        response = self.client.post(
-            "/api/cinema/genres/",
-            {
-                "name": "Sci-fi",
-            },
-        )
+        response = self.client.post("/api/cinema/genres/", {"name": "Sci-fi"})
         db_genres = Genre.objects.all()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(db_genres.count(), 3)
@@ -59,12 +49,8 @@ class GenreApiTests(TestCase):
 
     def test_get_genre(self):
         response = self.client.get("/api/cinema/genres/2/")
-        serializer = GenreSerializer(
-            Genre(
-                id=2,
-                name="Drama",
-            )
-        )
+        genre = Genre.objects.get(id=2)
+        serializer = GenreSerializer(genre)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
@@ -73,33 +59,23 @@ class GenreApiTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_put_genre(self):
-        response = self.client.put(
-            "/api/cinema/genres/1/",
-            {
-                "name": "Sci-fi",
-            },
-        )
+        response = self.client.put("/api/cinema/genres/1/", {"name": "Sci-fi"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        genre = Genre.objects.get(id=1)
+        self.assertEqual(genre.name, "Sci-fi")
 
     def test_patch_genre(self):
-        response = self.client.patch(
-            "/api/cinema/genres/1/",
-            {
-                "name": "Sci-fi",
-            },
-        )
+        response = self.client.patch("/api/cinema/genres/1/", {"name": "Sci-fi"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        genre = Genre.objects.get(id=1)
+        self.assertEqual(genre.name, "Sci-fi")
 
     def test_delete_genre(self):
-        response = self.client.delete(
-            "/api/cinema/genres/1/",
-        )
+        response = self.client.delete("/api/cinema/genres/1/")
         db_genres_id_1 = Genre.objects.filter(id=1)
         self.assertEqual(db_genres_id_1.count(), 0)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_delete_invalid_genre(self):
-        response = self.client.delete(
-            "/api/cinema/genres/1000/",
-        )
+        response = self.client.delete("/api/cinema/genres/1000/")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

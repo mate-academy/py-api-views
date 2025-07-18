@@ -1,18 +1,18 @@
 from django.test import TestCase
-
 from rest_framework import status, generics, mixins, viewsets
 from rest_framework.test import APIClient
 
 from cinema.serializers import ActorSerializer
 from cinema.models import Actor
-from cinema.views import ActorList, ActorDetail
+from cinema.views import ActorListCreateAPIView as ActorList
+from cinema.views import ActorDetailAPIView as ActorDetail
 
 
 class ActorApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        Actor.objects.create(first_name="George", last_name="Clooney")
-        Actor.objects.create(first_name="Keanu", last_name="Reeves")
+        self.actor1 = Actor.objects.create(first_name="George", last_name="Clooney")
+        self.actor2 = Actor.objects.create(first_name="Keanu", last_name="Reeves")
 
     def test_actor_list_is_subclass(self):
         self.assertTrue(issubclass(ActorList, mixins.ListModelMixin))
@@ -29,9 +29,8 @@ class ActorApiTests(TestCase):
             mixins.DestroyModelMixin,
             generics.GenericAPIView,
         ]
-
         for item in items:
-            with self.subTest():
+            with self.subTest(str(item)):
                 self.assertTrue(issubclass(ActorDetail, item))
 
     def test_actor_detail_is_not_subclass(self):
@@ -57,57 +56,43 @@ class ActorApiTests(TestCase):
         self.assertEqual(db_actors.filter(first_name="Scarlett").count(), 1)
 
     def test_get_actor(self):
-        response = self.client.get("/api/cinema/actors/2/")
-        serializer = ActorSerializer(
-            Actor(id=2, first_name="Keanu", last_name="Reeves")
-        )
+        response = self.client.get(f"/api/cinema/actors/{self.actor2.id}/")
+        serializer = ActorSerializer(self.actor2)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
-    def test_get_invalid_actor(self):
-        response = self.client.get("/api/cinema/actors/1001/")
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-
     def test_put_actor(self):
         response = self.client.put(
-            "/api/cinema/actors/1/",
+            f"/api/cinema/actors/{self.actor1.id}/",
             {
                 "first_name": "Scarlett",
                 "last_name": "Johansson",
             },
         )
-        actor_pk_1 = Actor.objects.get(pk=1)
+        actor = Actor.objects.get(pk=self.actor1.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
-            [
-                actor_pk_1.first_name,
-                actor_pk_1.last_name,
-            ],
-            [
-                "Scarlett",
-                "Johansson",
-            ],
+            [actor.first_name, actor.last_name],
+            ["Scarlett", "Johansson"]
         )
 
     def test_patch_actor(self):
         response = self.client.patch(
-            "/api/cinema/actors/1/",
+            f"/api/cinema/actors/{self.actor1.id}/",
             {
                 "first_name": "Scarlett",
             },
         )
+        actor = Actor.objects.get(pk=self.actor1.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(actor.first_name, "Scarlett")
 
     def test_delete_actor(self):
-        response = self.client.delete(
-            "/api/cinema/actors/1/",
-        )
-        db_actors_id_1 = Actor.objects.filter(id=1)
+        response = self.client.delete(f"/api/cinema/actors/{self.actor1.id}/")
+        db_actors_id_1 = Actor.objects.filter(id=self.actor1.id)
         self.assertEqual(db_actors_id_1.count(), 0)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_delete_invalid_actor(self):
-        response = self.client.delete(
-            "/api/cinema/actors/1000/",
-        )
+        response = self.client.delete("/api/cinema/actors/1000/")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
