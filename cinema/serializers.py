@@ -43,10 +43,10 @@ class MovieSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         actors_data = validated_data.pop("actors", None)
-        if actors_data:
+        if actors_data is not None:
             instance.actors.set(actors_data)
         genres_data = validated_data.pop("genres", None)
-        if genres_data:
+        if genres_data is not None:
             instance.genres.set(genres_data)
         instance.title = validated_data.get("title", instance.title)
         instance.description = validated_data.get(
