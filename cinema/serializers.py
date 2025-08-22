@@ -1,6 +1,16 @@
+from django.core.validators import MinValueValidator
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from cinema.models import Movie, Actor, Genre, CinemaHall
+
+
+def validate_positive(duration):
+    if duration < 0:
+        raise serializers.ValidationError(
+            "Duration must be a positive integer"
+        )
+    return duration
 
 
 class MovieSerializer(serializers.Serializer):
@@ -13,7 +23,7 @@ class MovieSerializer(serializers.Serializer):
     genres = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Genre.objects.all()
     )
-    duration = serializers.IntegerField()
+    duration = serializers.IntegerField(validators=[validate_positive])
 
     def create(self, validated_data):
         actors = validated_data.pop("actors")
@@ -58,7 +68,10 @@ class ActorSerializer(serializers.Serializer):
 
 class GenreSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(max_length=255)
+    name = serializers.CharField(
+        max_length=255,
+        validators=[UniqueValidator(queryset=Genre.objects.all())]
+    )
 
     def create(self, validated_data):
         return Genre.objects.create(**validated_data)
