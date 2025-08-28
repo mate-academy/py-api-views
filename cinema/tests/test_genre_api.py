@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 from cinema.serializers import GenreSerializer
 from cinema.models import Genre
-from cinema.views import GenreList, GenreDetail
+from cinema.views import GenreAPIView as GenreList, GenreDetailAPIView as GenreDetail
 
 
 class GenreApiTests(TestCase):
@@ -43,7 +43,7 @@ class GenreApiTests(TestCase):
         response = self.client.get("/api/cinema/genres/")
         serializer = GenreSerializer(Genre.objects.all(), many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.json(), serializer.data)
 
     def test_post_genres(self):
         response = self.client.post(
@@ -66,7 +66,7 @@ class GenreApiTests(TestCase):
             )
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.json(), serializer.data)
 
     def test_get_invalid_genre(self):
         response = self.client.get("/api/cinema/genres/1001/")

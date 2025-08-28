@@ -5,7 +5,10 @@ from rest_framework.test import APIClient
 
 from cinema.serializers import ActorSerializer
 from cinema.models import Actor
-from cinema.views import ActorList, ActorDetail
+from cinema.views import (
+    ActorList,
+    ActorDetail,
+)
 
 
 class ActorApiTests(TestCase):
@@ -41,7 +44,7 @@ class ActorApiTests(TestCase):
         response = self.client.get("/api/cinema/actors/")
         serializer = ActorSerializer(Actor.objects.all(), many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.json(), serializer.data)
 
     def test_post_actors(self):
         response = self.client.post(
@@ -62,7 +65,7 @@ class ActorApiTests(TestCase):
             Actor(id=2, first_name="Keanu", last_name="Reeves")
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.json(), serializer.data)
 
     def test_get_invalid_actor(self):
         response = self.client.get("/api/cinema/actors/1001/")
