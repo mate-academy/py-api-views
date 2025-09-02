@@ -9,6 +9,7 @@ from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import MovieSerializer, GenreSerializer, \
     ActorSerializer, CinemaHallSerializer
 
+
 class GenreList(APIView):
     def get(self, request):
         genres = Genre.objects.all()
