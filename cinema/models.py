@@ -15,13 +15,13 @@ class CinemaHall(models.Model):
     rows = models.PositiveIntegerField()
     seats_in_row = models.PositiveIntegerField()
 
+
 class Movie(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     duration = models.IntegerField()
     actors = models.ManyToManyField(Actor)
     genres = models.ManyToManyField(Genre)
-
 
     def __str__(self):
         return self.title
