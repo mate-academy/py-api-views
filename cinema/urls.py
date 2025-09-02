@@ -15,8 +15,8 @@ app_name = "cinema"
 
 
 router = routers.DefaultRouter()
-router.register("movies", MovieViewSet, basename="movie")
-router.register("cinema-halls", CinemaHallViewSet, basename="cinema-hall")
+router.register("movies", MovieViewSet)
+router.register("cinema-halls", CinemaHallViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
