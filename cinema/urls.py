@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import SimpleRouter
 
 from cinema.views import (
     CinemaHallViewSet,
@@ -32,6 +33,9 @@ movie_detail = MovieViewSet.as_view(actions={
     "delete": "destroy"
 })
 
+router = SimpleRouter()
+router.register(r"movies", MovieViewSet)
+
 urlpatterns = [
     path("genres/", GenreList.as_view(), name="genre_list"),
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre_detail"),
@@ -43,8 +47,7 @@ urlpatterns = [
         cinema_hall_detail,
         name="cinema_hall_detail"
     ),
-    path("movies/", movie_list, name="movie_list"),
-    path("movies/<int:pk>/", movie_detail, name="movie_detail"),
+    path("", include(router.urls)),
 ]
 
 app_name = "cinema"
