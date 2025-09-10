@@ -1,11 +1,8 @@
-from rest_framework.decorators import api_view
-from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status, generics, viewsets, mixins
 
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import (
@@ -42,17 +39,27 @@ class GenreDetail(APIView):
         return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk):
-        serializer = GenreSerializer(self.get_object(pk=pk))
+        genre = self.get_object(pk)
+        serializer = GenreSerializer(genre)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
-        serializer = GenreSerializer(self.get_object(pk=pk), data=request.data)
+        genre = self.get_object(pk)
+        serializer = GenreSerializer(genre, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def patch(self, request, pk):
+        genre = self.get_object(pk)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def delete(self, request, pk):
+        genre = self.get_object(pk)
         self.get_object(pk=pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -86,6 +93,9 @@ class ActorDetail(
 
     def put(self, request, pk, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
+    def patch(self, request, pk, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, pk, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
