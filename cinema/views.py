@@ -60,7 +60,7 @@ class GenreDetail(APIView):
 
     def delete(self, request, pk):
         genre = self.get_object(pk)
-        self.get_object(pk=pk).delete()
+        genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -111,3 +111,6 @@ class CinemaHallSet(
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
+
+
+CinemaHallViewSet = CinemaHallSet
