@@ -1,0 +1,170 @@
+### Base URL
+@base = http://127.0.0.1:8000/api/cinema
+
+### -------- GENRES (APIView) --------
+
+### List genres
+GET {{base}}/genres/
+
+### Create genre
+POST {{base}}/genres/
+Content-Type: application/json
+
+{
+  "name": "Comedy {{timestamp}}"
+}
+
+> {% client.global.set("genreId", response.body.id); %}
+
+### Get genre detail
+GET {{base}}/genres/{{genreId}}/
+
+### Update genre (PUT)
+PUT {{base}}/genres/{{genreId}}/
+Content-Type: application/json
+
+{
+  "name": "Comedy Updated {{timestamp}}"
+}
+
+### Partial update genre (PATCH)
+PATCH {{base}}/genres/{{genreId}}/
+Content-Type: application/json
+
+{
+  "name": "Comedy Patched {{timestamp}}"
+}
+
+### Delete genre
+DELETE {{base}}/genres/{{genreId}}/
+
+
+
+### -------- ACTORS (GenericAPIView + mixins) --------
+
+### List actors
+GET {{base}}/actors/
+
+### Create actor
+POST {{base}}/actors/
+Content-Type: application/json
+
+{
+  "first_name": "Tom",
+  "last_name": "Hanks"
+}
+
+> {% client.global.set("actorId", response.body.id); %}
+
+### Get actor detail
+GET {{base}}/actors/{{actorId}}/
+
+### Update actor (PUT)
+PUT {{base}}/actors/{{actorId}}/
+Content-Type: application/json
+
+{
+  "first_name": "Thomas",
+  "last_name": "Hanks"
+}
+
+### Partial update actor (PATCH)
+PATCH {{base}}/actors/{{actorId}}/
+Content-Type: application/json
+
+{
+  "first_name": "Tom"
+}
+
+### Delete actor
+DELETE {{base}}/actors/{{actorId}}/
+
+
+
+### -------- CINEMA HALLS (GenericViewSet) --------
+
+### List halls
+GET {{base}}/cinema_halls/
+
+### Create hall
+POST {{base}}/cinema_halls/
+Content-Type: application/json
+
+{
+  "name": "Main Hall {{timestamp}}",
+  "rows": 12,
+  "seats_in_row": 22
+}
+
+> {% client.global.set("hallId", response.body.id); %}
+
+### Get hall detail
+GET {{base}}/cinema_halls/{{hallId}}/
+
+### Update hall (PUT)
+PUT {{base}}/cinema_halls/{{hallId}}/
+Content-Type: application/json
+
+{
+  "name": "Main Hall Updated {{timestamp}}",
+  "rows": 15,
+  "seats_in_row": 25
+}
+
+### Partial update hall (PATCH)
+PATCH {{base}}/cinema_halls/{{hallId}}/
+Content-Type: application/json
+
+{
+  "rows": 18
+}
+
+### Delete hall
+DELETE {{base}}/cinema_halls/{{hallId}}/
+
+
+
+### -------- MOVIES (ModelViewSet + router) --------
+
+### List movies
+GET {{base}}/movies/
+
+### Create movie (uses actorId & genreId from above)
+POST {{base}}/movies/
+Content-Type: application/json
+
+{
+  "title": "My Movie {{timestamp}}",
+  "description": "Criado via PyCharm HTTP Client",
+  "duration": 120,
+  "actors": [{{actorId}}],
+  "genres": [{{genreId}}]
+}
+
+> {% client.global.set("movieId", response.body.id); %}
+
+### Get movie detail
+GET {{base}}/movies/{{movieId}}/
+
+### Update movie (PUT)
+PUT {{base}}/movies/{{movieId}}/
+Content-Type: application/json
+
+{
+  "title": "My Movie V2 {{timestamp}}",
+  "description": "Atualizado",
+  "duration": 125,
+  "actors": [{{actorId}}],
+  "genres": [{{genreId}}]
+}
+
+### Partial update movie (PATCH)
+PATCH {{base}}/movies/{{movieId}}/
+Content-Type: application/json
+
+{
+  "duration": 130
+}
+
+### Delete movie
+DELETE {{base}}/movies/{{movieId}}/
