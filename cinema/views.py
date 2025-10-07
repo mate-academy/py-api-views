@@ -1,4 +1,3 @@
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 
@@ -39,7 +38,7 @@ class GenreDetail(APIView):
 
     def put(self, request, pk) -> Response:
         genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, data=request.data, partial=True)
+        serializer = GenreSerializer(genre, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
