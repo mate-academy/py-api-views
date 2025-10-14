@@ -55,6 +55,16 @@ class GenreDetail(APIView):
             status=status.HTTP_200_OK
         )
 
+    def patch(self, request, pk: int) -> Response:
+        serializer = GenreSerializer(
+            self.get_object(pk=pk),
+            data=request.data,
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def put(self, request, pk: int) -> Response:
         serializer = GenreSerializer(
             self.get_object(pk=pk),
@@ -98,6 +108,9 @@ class ActorDetail(
 
     def get(self, request, *args, **kwargs) -> Response:
         return self.retrieve(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs) -> Response:
+        return self.partial_update(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs) -> Response:
         return self.update(request, *args, **kwargs)
