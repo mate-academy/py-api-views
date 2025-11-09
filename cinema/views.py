@@ -1,7 +1,6 @@
-from rest_framework.generics import get_object_or_404
+from rest_framework import viewsets, generics, mixins, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import viewsets, generics, mixins, status
 
 from cinema.models import Movie, Genre, CinemaHall, Actor
 from cinema.serializers import (
@@ -63,7 +62,7 @@ class GenreList(APIView):
 
 class GenreDetail(APIView):
     def get_object(self, pk):
-        return get_object_or_404(Genre, pk=pk)
+        return generics.get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk):
         genre = self.get_object(pk)
