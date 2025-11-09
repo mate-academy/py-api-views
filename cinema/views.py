@@ -51,7 +51,6 @@ class ActorDetail(
 
 class GenreList(APIView):
     def get(self, request):
-        Genre.objects.all()
         serializer = GenreSerializer(Genre.objects.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
