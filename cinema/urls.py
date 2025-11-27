@@ -2,31 +2,34 @@ from django.urls import path, include
 from rest_framework import routers
 
 from cinema.views import (
-    movie_list,
-    movie_detail,
-    genre_list,
-    genre_detail,
     ActorList,
     ActorDetail,
-    CinemaHallView,
+    CinemaHallViewSet,
     MovieViewSet,
+    GenreList,
+    GenreDetail,
 )
 
-cinema_hall_list = CinemaHallView.as_view(actions={"get": "list",
-                                                   "post": "create"})
-cinema_hall_detail = CinemaHallView.as_view(
-    actions={"get": "retrieve", "put": "update", "delete": "destroy"}
+cinema_hall_list = CinemaHallViewSet.as_view(actions={"get": "list",
+                                                      "post": "create"})
+cinema_hall_detail = CinemaHallViewSet.as_view(
+    actions={
+        "get": "retrieve",
+        "put": "update",
+        "patch": "partial_update",
+        "delete": "destroy",
+    }
 )
 router = routers.DefaultRouter()
 router.register("movies", MovieViewSet)
 
 urlpatterns = [
-    path("genres/", genre_list, name="genre-list"),
-    path("genres/<int:pk>/", genre_detail, name="genre-detail"),
+    path("genres/", GenreList.as_view(), name="genre-list"),
+    path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
     path("actors/", ActorList.as_view(), name="actor-list"),
     path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
-    path("cinemahalls/", cinema_hall_list, name="cinemahall-list"),
-    path("cinemahalls/<int:pk>/", cinema_hall_detail,
+    path("cinema_halls/", cinema_hall_list, name="cinemahall-list"),
+    path("cinema_halls/<int:pk>/", cinema_hall_detail,
          name="cinemahall-detail"),
     path("", include(router.urls)),
 ]
