@@ -1,8 +1,33 @@
 from django.contrib import admin
 
-from cinema.models import Movie
+from .models import (
+    Actor,
+    CinemaHall,
+    Genre,
+    Movie,
+)
+
+
+@admin.register(Actor)
+class ActorAdmin(admin.ModelAdmin):
+    list_display = ("id", "first_name", "last_name")
+    search_fields = ("first_name", "last_name")
+
+
+@admin.register(Genre)
+class GenreAdmin(admin.ModelAdmin):
+    list_display = ("id", "name")
+    search_fields = ("name",)
+
+
+@admin.register(CinemaHall)
+class CinemaHallAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "rows")
+    search_fields = ("name",)
 
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("id", "title", "duration")
+    search_fields = ("title",)
+    filter_horizontal = ("genres", "actors")
