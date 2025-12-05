@@ -7,8 +7,12 @@ from cinema.models import Movie, Actor, Genre, CinemaHall
 class MovieSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255)
-    actors = serializers.PrimaryKeyRelatedField(many=True, queryset=Actor.objects.all(), allow_null=True)
-    genres = serializers.PrimaryKeyRelatedField(many=True, queryset=Genre.objects.all(), allow_null=True)
+    actors = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Actor.objects.all(), allow_null=True
+    )
+    genres = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Genre.objects.all(), allow_null=True
+    )
     description = serializers.CharField()
     duration = serializers.IntegerField()
 
