@@ -6,7 +6,8 @@ from cinema.views import (
     GenreDetail,
     ActorList,
     ActorDetail,
-    CinemaHallViewSet, MovieViewSet,
+    CinemaHallViewSet,
+    MovieViewSet,
 )
 
 cinema_hall_list = CinemaHallViewSet.as_view(actions={
