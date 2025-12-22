@@ -1,4 +1,3 @@
-from django.contrib.admin.actions import delete_selected
 from django.db import models
 
 
