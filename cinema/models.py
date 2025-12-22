@@ -35,7 +35,11 @@ class CinemaHall(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    actors = models.ForeignKey(Actor, on_delete=models.CASCADE, blank=True, null=True)
+    actors = models.ForeignKey(
+        Actor,
+        on_delete=models.CASCADE,
+        blank=True, null=True
+    )
     genres = models.ForeignKey(Genre, on_delete=models.CASCADE)
     duration = models.IntegerField()
 
