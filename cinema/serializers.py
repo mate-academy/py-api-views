@@ -44,7 +44,7 @@ class ActorSerializer(serializers.Serializer):
 
 
 class GenreSerializer(serializers.Serializer):
-    id = serializers.Serializer(read_only=True)
+    id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=255)
 
     def create(self, validated_data):
@@ -69,7 +69,7 @@ class CinemaHallSerializer(serializers.Serializer):
         instance.name = validated_data.get("name", instance.name)
         instance.rows = validated_data.get("rows", instance.rows)
         instance.seats_in_row = validated_data.get(
-            "seats_in_raw",
+            "seats_in_row",
             instance.seats_in_row
         )
         instance.save()
