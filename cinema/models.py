@@ -1,3 +1,4 @@
+from django.contrib.admin.actions import delete_selected
 from django.db import models
 
 
@@ -37,9 +38,8 @@ class Movie(models.Model):
     description = models.TextField()
     actors = models.ManyToManyField(
         Actor,
-        blank=True,
-        null=True,
         related_name="movies",
+
     )
     genres = models.ManyToManyField(
         Genre,
