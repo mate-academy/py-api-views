@@ -20,7 +20,11 @@ urlpatterns = [
     path("actors/", ActorList.as_view(), name="actor-list"),
     path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
     path("cinema_halls/", CinemaHallList.as_view(), name="cinema-hall-list"),
-    path("cinema_halls/<int:pk>/", CinemaHallList.as_view() , name="cinema-hall-detail")
+    path(
+        "cinema_halls/<int:pk>/",
+        CinemaHallList.as_view() ,
+        name="cinema-hall-detail"
+    )
 ]
 
 app_name = "cinema"
