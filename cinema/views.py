@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics, mixins
 
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
@@ -98,6 +98,61 @@ class GenreDetail(APIView):
         genre = self.get_object(pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ActorList(
+    generics.GenericAPIView,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+):
+    """
+    API view for listing all actors and creating a new actor.
+    """
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs):
+        """
+        Return a list of all actors.
+        """
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """
+        Create a new actor.
+        """
+        return self.create(request, *args, **kwargs)
+
+
+class ActorDetail(
+    generics.GenericAPIView,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+):
+    """
+    API view for retrieving, updating and deleting an actor.
+    """
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs):
+        """
+        Retrieve a single actor by id.
+        """
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        """
+        Update an actor.
+        """
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Delete an actor.
+        """
+        return self.destroy(request, *args, **kwargs)
 
 
 @api_view(["GET", "POST"])
