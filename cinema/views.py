@@ -4,8 +4,8 @@ from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 
-from cinema.models import Movie
-from cinema.serializers import MovieSerializer
+from cinema.models import Movie, Genre
+from cinema.serializers import MovieSerializer, GenreSerializer
 
 
 @api_view(["GET", "POST"])
@@ -42,4 +42,38 @@ def movie_detail(request, pk):
 
     if request.method == "DELETE":
         movie.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["GET", "POST"])
+def genre_list(request):
+    if request.method == "GET":
+        genres = Genre.objects.all()
+        serializer = GenreSerializer(genres, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        serializer = GenreSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["GET", "UPDATE", "PUT", "DELETE"])
+def genre_detail(request, pk):
+    genre = get_object_or_404(Genre, pk=pk)
+    if request.method == "GET":
+        serializer = GenreSerializer(genre)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method == "PUT":
+        serializer = GenreSerializer(genre, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method == "UPDATE":
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
