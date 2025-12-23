@@ -144,9 +144,15 @@ class ActorDetail(
 
     def put(self, request, *args, **kwargs):
         """
-        Update an actor.
+        Fully update an actor.
         """
         return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        """
+        Partially update an actor.
+        """
+        return self.update(request, *args, **kwargs, partial=True)
 
     def delete(self, request, *args, **kwargs):
         """
