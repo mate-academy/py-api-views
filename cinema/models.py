@@ -27,7 +27,7 @@ class CinemaHall(models.Model):
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.CharField(max_length=255)
     duration = models.IntegerField()
     actors = models.ManyToManyField(Actor)
     genres = models.ManyToManyField(Genre)
