@@ -23,18 +23,22 @@ class MovieSerializer(serializers.Serializer):
 
 
 class ActorSerializer(serializers.Serializer):
+    first_name = serializers.CharField(max_length=255)
+    last_name = serializers.CharField(max_length=255)
     class Meta:
         model = Actor
-        fields = '__all__'
 
 
 class GenreSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=255)
     class Meta:
         model = Genre
-        fields = '__all__'
 
 
 class CinemaHallSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+    rows = serializers.IntegerField(default=0)
+    seats_in_row = serializers.IntegerField(default=0)
+
     class Meta:
         model = CinemaHall
-        fields = '__all__'
