@@ -5,7 +5,7 @@ from rest_framework import status, viewsets
 
 from cinema.serializers import CinemaHallSerializer
 from cinema.models import CinemaHall
-from cinema.views import CinemaHallViewSet
+from cinema.views import CinemaHallView
 
 
 class CinemaHallApiTests(TestCase):
@@ -23,10 +23,10 @@ class CinemaHallApiTests(TestCase):
         )
 
     def test_cinema_hall_is_subclass_generic_viewset(self):
-        self.assertTrue(issubclass(CinemaHallViewSet, viewsets.GenericViewSet))
+        self.assertTrue(issubclass(CinemaHallView, viewsets.GenericViewSet))
 
     def test_cinema_hall_is_not_subclass(self):
-        self.assertFalse(issubclass(CinemaHallViewSet, viewsets.ModelViewSet))
+        self.assertFalse(issubclass(CinemaHallView, viewsets.ModelViewSet))
 
     def test_get_cinema_halls(self):
         response = self.client.get("/api/cinema/cinema_halls/")
