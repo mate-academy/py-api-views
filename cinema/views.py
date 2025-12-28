@@ -1,11 +1,19 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
-from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework.viewsets import (
+    GenericViewSet,
+    ModelViewSet
+)
 from rest_framework.response import Response
 from rest_framework import mixins
 
-from cinema.models import Genre, Actor, CinemaHall, Movie
+from cinema.models import (
+    Genre,
+    Actor,
+    CinemaHall,
+    Movie
+)
 from cinema.serializers import (
     GenreSerializer,
     ActorSerializer,
