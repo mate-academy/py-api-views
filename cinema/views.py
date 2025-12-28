@@ -1,15 +1,24 @@
 from rest_framework.generics import GenericAPIView, get_object_or_404
-from rest_framework.mixins import ListModelMixin, CreateModelMixin, \
-    RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
+from rest_framework.mixins import (
+    ListModelMixin,
+    CreateModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin
+)
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 
 from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework.viewsets import GenericViewSet
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
-from cinema.serializers import MovieSerializer, GenreSerializer, \
-    ActorSerializer, CinemaHallSerializer
+from cinema.serializers import (
+    MovieSerializer,
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer
+)
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -39,7 +48,7 @@ class GenreDetail(APIView):
 
     def put(self, request, pk):
         serializer = GenreSerializer(
-            instance=Genre.objects.get(pk=pk),
+            instance=get_object_or_404(Genre, pk=pk),
             data=request.data
         )
         if serializer.is_valid():
@@ -49,7 +58,7 @@ class GenreDetail(APIView):
 
     def patch(self, request, pk):
         serializer = GenreSerializer(
-            instance=Genre.objects.get(pk=pk),
+            instance=get_object_or_404(Genre, pk=pk),
             data=request.data,
             partial=True
         )
