@@ -25,13 +25,7 @@ class MovieSerializer(serializers.ModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
-        instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get(
-            "description", instance.description
-        )
-        instance.duration = validated_data.get(
-            "duration", instance.duration
-        )
+        super().update(instance, validated_data)
         instance.save()
 
         if "actors" in validated_data:
