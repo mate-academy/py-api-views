@@ -29,11 +29,6 @@ class MovieViewSet(ModelViewSet):
     serializer_class = MovieSerializer
 
 
-class MovieViewSet(ModelViewSet):
-    queryset = Movie.objects.all()
-    serializer_class = MovieSerializer
-
-
 class GenreList(APIView):
     def get(self, request,):
         return Response(GenreSerializer(Genre.objects.all(), many=True).data)

@@ -22,4 +22,3 @@ class Movie(models.Model):
     duration = models.PositiveIntegerField()
     actors = models.ManyToManyField(Actor, related_name="actors")
     genres = models.ManyToManyField(Genre, related_name="genres")
-
