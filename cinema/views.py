@@ -7,8 +7,10 @@ from rest_framework.views import APIView
 
 from cinema.models import Genre, Actor, CinemaHall, Movie
 from cinema.serializers import (
-    GenreSerializer, ActorSerializer,
-    CinemaHallSerializer, MovieSerializer
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer,
+    MovieSerializer
 )
 
 
@@ -35,12 +37,6 @@ class GenreDetail(APIView):
     def get(self, request: Request, pk) -> Response:
         serializer = self.get_serializer_class()(self.get_object(pk))
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def post(self, request: Request) -> Response:
-        serializer = self.get_serializer_class()(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def put(self, request: Request, pk: int) -> Response:
         serializer = self.get_serializer_class()(
