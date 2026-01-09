@@ -1,5 +1,10 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, generics, mixins, status
+from rest_framework import (
+    viewsets,
+    generics,
+    mixins,
+    status,
+)
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -41,14 +46,14 @@ class GenreDetail(APIView):
 
     def put(self, request, pk):
         genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, request.data)
+        serializer = GenreSerializer(genre, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
     def patch(self, request, pk):
         genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, request.data, partial=True)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
