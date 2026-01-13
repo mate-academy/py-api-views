@@ -66,7 +66,7 @@ class CinemaHallSerializer(serializers.Serializer):
         return instance
 
 
-class ActorSerializer(serializers.Serializer)
+class ActorSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     first_name = serializers.CharField(max_length=255)
     last_name = serializers.CharField(max_length=255)
