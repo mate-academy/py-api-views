@@ -50,7 +50,7 @@ urlpatterns = [
                 "delete": "destroy"
             }
         ),
-        name="cinema_hall_list"
+        name="cinema_hall_detail"
     ),
 
     path("", include(router.urls), name="movies"),
