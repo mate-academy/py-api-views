@@ -31,3 +31,10 @@ class GenreListView(APIView):
             serializer.save()
             return Response(serializer.data, status.HTTP_201_CREATED)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+
+class GenreDetailView(APIView):
+
+    def get_object(self, pk):
+        genre = get_object_or_404(Genre, pk)
+        return genre
