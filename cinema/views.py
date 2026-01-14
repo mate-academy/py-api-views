@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.generics import (
     get_object_or_404,
-    GenericAPIView
+    GenericAPIView,
 )
 from rest_framework.mixins import (
     CreateModelMixin,
@@ -109,6 +109,18 @@ class ActorDetailView(
         return self.destroy(
             request, *args, **kwargs
         )
+
+
+class CinemaHallViewSet(
+    viewsets.GenericViewSet,
+    CreateModelMixin,
+    ListModelMixin,
+    UpdateModelMixin,
+    RetrieveModelMixin,
+    DestroyModelMixin
+):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
 
 
 class MovieViewSet(viewsets.ModelViewSet):
