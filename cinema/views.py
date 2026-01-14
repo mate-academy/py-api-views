@@ -54,3 +54,7 @@ class GenreDetailView(APIView):
             serializer.save()
             return Response(serializer.data, status.HTTP_200_OK)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        self.get_object(pk).delete()
+        return Response(status.HTTP_204_NO_CONTENT)
