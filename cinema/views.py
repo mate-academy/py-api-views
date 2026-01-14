@@ -36,5 +36,13 @@ class GenreListView(APIView):
 class GenreDetailView(APIView):
 
     def get_object(self, pk):
-        genre = get_object_or_404(Genre, pk)
+        genre = get_object_or_404(
+            Genre.objects.all(),
+            pk=pk
+        )
         return genre
+
+    def get(self, request, pk):
+        genre = self.get_object(pk)
+        serializer = GenreSerializer(genre)
+        return Response(serializer.data, status.HTTP_200_OK)
