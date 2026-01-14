@@ -4,7 +4,9 @@ from rest_framework import routers
 from cinema.views import (
     MovieViewSet,
     GenreListView,
-    GenreDetailView
+    GenreDetailView,
+    ActorListView,
+    ActorDetailView
 )
 
 router = routers.SimpleRouter()
@@ -17,7 +19,18 @@ urlpatterns = [
         "genres/<int:pk>/",
         GenreDetailView.as_view(),
         name="genres_detail"
-    )
+    ),
+    path(
+        "actors/",
+        ActorListView.as_view(),
+        name="actor_list"
+    ),
+    path(
+        "actors/<int:pk>/",
+        ActorDetailView.as_view(),
+        name="actor_detail"
+    ),
+
 ]
 
 app_name = "cinema"

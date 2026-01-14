@@ -1,8 +1,19 @@
 from rest_framework import viewsets
-from rest_framework.generics import get_object_or_404
+from rest_framework.generics import (
+    get_object_or_404,
+    GenericAPIView
+)
+from rest_framework.mixins import (
+    CreateModelMixin,
+    ListModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+
+)
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework.views import (APIView)
 
 from cinema.models import Movie, Genre, CinemaHall, Actor
 from cinema.serializers import (
@@ -11,11 +22,6 @@ from cinema.serializers import (
     CinemaHallSerializer,
     ActorSerializer
 )
-
-
-class MovieViewSet(viewsets.ModelViewSet):
-    queryset = Movie.objects.all()
-    serializer_class = MovieSerializer
 
 
 class GenreListView(APIView):
@@ -58,3 +64,53 @@ class GenreDetailView(APIView):
     def delete(self, request, pk):
         self.get_object(pk).delete()
         return Response(status.HTTP_204_NO_CONTENT)
+
+
+class ActorListView(
+    GenericAPIView,
+    CreateModelMixin,
+    ListModelMixin
+):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class ActorDetailView(
+    GenericAPIView,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin
+):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(
+            request, *args, **kwargs
+        )
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(
+            request, *args, **kwargs
+        )
+
+    def put(self, request, *args, **kwargs):
+        return self.update(
+            request, *args, **kwargs
+        )
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(
+            request, *args, **kwargs
+        )
+
+
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
