@@ -12,7 +12,9 @@ router.register(r"movies", MovieViewSet, basename="movie")
 
 urlpatterns = [
     # Rotas para Genre (APIView)
-    path("genres/", GenreListCreateAPIView.as_view(), name="genre-list-create"),
+    path(
+        "genres/", GenreListCreateAPIView.as_view(), name="genre-list-create"
+    ),
     path("genres/<int:pk>/", GenreDetailAPIView.as_view(), name="genre-detail"),
 
     # Inclui rotas do Router (actors, cinema_halls, movies)
