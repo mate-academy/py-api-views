@@ -1,10 +1,6 @@
-from django.db import models
-
-
+# No seu models.py
 class Movie(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    duration = models.IntegerField()
-
-    def __str__(self):
-        return self.title
+    # ... outros campos
+    actors = models.ManyToManyField(Actor, related_name='movies')
+    genres = models.ManyToManyField(Genre, related_name='movies')
+    # ...
