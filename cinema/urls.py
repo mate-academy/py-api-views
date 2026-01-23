@@ -16,7 +16,7 @@ urlpatterns = [
         "genres/",
         GenreListCreateAPIView.as_view(),
         name="genre-list-create"
-    ),  # Linhas ajustadas para não quebrar E501
+    ),
     path("genres/<int:pk>/", GenreDetailAPIView.as_view(), name="genre-detail"),
 
     # Inclui rotas do Router (actors, cinema_halls, movies)

@@ -29,8 +29,14 @@ class Movie(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     duration = models.IntegerField()
-    actors = models.ManyToManyField(Actor, related_name="movies") # E261 corrigido e E501 tratado
-    genres = models.ManyToManyField(Genre, related_name="movies")  # E261 corrigido e E501 tratado
+    actors = models.ManyToManyField(
+        Actor,
+        related_name="movies"
+    )  # E261 corrigido (implicitamente) e E501 tratado
+    genres = models.ManyToManyField(
+        Genre,
+        related_name="movies"
+    )  # E261 corrigido (implicitamente) e E501 tratado
 
     def __str__(self):
         return self.title
