@@ -29,6 +29,7 @@ class MovieSerializer(serializers.ModelSerializer):
         many=True, queryset=Genre.objects.all()
     )
 
+
     class Meta:
         model = Movie
         fields = ["id", "title", "description", "duration", "actors", "genres"]
