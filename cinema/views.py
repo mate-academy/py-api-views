@@ -7,6 +7,7 @@ from .serializers import ActorSerializer, GenreSerializer, CinemaHallSerializer,
 
 
 class GenreListCreateAPIView(APIView):
+    """Endpoint para GET (lista) e POST (criação) de Gêneros."""
     def get(self, request):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
@@ -52,7 +53,7 @@ class GenreDetailAPIView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
+# --- Actor: GenericViewSet com Mixins ---
 class ActorViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
@@ -61,10 +62,12 @@ class ActorViewSet(
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet,
 ):
+    """ViewSet compatível com Router, usando apenas os métodos dos Mixins."""
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
 
+# --- CinemaHall: GenericViewSet ---
 class CinemaHallViewSet(
     viewsets.GenericViewSet,
     mixins.ListModelMixin,
@@ -77,6 +80,8 @@ class CinemaHallViewSet(
     serializer_class = CinemaHallSerializer
 
 
+# --- Movie: ModelViewSet ---
 class MovieViewSet(viewsets.ModelViewSet):
+    """ModelViewSet fornece CRUD completo automaticamente."""
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer

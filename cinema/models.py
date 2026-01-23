@@ -1,4 +1,4 @@
-from django.db import (models)
+from django.db import models
 
 
 class Actor(models.Model):
@@ -10,7 +10,7 @@ class Actor(models.Model):
 
 
 class Genre(models.Model):
-    name = models.CharField(max_length=100, unique=True)  # E261 corrigido
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
@@ -28,9 +28,9 @@ class CinemaHall(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    duration = models.IntegerField()  # E261 corrigido
-    actors = models.ManyToManyField(Actor, related_name="movies")  # E261 corrigido, linha ajustada (E501)
-    genres = models.ManyToManyField(Genre, related_name="movies")  # E261 corrigido, linha ajustada (E501)
+    duration = models.IntegerField()
+    actors = models.ManyToManyField(Actor, related_name="movies") # Linha ajustada
+    genres = models.ManyToManyField(Genre, related_name="movies") # Linha ajustada
 
     def __str__(self):
         return self.title

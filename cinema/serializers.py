@@ -5,7 +5,7 @@ from .models import Actor, Genre, CinemaHall, Movie
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actor
-        fields = "__all__"  # Usando aspas duplas e mantendo simplicidade
+        fields = "__all__"
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -28,7 +28,6 @@ class MovieSerializer(serializers.ModelSerializer):
     genres = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Genre.objects.all()
     )
-
 
     class Meta:
         model = Movie
