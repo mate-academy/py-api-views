@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 
 from cinema.serializers import ActorSerializer
 from cinema.models import Actor
-from cinema.views import ActorList, ActorDetail
+from cinema.views import ActorViewSet
 
 
 class ActorApiTests(TestCase):
@@ -32,10 +32,10 @@ class ActorApiTests(TestCase):
 
         for item in items:
             with self.subTest():
-                self.assertTrue(issubclass(ActorDetail, item))
+                self.assertTrue(issubclass(ActorViewSet, item))
 
     def test_actor_detail_is_not_subclass(self):
-        self.assertFalse(issubclass(ActorDetail, viewsets.GenericViewSet))
+        self.assertFalse(issubclass(ActorViewSet, viewsets.GenericViewSet))
 
     def test_get_actors(self):
         response = self.client.get("/api/cinema/actors/")
