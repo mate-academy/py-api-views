@@ -6,7 +6,6 @@ from rest_framework.views import APIView
 
 from cinema.serializers import GenreSerializer
 from cinema.models import Genre
-from cinema.views import GenreList, GenreDetail
 from cinema.views import GenreListCreateAPIView, GenreDetailAPIView
 
 class GenreApiTests(TestCase):
