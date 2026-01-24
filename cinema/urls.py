@@ -15,7 +15,7 @@ urlpatterns = [
     path(
         "genres/",
         GenreListCreateAPIView.as_view(),
-        name="genre-list-create"
+        name="genre_list_create"  # Nome ajustado para encurtar a linha
     ),
     path("genres/<int:pk>/", GenreDetailAPIView.as_view(), name="genre-detail"),
 
