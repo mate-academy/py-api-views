@@ -5,10 +5,10 @@ from .views import (
     ActorViewSet, CinemaHallViewSet, MovieViewSet
 )
 
-# ADICIONAR ESTA LINHA
+# Adicionado app_name para resolver o erro de ImproperlyConfigured anterior
 app_name = 'cinema'
 
-router = DefaultRouter(
+router = DefaultRouter()
 router.register(r"actors", ActorViewSet, basename="actor")
 router.register(r"cinema_halls", CinemaHallViewSet, basename="cinemahall")
 router.register(r"movies", MovieViewSet, basename="movie")
@@ -18,13 +18,13 @@ urlpatterns = [
     path(
         "genres/",
         GenreListCreateAPIView.as_view(),
-        name="genre_list_create"  # Nome alterado para encurtar
+        name="genre_list_create"
     ),
     path(
         "genres/<int:pk>/",
         GenreDetailAPIView.as_view(),
         name="genre-detail"
-    ),  # Linhas ajustadas para não quebrar E501
+    ),
 
     # Inclui rotas do Router (actors, cinema_halls, movies)
     path("", include(router.urls)),
