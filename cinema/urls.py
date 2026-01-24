@@ -5,7 +5,10 @@ from .views import (
     ActorViewSet, CinemaHallViewSet, MovieViewSet
 )
 
-router = DefaultRouter()
+# ADICIONAR ESTA LINHA
+app_name = 'cinema'
+
+router = DefaultRouter(
 router.register(r"actors", ActorViewSet, basename="actor")
 router.register(r"cinema_halls", CinemaHallViewSet, basename="cinemahall")
 router.register(r"movies", MovieViewSet, basename="movie")
