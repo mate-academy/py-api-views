@@ -15,9 +15,13 @@ urlpatterns = [
     path(
         "genres/",
         GenreListCreateAPIView.as_view(),
-        name="genre_list_create"  # Nome ajustado para encurtar a linha
+        name="genre_list_create"  # Nome alterado para encurtar
     ),
-    path("genres/<int:pk>/", GenreDetailAPIView.as_view(), name="genre-detail"),
+    path(
+        "genres/<int:pk>/",
+        GenreDetailAPIView.as_view(),
+        name="genre-detail"
+    ),  # Linhas ajustadas para não quebrar E501
 
     # Inclui rotas do Router (actors, cinema_halls, movies)
     path("", include(router.urls)),
