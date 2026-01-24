@@ -8,6 +8,7 @@ from .serializers import (
 )
 
 
+
 class GenreListCreateAPIView(APIView):
     """Endpoint para GET (lista) e POST (criação) de Gêneros."""
     def get(self, request):
