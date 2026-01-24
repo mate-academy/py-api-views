@@ -6,7 +6,7 @@ from .views import (
 )
 
 # Adicionado app_name para resolver o erro de ImproperlyConfigured anterior
-app_name = 'cinema'
+app_name = "cinema"
 
 router = DefaultRouter()
 router.register(r"actors", ActorViewSet, basename="actor")
