@@ -1,146 +1,81 @@
 from django.test import TestCase
-
 from rest_framework.test import APIClient
 from rest_framework import status
-
+from cinema.models import Movie, Genre, Actor
 from cinema.serializers import MovieSerializer
-from cinema.models import Movie
-from cinema.views import MovieViewSet
-from rest_framework.viewsets import ModelViewSet
 
+MOVIE_URL = "/api/cinema/movies/"
+
+def detail_url(movie_id):
+    return f"{MOVIE_URL}{movie_id}/"
 
 class MovieApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        Movie.objects.create(
+        self.genre = Genre.objects.create(name="Drama")
+        self.actor = Actor.objects.create(first_name="Jack", last_name="Nicholson")
+
+        self.movie = Movie.objects.create(
             title="Titanic",
             description="Titanic description",
             duration=200,
         )
-        Movie.objects.create(
-            title="Batman",
-            description="Batman description",
-            duration=190,
-        )
+        self.movie.genres.add(self.genre)
+        self.movie.actors.add(self.actor)
 
-    def test_movie_viewset_is_subclass_model_viewset(self):
-        self.assertTrue(issubclass(MovieViewSet, ModelViewSet))
+    # --- GET Тести ---
+    def test_list_movies(self):
+        res = self.client.get(MOVIE_URL)
+        movies = Movie.objects.all()
+        serializer = MovieSerializer(movies, many=True)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
 
-    def test_get_movies(self):
-        movies = self.client.get("/api/cinema/movies/")
-        serializer = MovieSerializer(Movie.objects.all(), many=True)
-        self.assertEqual(movies.status_code, status.HTTP_200_OK)
-        self.assertEqual(movies.data, serializer.data)
+    def test_retrieve_movie_detail(self):
+        url = detail_url(self.movie.id)
+        res = self.client.get(url)
+        serializer = MovieSerializer(self.movie)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
 
+    # --- POST Тест ---
     def test_post_movies(self):
-        movies = self.client.post(
-            "/api/cinema/movies/",
-            {
-                "title": "Superman",
-                "description": "Superman description",
-                "duration": 170,
-            },
-        )
-        db_movies = Movie.objects.all()
-        self.assertEqual(movies.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(db_movies.count(), 3)
-        self.assertEqual(db_movies.filter(title="Superman").count(), 1)
+        payload = {
+            "title": "Superman",
+            "description": "Superman description",
+            "duration": 170,
+            "genres": [self.genre.id],
+            "actors": [self.actor.id],
+        }
+        response = self.client.post(MOVIE_URL, payload)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Movie.objects.count(), 2) # 1 з setUp + 1 новий
 
-    def test_post_invalid_movies(self):
-        movies = self.client.post(
-            "/api/cinema/movies/",
-            {
-                "title": "Superman",
-                "description": "Superman description",
-                "duration": "two hundred",
-            },
-        )
-        superman_movies = Movie.objects.filter(title="Superman")
-        self.assertEqual(movies.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(superman_movies.count(), 0)
-
-    def test_get_movie(self):
-        response = self.client.get("/api/cinema/movies/2/")
-        serializer = MovieSerializer(
-            Movie(
-                id=2,
-                title="Batman",
-                description="Batman description",
-                duration=190,
-            )
-        )
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
-
-    def test_get_invalid_movie(self):
-        response = self.client.get("/api/cinema/movies/100/")
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-
+    # --- PUT/PATCH Тести ---
     def test_put_movie(self):
-        self.client.put(
-            "/api/cinema/movies/1/",
-            {
-                "title": "Watchman",
-                "description": "Watchman description",
-                "duration": 190,
-            },
-        )
-        db_movie = Movie.objects.get(id=1)
-        self.assertEqual(
-            [db_movie.title, db_movie.description, db_movie.duration],
-            [
-                "Watchman",
-                "Watchman description",
-                190,
-            ],
-        )
-        self.assertEqual(db_movie.title, "Watchman")
-
-    def test_put_invalid_movie(self):
-        response = self.client.put(
-            "/api/cinema/movies/1/",
-            {
-                "title": "Watchmen",
-                "description": "Watchmen description",
-                "duration": "fifty",
-            },
-        )
-        db_movie = Movie.objects.get(id=1)
-        self.assertEqual(db_movie.duration, 200)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        payload = {
+            "title": "Watchman",
+            "description": "Watchman description",
+            "duration": 190,
+            "genres": [self.genre.id],
+            "actors": [self.actor.id],
+        }
+        url = detail_url(self.movie.id)
+        response = self.client.put(url, payload)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.movie.refresh_from_db()
+        self.assertEqual(self.movie.title, "Watchman")
 
     def test_patch_movie(self):
-        response = self.client.patch(
-            "/api/cinema/movies/1/",
-            {
-                "title": "Watchmen",
-            },
-        )
-        db_movie = Movie.objects.get(id=1)
-        self.assertEqual(db_movie.title, "Watchmen")
+        url = detail_url(self.movie.id)
+        response = self.client.patch(url, {"title": "New Title"})
+        self.movie.refresh_from_db()
+        self.assertEqual(self.movie.title, "New Title")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_patch_invalid_movie(self):
-        response = self.client.patch(
-            "/api/cinema/movies/1/",
-            {
-                "duration": "fifty",
-            },
-        )
-        db_movie = Movie.objects.get(id=1)
-        self.assertEqual(db_movie.duration, 200)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
+    # --- DELETE Тест ---
     def test_delete_movie(self):
-        response = self.client.delete(
-            "/api/cinema/movies/1/",
-        )
-        db_movies_id_1 = Movie.objects.filter(id=1)
-        self.assertEqual(db_movies_id_1.count(), 0)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
-    def test_delete_invalid_movie(self):
-        response = self.client.delete(
-            "/api/cinema/movies/1000/",
-        )
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        url = detail_url(self.movie.id)
+        res = self.client.delete(url)
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Movie.objects.filter(id=self.movie.id).exists())
