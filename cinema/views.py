@@ -4,8 +4,38 @@ from rest_framework import status, viewsets
 
 from django.shortcuts import get_object_or_404
 
-from cinema.models import Movie
-from cinema.serializers import MovieSerializer
+from cinema.models import Movie, Genre
+from cinema.serializers import MovieSerializer, GenreSerializer
+
+
+#actor
+
+
+@api_view(['GET', 'POST'])
+def gernre_list(request) -> Response:
+    if request.method == "GET":
+        genre = Genre.objects.all()
+        serializer = GenreSerializer(genre, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    serializer = GenreSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['GET', "PUT", "DELETE"])
+def genre_detail(request, pk) -> Response:
+    genre = get_object_or_404(Genre, pk=pk)
+    if request.method == "GET":
+        serializer = GenreSerializer(genre)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == "PUT":
+        serializer = GenreSerializer(genre, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        genre.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class MovieViewSet(viewsets.ModelViewSet):
