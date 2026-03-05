@@ -9,6 +9,9 @@ class Actor(models.Model):
 class Genre(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class CinemaHall(models.Model):
     name = models.CharField(max_length=255)
@@ -25,4 +28,3 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
-
