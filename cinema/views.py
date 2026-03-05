@@ -98,7 +98,7 @@ class GenreDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        self.get_object(pk).delete()
+        self.get_object().delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
