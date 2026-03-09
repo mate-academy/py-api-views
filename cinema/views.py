@@ -1,4 +1,3 @@
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, generics, viewsets
@@ -9,10 +8,14 @@ from rest_framework.mixins import (
     UpdateModelMixin,
     DestroyModelMixin,
 )
-
 from django.shortcuts import get_object_or_404
 
-from cinema.models import Actor, CinemaHall, Genre, Movie
+from cinema.models import (
+    Actor,
+    CinemaHall,
+    Genre,
+    Movie
+)
 from cinema.serializers import (
     ActorSerializer,
     CinemaHallSerializer,
