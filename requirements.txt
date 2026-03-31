@@ -8,14 +8,13 @@ Django==5.2.4
 django-crispy-forms==2.6
 django-debug-toolbar==6.2.0
 django-extensions==4.1
-django-rest-framework==0.1.0
 django-stubs==6.0.1
 django-stubs-ext==6.0.1
 djangorestframework==3.17.1
 djangorestframework-stubs==3.16.8
-flake8==7.3.0
+flake8==6.1.0
 flake8-annotations==2.9.1
-flake8-quotes==3.3.1
+flake8-quotes==3.4.0
 flake8-variables-names==0.0.5
 iniconfig==2.3.0
 mccabe==0.7.0
