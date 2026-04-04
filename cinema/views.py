@@ -45,7 +45,8 @@ class GenreDetail(APIView):
 
     def patch(self, request, pk) -> Response:
         serializer = GenreSerializer(self.get_object(pk=pk),
-                                     data=request.data)
+                                     data=request.data,
+                                     partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data,
@@ -89,7 +90,7 @@ class ActorDetail(
         return self.update(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs) -> Response:
-        return self.partial_update(request, *args, **kwargs, partial=True)
+        return self.update(request, *args, **kwargs, partial=True)
 
     def delete(self, request, *args, **kwargs) -> Response:
         return self.destroy(request, *args, **kwargs)
