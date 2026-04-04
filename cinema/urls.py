@@ -22,11 +22,9 @@ cinema_hall_detail = CinemaHallViewSet.as_view(
     }
 )
 router = routers.DefaultRouter()
-router.register("movies", MovieViewSet)
+router.register("movies", MovieViewSet, basename="movie")
 
 urlpatterns = [
-    # path("movies/", movie_list, name="movie-list"),
-    # path("movies/<int:pk>/", movie_detail, name="movie-detail"),
     path("genres/", GenreList.as_view(), name="genre_list"),
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre_detail"),
     path("actors/", ActorList.as_view(), name="actor_list"),
@@ -48,7 +46,7 @@ urlpatterns = [
         ),
         name="cinema_hall_detail",
     ),
-    path("movies/", include(router.urls)),
+    path("", include(router.urls)),
 ]
 
 app_name = "cinema"
