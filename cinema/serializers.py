@@ -7,14 +7,20 @@ from cinema.models import (Movie,
 
 
 class MovieSerializer(serializers.ModelSerializer):
+    genres = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Genre.objects.all(),
+        required=False
+    )
+    actors = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Actor.objects.all(),
+        required=False
+    )
+
     class Meta:
         model = Movie
         fields = ("id", "title", "description", "duration", "genres", "actors")
-
-
-class MovieListRetrieveSerializer(MovieSerializer):
-    genres = serializers.StringRelatedField(many=True, read_only=True)
-    actors = serializers.StringRelatedField(many=True, read_only=True)
 
 
 class ActorSerializer(serializers.ModelSerializer):
