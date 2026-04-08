@@ -9,7 +9,12 @@ from cinema.models import (Movie,
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = "__all__"
+        fields = ("id", "title", "description", "duration", "genres", "actors")
+
+
+class MovieListRetrieveSerializer(MovieSerializer):
+    genres = serializers.StringRelatedField(many=True, read_only=True)
+    actors = serializers.StringRelatedField(many=True, read_only=True)
 
 
 class ActorSerializer(serializers.ModelSerializer):
