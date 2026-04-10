@@ -89,7 +89,14 @@ class ActorDetail(GenericAPIView):
 
     def patch(self, request: Request, pk: int) -> Response:
         actor = get_object_or_404(Actor, pk=pk)
-        serializer = self.get_serializer(actor, data=request.data, partial=True)
+        serializer = self.get_serializer(
+            actor,
+            data=request.data,
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request: Request, pk: int) -> Response:
         actor = get_object_or_404(Actor, pk=pk)
