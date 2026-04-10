@@ -8,15 +8,14 @@ from cinema.views import (
     ActorList,
     ActorDetail,
     CinemaHallViewSet,
-    MovieViewSet
+    MovieViewSet,
 )
-
 
 app_name = "cinema"
 
 router = DefaultRouter()
 router.register("cinema-halls", CinemaHallViewSet)
-router.register("Movies", MovieViewSet)
+router.register("movies", MovieViewSet)
 
 urlpatterns = [
     # Genre

@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 
-from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -12,7 +11,7 @@ from cinema.serializers import (
     ActorSerializer,
     GenreSerializer,
     CinemaHallSerializer,
-    MovieSerializer
+    MovieSerializer,
 )
 
 
@@ -31,7 +30,7 @@ class GenreList(APIView):
 
 
 class GenreDetail(APIView):
-    def get(self, request: Request, pk: int ) -> Response:
+    def get(self, request: Request, pk: int) -> Response:
         genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -39,6 +38,13 @@ class GenreDetail(APIView):
     def put(self, request: Request, pk: int) -> Response:
         genre = get_object_or_404(Genre, pk=pk)
         serializer = GenreSerializer(genre, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request: Request, pk: int) -> Response:
+        genre = get_object_or_404(Genre, pk=pk)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -80,6 +86,10 @@ class ActorDetail(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request: Request, pk: int) -> Response:
+        actor = get_object_or_404(Actor, pk=pk)
+        serializer = self.get_serializer(actor, data=request.data, partial=True)
 
     def delete(self, request: Request, pk: int) -> Response:
         actor = get_object_or_404(Actor, pk=pk)
