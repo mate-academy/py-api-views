@@ -1,94 +1,70 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics, viewsets, mixins
+from django.shortcuts import get_object_or_404
+
 from .models import Genre, Actor, CinemaHall, Movie
-from .serializers import (GenreSerializer, ActorSerializer,
-                          CinemaHallSerializer, MovieSerializer)
-from rest_framework import generics, viewsets, mixins
+from .serializers import (
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer,
+    MovieSerializer
+)
 
 
-class GenreAPIView(APIView):
-
-    def get(self, request, pk=None):
-        if pk:
-            genre = Genre.objects.get(pk=pk)
-            serializer = GenreSerializer(genre)
-            return Response(serializer.data)
-
+class GenreList(APIView):
+    def get(self, request):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data)
 
     def post(self, request):
         serializer = GenreSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class GenreDetail(APIView):
+    def get_object(self, pk):
+        return get_object_or_404(Genre, pk=pk)
+
+    def get(self, request, pk):
+        genre = self.get_object(pk)
+        serializer = GenreSerializer(genre)
+        return Response(serializer.data)
 
     def put(self, request, pk):
-        genre = Genre.objects.get(pk=pk)
+        genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
     def patch(self, request, pk):
-        genre = Genre.objects.get(pk=pk)
+        genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
     def delete(self, request, pk):
-        genre = Genre.objects.get(pk=pk)
+        genre = self.get_object(pk)
         genre.delete()
-        return Response(status=204)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorGenericAPIView(generics.GenericAPIView):
+class ActorList(generics.ListCreateAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, request, pk=None):
-        if pk:
-            actor = self.get_object()
-            serializer = self.get_serializer(actor)
-            return Response(serializer.data)
-        actors = self.get_queryset()
-        serializer = self.get_serializer(actors, many=True)
-        return Response(serializer.data)
 
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=201)
-
-    def put(self, request, pk):
-        actor = self.get_object()
-        serializer = self.get_serializer(actor, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
-    def patch(self, request, pk):
-        actor = self.get_object()
-        serializer = self.get_serializer(actor,
-                                         data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
-    def delete(self, request, pk):
-        actor = self.get_object()
-        actor.delete()
-        return Response(status=204)
+class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
 
 
-class CinemaHallGenericViewSet(
+class CinemaHallViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
@@ -100,6 +76,6 @@ class CinemaHallGenericViewSet(
     serializer_class = CinemaHallSerializer
 
 
-class MovieModelViewSet(viewsets.ModelViewSet):
+class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
