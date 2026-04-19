@@ -6,6 +6,7 @@ from .serializers import (GenreSerializer, ActorSerializer,
                           CinemaHallSerializer, MovieSerializer)
 from rest_framework import generics, viewsets, mixins
 
+
 class GenreAPIView(APIView):
 
     def get(self, request, pk=None):
@@ -97,6 +98,7 @@ class CinemaHallGenericViewSet(
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
+
 
 class MovieModelViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
