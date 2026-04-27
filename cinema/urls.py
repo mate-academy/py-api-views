@@ -15,15 +15,10 @@ router.register("cinema_halls", CinemaHallViewSet)
 router.register("movies", MovieViewSet)
 
 urlpatterns = [
-    # APIView paths
     path("genres/", GenreList.as_view(), name="genre-list"),
     path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
-
-    # GenericAPIView paths
     path("actors/", ActorList.as_view(), name="actor-list"),
     path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
-
-    # ViewSet paths
     path("", include(router.urls)),
 ]
 
