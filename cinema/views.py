@@ -1,5 +1,3 @@
-from django.views import generic
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import (
     status,
@@ -67,8 +65,11 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
-class ActorList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+class ActorList(
+    generics.GenericAPIView,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin
+):
     serializer_class = ActorSerializer
     queryset = Actor.objects.all()
 
@@ -79,7 +80,12 @@ class ActorList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateMod
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+class ActorDetail(
+    generics.GenericAPIView,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin
+):
     serializer_class = ActorSerializer
     queryset = Actor.objects.all()
 
