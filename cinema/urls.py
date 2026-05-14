@@ -14,7 +14,7 @@ from cinema.views import (
 app_name = "cinema"
 
 router = DefaultRouter()
-router.register("cinema-halls", CinemaHallViewSet)
+router.register("cinema_halls", CinemaHallViewSet)
 router.register("movies", MovieViewSet)
 
 urlpatterns = [

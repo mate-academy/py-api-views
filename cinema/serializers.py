@@ -8,6 +8,10 @@ class ActorSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(max_length=255)
     last_name = serializers.CharField(max_length=255)
 
+    class Meta:
+        model = Actor
+        fields = ("id", "first_name", "last_name")
+
     def create(self, validated_data):
         return Actor.objects.create(**validated_data)
 
@@ -28,6 +32,10 @@ class GenreSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=255)
 
+    class Meta:
+        model = Genre
+        fields = ("id", "name")
+
     def create(self, validated_data):
         return Genre.objects.create(**validated_data)
 
@@ -42,6 +50,10 @@ class CinemaHallSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=255)
     rows = serializers.IntegerField()
     seats_in_row = serializers.IntegerField()
+
+    class Meta:
+        model = CinemaHall
+        fields = ("id", "name", "rows", "seats_in_row")
 
     def create(self, validated_data):
         return CinemaHall.objects.create(**validated_data)
