@@ -10,6 +10,8 @@ from cinema.views import (
     MovieViewSet,
 )
 
+app_name = "cinema"
+
 router = DefaultRouter()
 router.register("cinema_halls",
                 CinemaHallViewSet, basename="cinema-hall")
@@ -27,5 +29,3 @@ urlpatterns = [
          ActorDetail.as_view(), name="actor-detail"),
     path("", include(router.urls)),
 ]
-
-app_name = "cinema"
