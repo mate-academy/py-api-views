@@ -71,10 +71,7 @@ class ActorList(GenericAPIView, ListModelMixin, CreateModelMixin):
 
 
 class ActorDetail(
-    GenericAPIView,
-    RetrieveModelMixin,
-    UpdateModelMixin,
-    DestroyModelMixin
+    GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
 ):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
