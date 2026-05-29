@@ -29,14 +29,14 @@ class CinemaHallApiTests(TestCase):
         self.assertFalse(issubclass(CinemaHallViewSet, viewsets.ModelViewSet))
 
     def test_get_cinema_halls(self):
-        response = self.client.get("/api/cinema/cinema_halls/")
+        response = self.client.get("/api/cinema/cinema-halls/")
         serializer = CinemaHallSerializer(CinemaHall.objects.all(), many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
     def test_post_cinema_halls(self):
         response = self.client.post(
-            "/api/cinema/cinema_halls/",
+            "/api/cinema/cinema-halls/",
             {
                 "name": "Yellow",
                 "rows": 14,
@@ -49,7 +49,7 @@ class CinemaHallApiTests(TestCase):
         self.assertEqual(db_cinema_halls.filter(name="Yellow").count(), 1)
 
     def test_get_cinema_hall(self):
-        response = self.client.get("/api/cinema/cinema_halls/2/")
+        response = self.client.get("/api/cinema/cinema-halls/2/")
         serializer = CinemaHallSerializer(
             CinemaHall(
                 id=2,
@@ -62,12 +62,12 @@ class CinemaHallApiTests(TestCase):
         self.assertEqual(response.data, serializer.data)
 
     def test_get_invalid_cinema_hall(self):
-        response = self.client.get("/api/cinema/cinema_halls/1001/")
+        response = self.client.get("/api/cinema/cinema-halls/1001/")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_put_cinema_hall(self):
         response = self.client.put(
-            "/api/cinema/cinema_halls/1/",
+            "/api/cinema/cinema-halls/1/",
             {
                 "name": "Yellow",
                 "rows": 14,
@@ -91,7 +91,7 @@ class CinemaHallApiTests(TestCase):
 
     def test_patch_cinema_hall(self):
         response = self.client.patch(
-            "/api/cinema/cinema_halls/1/",
+            "/api/cinema/cinema-halls/1/",
             {
                 "name": "Green",
             },
@@ -101,7 +101,7 @@ class CinemaHallApiTests(TestCase):
 
     def test_delete_cinema_hall(self):
         response = self.client.delete(
-            "/api/cinema/cinema_halls/1/",
+            "/api/cinema/cinema-halls/1/",
         )
         db_cinema_halls_id_1 = CinemaHall.objects.filter(id=1)
         self.assertEqual(db_cinema_halls_id_1.count(), 0)
@@ -109,6 +109,6 @@ class CinemaHallApiTests(TestCase):
 
     def test_delete_invalid_cinema_hall(self):
         response = self.client.delete(
-            "/api/cinema/cinema_halls/1000/",
+            "/api/cinema/cinema-halls/1000/",
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
