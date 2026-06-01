@@ -30,12 +30,36 @@ cinema_hall_detail = CinemaHallViewSet.as_view(
 )
 
 urlpatterns = [
-    path("cinema-halls/", cinema_hall_list, name="cinema-hall-list"),
-    path("cinema-halls/<int:pk>/", cinema_hall_detail, name="cinema_hall_detail"),
-    path("actors/", ActorListView.as_view(), name="actor-list-view"),
-    path("actors/<int:pk>/", ActorDetailView.as_view(), name="actor-detail-view"),
-    path("genres/", GenreListView.as_view(), name="genre-list-view"),
-    path("genres/<int:pk>/", GenreDetailView.as_view(), name="genre-detail-view"),
+    path(
+        "cinema-halls/",
+        cinema_hall_list,
+        name="cinema-hall-list"
+    ),
+    path(
+        "cinema-halls/<int:pk>/",
+        cinema_hall_detail,
+        name="cinema_hall_detail"
+    ),
+    path(
+        "actors/",
+        ActorListView.as_view(),
+        name="actor-list-view"
+    ),
+    path(
+        "actors/<int:pk>/",
+        ActorDetailView.as_view(),
+        name="actor-detail-view"
+    ),
+    path(
+        "genres/",
+        GenreListView.as_view(),
+        name="genre-list-view"
+    ),
+    path(
+        "genres/<int:pk>/",
+        GenreDetailView.as_view(),
+        name="genre-detail-view"
+    ),
 ]
 
 urlpatterns += router.urls
