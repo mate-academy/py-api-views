@@ -4,10 +4,10 @@ from rest_framework.routers import DefaultRouter
 from cinema.views import (
     MovieViewSet,
     CinemaHallViewSet,
-    GenreListView,
-    GenreDetailView,
-    ActorListView,
-    ActorDetailView,
+    GenreList,
+    GenreDetail,
+    ActorList,
+    ActorDetail,
 )
 
 
@@ -42,22 +42,22 @@ urlpatterns = [
     ),
     path(
         "actors/",
-        ActorListView.as_view(),
+        ActorList.as_view(),
         name="actor-list-view"
     ),
     path(
         "actors/<int:pk>/",
-        ActorDetailView.as_view(),
+        ActorDetail.as_view(),
         name="actor-detail-view"
     ),
     path(
         "genres/",
-        GenreListView.as_view(),
+        GenreList.as_view(),
         name="genre-list-view"
     ),
     path(
         "genres/<int:pk>/",
-        GenreDetailView.as_view(),
+        GenreDetail.as_view(),
         name="genre-detail-view"
     ),
 ]
