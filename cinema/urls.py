@@ -38,7 +38,7 @@ urlpatterns = [
     path(
         "cinema-halls/<int:pk>/",
         cinema_hall_detail,
-        name="cinema_hall_detail"
+        name="cinema-hall-detail"
     ),
     path(
         "actors/",
