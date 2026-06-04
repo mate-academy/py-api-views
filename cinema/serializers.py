@@ -6,7 +6,7 @@ from cinema.models import Movie, Actor, Genre, CinemaHall
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actor
-        filter = (
+        fields = (
             "id",
             "first_name",
             "last_name",
@@ -16,7 +16,7 @@ class ActorSerializer(serializers.ModelSerializer):
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        filter = (
+        fields = (
             "id",
             "name",
         )
@@ -25,7 +25,7 @@ class GenreSerializer(serializers.ModelSerializer):
 class CinemaHallSerializer(serializers.ModelSerializer):
     class Meta:
         model = CinemaHall
-        filter = (
+        fields = (
             "id",
             "name",
             "rows",
