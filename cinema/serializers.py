@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Genre, Actor, CinemaHall, Movie
 
+
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
@@ -20,9 +21,18 @@ class CinemaHallSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
-    # Додаємо required=False, щоб дозволити створення/оновлення фільмів без обов'язкової передачі акторів та жанрів
-    actors = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=Actor.objects.all(), required=False)
-    genres = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=Genre.objects.all(), required=False)
+    actors = serializers.PrimaryKeyRelatedField(
+        many=True,
+        read_only=False,
+        queryset=Actor.objects.all(),
+        required=False
+    )
+    genres = serializers.PrimaryKeyRelatedField(
+        many=True,
+        read_only=False,
+        queryset=Genre.objects.all(),
+        required=False
+    )
 
     class Meta:
         model = Movie

@@ -4,7 +4,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Genre, Actor, CinemaHall, Movie
-from .serializers import GenreSerializer, ActorSerializer, CinemaHallSerializer, MovieSerializer
+from .serializers import (
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer,
+    MovieSerializer
+)
 
 
 # 1. Genre за допомогою APIView
@@ -54,7 +59,11 @@ class GenreDetail(APIView):
 
 
 # 2. Actor за допомогою GenericAPIView та відповідних міксинів
-class ActorList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+class ActorList(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    generics.GenericAPIView
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -65,7 +74,12 @@ class ActorList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generic
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+class ActorDetail(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -83,12 +97,14 @@ class ActorDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.Des
 
 
 # 3. CinemaHall за допомогою GenericViewSet та міксинів
-class CinemaHallViewSet(mixins.ListModelMixin,
-                         mixins.CreateModelMixin,
-                         mixins.RetrieveModelMixin,
-                         mixins.UpdateModelMixin,
-                         mixins.DestroyModelMixin,
-                         viewsets.GenericViewSet):
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
