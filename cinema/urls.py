@@ -9,12 +9,22 @@ from cinema.views import (
 
 router = DefaultRouter()
 
-router.register('cinema_halls', CinemaHallViewSet)
-router.register('movies', MovieViewSet)
+router.register(
+    'cinema_halls',
+    CinemaHallViewSet,
+    basename='cinema_halls'
+)
+router.register(
+    'movies',
+    MovieViewSet,
+    basename='movies'
+)
 
 urlpatterns = [
     path("api/cinema/genre/", GenreView.as_view()),
+    path("api/cinema/genre/<int:pk>/", GenreView.as_view()),
     path("api/cinema/actor/", ActorView.as_view()),
+    path("api/cinema/actor/<int:pk>/", ActorView.as_view()),
 ] + router.urls
 
 app_name = "cinema"
