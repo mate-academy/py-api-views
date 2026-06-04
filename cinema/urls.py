@@ -10,14 +10,14 @@ from cinema.views import (
 router = DefaultRouter()
 
 router.register(
-    'cinema_halls',
+    "cinema_halls",
     CinemaHallViewSet,
-    basename='cinema_halls'
+    basename="cinema_halls"
 )
 router.register(
-    'movies',
+    "movies",
     MovieViewSet,
-    basename='movies'
+    basename="movies"
 )
 
 urlpatterns = [
