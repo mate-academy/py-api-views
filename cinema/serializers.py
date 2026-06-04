@@ -29,7 +29,7 @@ class CinemaHallSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "rows",
-            "seats_in_rows",
+            "seats_in_row",
         )
 
 
