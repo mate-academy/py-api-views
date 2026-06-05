@@ -40,6 +40,7 @@ class MovieSerializer(serializers.ModelSerializer):
     genres = GenreSerializer(
         many=True
     )
+
     class Meta:
         model = Movie
         fields = (
