@@ -6,7 +6,7 @@ from cinema.views import (
     ActorList,
     GenreList,
     ActorDetail,
-GenreDetail,
+    GenreDetail,
 )
 
 router = DefaultRouter()
@@ -23,10 +23,10 @@ router.register(
 )
 
 urlpatterns = [
-  path("api/cinema/genre/", GenreList.as_view()),
-  path("api/cinema/genre/<int:pk>/", GenreDetail.as_view()),
-  path("api/cinema/actor/", ActorList.as_view()),
-  path("api/cinema/actor/<int:pk>/", ActorDetail.as_view()),
+    path("api/cinema/genre/", GenreList.as_view()),
+    path("api/cinema/genre/<int:pk>/", GenreDetail.as_view()),
+    path("api/cinema/actor/", ActorList.as_view()),
+    path("api/cinema/actor/<int:pk>/", ActorDetail.as_view()),
 ] + router.urls
 
 app_name = "cinema"
