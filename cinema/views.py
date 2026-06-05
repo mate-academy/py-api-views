@@ -19,9 +19,9 @@ from cinema.serializers import (
 
 class GenreList(APIView):
     def get(self, request, pk=None):
-        if pk is not None:
+        if pk:
             genres = Genre.objects.get(pk=pk)
-            serializer = GenreSerializer(genres, many=True)
+            serializer = GenreSerializer(genres)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             genres_all = Genre.objects.all()
@@ -49,7 +49,7 @@ class ActorList(
 
     def get(self, request, *args, **kwargs):
         pk = self.kwargs.get("pk")
-        if not pk:
+        if pk:
             return self.retrieve(request, *args, **kwargs)
         else:
             return self.list(request, *args, **kwargs)
