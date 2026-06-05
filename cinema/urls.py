@@ -23,13 +23,13 @@ router.register(
 )
 
 urlpatterns = [
-    path("api/cinema/genre/", GenreList.as_view(), name="genre_list"),
-    path("api/cinema/genre/<int:pk>/",
+    path("genres/", GenreList.as_view(), name="genre_list"),
+    path("genres/<int:pk>/",
          GenreDetail.as_view(),
          name="genre_detail"
          ),
-    path("api/cinema/actor/", ActorList.as_view(), name="actor_list"),
-    path("api/cinema/actor/<int:pk>/",
+    path("actors/", ActorList.as_view(), name="actor_list"),
+    path("actors/<int:pk>/",
          ActorDetail.as_view(),
          name="actor_detail"
          ),
