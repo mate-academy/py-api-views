@@ -4,7 +4,12 @@ from rest_framework import status, generics, mixins, viewsets
 from django.shortcuts import get_object_or_404
 
 from .models import Genre, Actor, CinemaHall, Movie
-from .serializers import GenreSerializer, ActorSerializer, CinemaHallSerializer, MovieSerializer
+from .serializers import (
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer,
+    MovieSerializer
+)
 
 
 class GenreList(APIView):
@@ -36,7 +41,11 @@ class GenreDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
-        serializer = GenreSerializer(self.get_object(pk), data=request.data, partial=True)
+        serializer = GenreSerializer(
+            self.get_object(pk),
+            data=request.data,
+            partial=True
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -47,7 +56,11 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+class ActorList(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    generics.GenericAPIView
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -58,7 +71,12 @@ class ActorList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generic
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+class ActorDetail(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -75,7 +93,14 @@ class ActorDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.Des
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemaHallViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
