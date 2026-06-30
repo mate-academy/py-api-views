@@ -1,33 +1,27 @@
 from rest_framework import serializers
 
-from cinema.models import Movie, Genre, Actor, CinemaHall
+from cinema.models import (Movie, Genre, Actor, CinemaHall)
 
 
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         fields = ["id", "name"]
-        read_only_fields = [
-            "id",
-        ]
+        read_only_fields = ["id"]
 
 
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actor
         fields = ["id", "first_name", "last_name"]
-        read_only_fields = [
-            "id",
-        ]
+        read_only_fields = ["id"]
 
 
 class CinemaHallSerializer(serializers.ModelSerializer):
     class Meta:
         model = CinemaHall
         fields = ["id", "name", "rows", "seats_in_row"]
-        read_only_fields = [
-            "id",
-        ]
+        read_only_fields = ["id"]
 
 
 class MovieSerializer(serializers.Serializer):
@@ -66,14 +60,11 @@ class MovieSerializer(serializers.Serializer):
             instance.duration
         )
 
-        actors = validated_data.get("actors", None)
-        if actors is not None:
-            instance.actors.set(actors)
+        if "actors" in validated_data:
+            instance.actors.set(validated_data["actors"])
 
-        genres = validated_data.get("genres", None)
-        if genres is not None:
-            instance.genres.set(genres)
+        if "genres" in validated_data:
+            instance.genres.set(validated_data["genres"])
 
         instance.save()
-
         return instance

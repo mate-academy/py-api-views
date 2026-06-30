@@ -40,9 +40,18 @@ class CinemaHall(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    actors = models.ManyToManyField(Actor)
-    genres = models.ManyToManyField(Genre)
+    actors = models.ManyToManyField(
+        Actor,
+        related_name="movies",
+    )
+    genres = models.ManyToManyField(
+        Genre,
+        related_name="movies",
+    )
     duration = models.PositiveIntegerField(help_text="in minutes")
+
+    class Meta:
+        ordering = ["title"]
 
     def __str__(self):
         return self.title
