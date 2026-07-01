@@ -20,7 +20,7 @@ router.register(
 router.register(
     "cinema_halls",
     CinemaHallViewSet,
-    asename="cinema_halls"
+    basename="cinema_halls"
 )
 
 
