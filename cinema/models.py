@@ -30,7 +30,7 @@ class CinemaHall(models.Model):
     seats_in_row = models.PositiveIntegerField()
 
     class Meta:
-        verbose_name_plural = "cinema_halls"
+        verbose_name_plural = "cinema-halls"
         ordering = ["name"]
 
     def __str__(self):
