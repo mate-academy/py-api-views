@@ -1,4 +1,8 @@
-from rest_framework import status, generics, viewsets
+from rest_framework import (
+    status,
+    generics,
+    viewsets
+)
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -7,7 +11,7 @@ from cinema.serializers import (
     GenreSerializer,
     ActorSerializer,
     CinemaHallSerializer,
-    MovieSerializer,
+    MovieSerializer
 )
 
 
@@ -39,7 +43,9 @@ class GenreDetail(APIView):
         return Response(serializer.data)
 
     def patch(self, request, pk):
-        serializer = GenreSerializer(self.get_object(pk), data=request.data, partial=True)
+        serializer = GenreSerializer(
+            self.get_object(pk), data=request.data, partial=True
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
@@ -73,13 +79,17 @@ class ActorDetail(generics.GenericAPIView):
         return Response(serializer.data)
 
     def put(self, request, pk):
-        serializer = self.get_serializer(self.get_object(), data=request.data)
+        serializer = self.get_serializer(
+            self.get_object(), data=request.data
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
     def patch(self, request, pk):
-        serializer = self.get_serializer(self.get_object(), data=request.data, partial=True)
+        serializer = self.get_serializer(
+            self.get_object(), data=request.data, partial=True
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
@@ -108,13 +118,17 @@ class CinemaHallViewSet(viewsets.GenericViewSet):
         return Response(serializer.data)
 
     def update(self, request, pk=None):
-        serializer = self.get_serializer(self.get_object(), data=request.data)
+        serializer = self.get_serializer(
+            self.get_object(), data=request.data
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
     def partial_update(self, request, pk=None):
-        serializer = self.get_serializer(self.get_object(), data=request.data, partial=True)
+        serializer = self.get_serializer(
+            self.get_object(), data=request.data, partial=True
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
