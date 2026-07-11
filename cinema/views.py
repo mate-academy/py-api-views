@@ -8,14 +8,18 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 
-from cinema.models import Actor
-from cinema.models import CinemaHall
-from cinema.models import Genre
-from cinema.models import Movie
-from cinema.serializers import ActorSerializer
-from cinema.serializers import CinemaHallSerializer
-from cinema.serializers import GenreSerializer
-from cinema.serializers import MovieSerializer
+from cinema.models import (
+    Actor,
+    CinemaHall,
+    Genre,
+    Movie,
+)
+from cinema.serializers import (
+    ActorSerializer,
+    CinemaHallSerializer,
+    GenreSerializer,
+    MovieSerializer,
+)
 
 
 class GenreList(APIView):
