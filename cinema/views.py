@@ -1,8 +1,4 @@
-from rest_framework.generics import (
-    GenericAPIView,
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView
-)
+from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import (
     ListModelMixin,
     CreateModelMixin,
@@ -15,7 +11,7 @@ from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import (
@@ -100,7 +96,7 @@ class ActorDetail(
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-    def update(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
@@ -110,11 +106,13 @@ class ActorDetail(
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemaHallList(ListCreateAPIView):
-    queryset = CinemaHall.objects.all()
-    serializer_class = CinemaHallSerializer
-
-
-class CinemaHallDetail(RetrieveUpdateDestroyAPIView):
+class CinemaHallViewSet(
+    ListModelMixin,
+    CreateModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+    GenericViewSet,
+):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer

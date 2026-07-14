@@ -6,7 +6,24 @@ from cinema.models import Movie, Actor, Genre, CinemaHall
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = "__all__"
+        fields = (
+            "id",
+            "title",
+            "description",
+            "duration",
+            "actors",
+            "genres",
+        )
+        extra_kwargs = {
+            "actors": {
+                "required": False,
+                "allow_empty": True,
+            },
+            "genres": {
+                "required": False,
+                "allow_empty": True,
+            },
+        }
 
 
 class ActorSerializer(serializers.ModelSerializer):
