@@ -1,7 +1,5 @@
-from django.core.serializers import get_serializer
 from django.shortcuts import get_object_or_404
-from rest_framework import status, viewsets, mixins
-from rest_framework.generics import GenericAPIView
+from rest_framework import status, viewsets, mixins, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -56,65 +54,41 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(GenericAPIView):
+class ActorList(
+    generics.GenericAPIView,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, request):
-        actors = self.get_queryset()
-        serializer = self.get_serializer(actors, many=True)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(
-            serializer.data,
-            status=status.HTTP_201_CREATED
-        )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
-class ActorDetail(GenericAPIView):
+class ActorDetail(
+    generics.GenericAPIView,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self, request, pk):
-        actor = self.get_object()
-        serializer = self.get_serializer(actor)
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
-        return Response(serializer.data)
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
-    def put(self, request, pk):
-        actor = self.get_object()
-        serializer = self.get_serializer(
-            actor,
-            data=request.data
-        )
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
-        return Response(serializer.data)
-
-    def patch(self, request, pk):
-        actor = self.get_object()
-        serializer = self.get_serializer(
-            actor,
-            data=request.data,
-            partial=True
-        )
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data)
-
-    def delete(self, request, pk):
-        actor = self.get_object()
-        actor.delete()
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 class CinemaHallViewSet(
