@@ -13,7 +13,7 @@ from cinema.views import (
 
 cinema_hall_list = CinemaHallViewSet.as_view(actions={
     "get": "list",
-    "put": "create",
+    "post": "create",
 })
 cinema_hall_detail = CinemaHallViewSet.as_view(actions={
     "get": "retrieve",
@@ -47,12 +47,12 @@ urlpatterns = [
         name="actor_detail"
     ),
     path(
-        "cinema-halls/",
+        "cinema_halls/",
         cinema_hall_list,
         name="cinema_hall_list"
     ),
     path(
-        "cinema-halls/<int:pk>/",
+        "cinema_halls/<int:pk>/",
         cinema_hall_detail,
         name="cinema_hall_detail"
     ),
