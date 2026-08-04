@@ -13,7 +13,7 @@ from cinema.serializers import (
 )
 
 
-class GenreListView(APIView):
+class GenreList(APIView):
     def get(self, request) -> Response:
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
@@ -33,9 +33,9 @@ class GenreListView(APIView):
         )
 
 
-class GenreDetailView(APIView):
-    def get_object(self, pk: int) -> Actor:
-        return get_object_or_404(Actor, pk=pk)
+class GenreDetail(APIView):
+    def get_object(self, pk: int) -> Genre:
+        return get_object_or_404(Genre, pk=pk)
 
     def get(self, request, pk: int) -> Response:
         serializer = GenreSerializer(self.get_object(pk=pk))
@@ -54,12 +54,25 @@ class GenreDetailView(APIView):
             status=status.HTTP_400_BAD_REQUEST
         )
 
+    def patch(self, request, pk: int) -> Response:
+        serializer = GenreSerializer(
+            self.get_object(pk=pk),
+            data=request.data
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
     def delete(self, request, pk: int) -> Response:
         self.get_object(pk=pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorListView(
+class ActorList(
     generics.GenericAPIView,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
@@ -74,7 +87,7 @@ class ActorListView(
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetailView(
+class ActorDetail(
     generics.GenericAPIView,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
@@ -89,16 +102,21 @@ class ActorDetailView(
     def put(self, request, pk: int, *args, **kwargs) -> Response:
         return self.update(request, pk, *args, **kwargs)
 
+    def patch(self, request, pk: int, *args, **kwargs) -> Response:
+        return self.partial_update(request, pk, *args, **kwargs)
+
     def delete(self, request, pk: int, *args, **kwargs) -> Response:
         return self.destroy(request, pk, *args, **kwargs)
 
 
-class CinemaHallListView(generics.ListCreateAPIView):
-    queryset = CinemaHall.objects.all()
-    serializer_class = CinemaHallSerializer
-
-
-class CinemaHallDetailView(generics.RetrieveUpdateDestroyAPIView):
+class CinemaHallViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
