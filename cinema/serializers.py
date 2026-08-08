@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from rest_framework import serializers
 
 from cinema.models import Movie, Actor, Genre, CinemaHall
@@ -7,10 +8,25 @@ class MovieSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255)
     description = serializers.CharField()
-    duration = serializers.IntegerField()
+    duration = serializers.IntegerField(validators=[MinValueValidator(0)])
+    genres = serializers.PrimaryKeyRelatedField(
+        queryset=Genre.objects.all(),
+        many=True,
+        required=False,
+    )
+    actors = serializers.PrimaryKeyRelatedField(
+        queryset=Actor.objects.all(),
+        many=True,
+        required=False,
+    )
 
     def create(self, validated_data):
-        return Movie.objects.create(**validated_data)
+        genres = validated_data.pop("genres", [])
+        actors = validated_data.pop("actors", [])
+        movie = Movie.objects.create(**validated_data)
+        movie.genres.set(genres)
+        movie.actors.set(actors)
+        return movie
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get("title", instance.title)
@@ -18,6 +34,14 @@ class MovieSerializer(serializers.Serializer):
             "description", instance.description
         )
         instance.duration = validated_data.get("duration", instance.duration)
+        genres = validated_data.pop("genres", None)
+        actors = validated_data.pop("actors", None)
+
+        if genres is not None:
+            instance.genres.set(genres)
+
+        if actors is not None:
+            instance.actors.set(actors)
 
         instance.save()
 
@@ -59,8 +83,8 @@ class GenreSerializer(serializers.Serializer):
 class CinemaHallSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=255)
-    rows = serializers.IntegerField()
-    seats_in_row = serializers.IntegerField()
+    rows = serializers.IntegerField(validators=[MinValueValidator(0)])
+    seats_in_row = serializers.IntegerField(validators=[MinValueValidator(0)])
 
     def create(self, validated_data):
         return CinemaHall.objects.create(**validated_data)
