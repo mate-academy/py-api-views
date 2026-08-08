@@ -1,24 +1,52 @@
 from rest_framework import serializers
+from cinema.models import Genre, Actor, CinemaHall, Movie
 
-from cinema.models import Movie
+
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ("id", "name")
 
 
-class MovieSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField(max_length=255)
-    description = serializers.CharField()
-    duration = serializers.IntegerField()
+class ActorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Actor
+        fields = ("id", "first_name", "last_name")
 
-    def create(self, validated_data):
-        return Movie.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
-        instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get(
-            "description", instance.description
+class CinemaHallSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CinemaHall
+        fields = ("id", "name", "rows", "seats_in_row")
+
+
+class MovieSerializer(serializers.ModelSerializer):
+    genres = GenreSerializer(many=True, read_only=True)
+    actors = ActorSerializer(many=True, read_only=True)
+    genre_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Genre.objects.all(),
+        source="genres",
+        write_only=True,
+        required=False,
+    )
+    actor_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Actor.objects.all(),
+        source="actors",
+        write_only=True,
+        required=False,
+    )
+
+    class Meta:
+        model = Movie
+        fields = (
+            "id",
+            "title",
+            "description",
+            "duration",
+            "genres",
+            "actors",
+            "genre_ids",
+            "actor_ids",
         )
-        instance.duration = validated_data.get("duration", instance.duration)
-
-        instance.save()
-
-        return instance
