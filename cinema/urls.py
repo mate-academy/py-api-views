@@ -1,32 +1,57 @@
 from django.urls import path, include
 
-from .views import GenreAPIView, ActorListView, CinemaHallViewSet, MovieViewSet
+from .views import (
+    ActorList,
+    ActorDetail,
+    GenreList,
+    GenreDetail,
+    CinemaHallViewSet,
+    MovieViewSet,
+)
 
 
 app_name = "cinema"
 
 urlpatterns = [
-    path("actors/", ActorListView.as_view(), name="actor-list"),
-
-    path("genres/", GenreAPIView.as_view(), name="genre-list"),
+    path(
+        "actors/",
+        ActorList.as_view(),
+        name="actor-list",
+    ),
+    path(
+        "actors/<int:pk>/",
+        ActorDetail.as_view(),
+        name="actor-detail",
+    ),
 
     path(
-        "halls/",
+        "genres/",
+        GenreList.as_view(),
+        name="genre-list",
+    ),
+    path(
+        "genres/<int:pk>/",
+        GenreDetail.as_view(),
+        name="genre-detail",
+    ),
+
+    path(
+        "cinema_halls/",
         CinemaHallViewSet.as_view({
             "get": "list",
             "post": "create",
         }),
-        name="hall-list",
+        name="cinema-hall-list",
     ),
     path(
-        "halls/<int:pk>/",
+        "cinema_halls/<int:pk>/",
         CinemaHallViewSet.as_view({
             "get": "retrieve",
             "put": "update",
             "patch": "partial_update",
             "delete": "destroy",
         }),
-        name="hall-detail",
+        name="cinema-hall-detail",
     ),
 
     path(
