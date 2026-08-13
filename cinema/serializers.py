@@ -1,24 +1,30 @@
 from rest_framework import serializers
+from .models import Movie, Genre, Actor, CinemaHall
 
-from cinema.models import Movie
+
+class GenreSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Genre
+        fields = ['id', 'name']
 
 
-class MovieSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField(max_length=255)
-    description = serializers.CharField()
-    duration = serializers.IntegerField()
+class ActorSerializer(serializers.ModelSerializer):
 
-    def create(self, validated_data):
-        return Movie.objects.create(**validated_data)
+    class Meta:
+        model = Actor
+        fields = ['id', 'first_name', 'last_name']
 
-    def update(self, instance, validated_data):
-        instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get(
-            "description", instance.description
-        )
-        instance.duration = validated_data.get("duration", instance.duration)
 
-        instance.save()
+class CinemaHallSerializer(serializers.ModelSerializer):
 
-        return instance
+    class Meta:
+        model = CinemaHall
+        fields = ['id', 'name', 'rows', 'seats_in_row', 'capacity']
+
+
+class MovieSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Movie
+        fields = ['id', 'title', 'description', 'duration', 'actors', 'genres']
