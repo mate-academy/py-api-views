@@ -1,12 +1,17 @@
-from rest_framework.response import Response
-from rest_framework import status, generics, mixins, viewsets
-
 from django.shortcuts import get_object_or_404
+
+from rest_framework import generics, mixins, status, viewsets
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
-from cinema.models import Movie, Genre, Actor, CinemaHall
-from cinema.serializers import MovieSerializer, GenreSerializer, ActorSerializer, CinemaHallSerializer
+from cinema.models import Actor, CinemaHall, Genre, Movie
+from cinema.serializers import (
+    ActorSerializer,
+    CinemaHallSerializer,
+    GenreSerializer,
+    MovieSerializer,
+)
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -22,10 +27,12 @@ class GenreList(APIView):
 
     def post(self, request):
         serializer = GenreSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+        )
 
 
 class GenreDetail(APIView):
@@ -39,28 +46,24 @@ class GenreDetail(APIView):
 
     def put(self, request, pk):
         genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = GenreSerializer(
+            genre,
+            data=request.data,
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
     def patch(self, request, pk):
         genre = self.get_object(pk)
         serializer = GenreSerializer(
             genre,
             data=request.data,
-            partial=True
+            partial=True,
         )
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-
-        return Response(
-            serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
     def delete(self, request, pk):
         genre = self.get_object(pk)
@@ -68,7 +71,11 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+class ActorList(
+    generics.GenericAPIView,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -79,7 +86,12 @@ class ActorList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateMod
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+class ActorDetail(
+    generics.GenericAPIView,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
@@ -96,6 +108,13 @@ class ActorDetail(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.Upd
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemaHallViewSet(GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+class CinemaHallViewSet(
+    GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
