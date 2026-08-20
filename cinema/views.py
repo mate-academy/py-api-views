@@ -5,7 +5,12 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 
 from cinema.models import Movie, Actor, CinemaHall, Genre
-from cinema.serializers import MovieSerializer, ActorSerializer, CinemaHallSerializer, GenreSerializer
+from cinema.serializers import (
+    MovieSerializer,
+    ActorSerializer,
+    CinemaHallSerializer,
+    GenreSerializer
+)
 
 
 class GenreList(APIView):
@@ -13,6 +18,7 @@ class GenreList(APIView):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
     def post(self, request):
         serializer = GenreSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
