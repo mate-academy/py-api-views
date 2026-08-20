@@ -21,7 +21,7 @@ class CinemaHallSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class MovieSerializer(serializers.Serializer):
+class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = "__all__"
+        fields = ["id", "title", "description", "duration"]
