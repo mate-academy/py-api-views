@@ -12,7 +12,9 @@ from cinema.serializers import (
     MovieSerializer,
 )
 
+
 class GenreList(APIView):
+
     def get(self, request):
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
@@ -23,6 +25,7 @@ class GenreList(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class GenreDetail(APIView):
     def get_object(self, pk):
