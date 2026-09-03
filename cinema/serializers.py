@@ -8,7 +8,7 @@ class MovieSerializer(serializers.Serializer):
     actors = serializers.PrimaryKeyRelatedField(many=True,
                                                 queryset=Actor.objects.all())
     genres = serializers.PrimaryKeyRelatedField(many=True,
-                                                queryset=Actor.objects.all())
+                                                queryset=Genre.objects.all())
     description = serializers.CharField()
     duration = serializers.IntegerField()
 
