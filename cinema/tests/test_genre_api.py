@@ -1,12 +1,11 @@
 from django.test import TestCase
-
-from rest_framework import status, generics, viewsets
+from rest_framework import generics, status, viewsets
 from rest_framework.test import APIClient
 from rest_framework.views import APIView
 
-from cinema.serializers import GenreSerializer
 from cinema.models import Genre
-from cinema.views import GenreList, GenreDetail
+from cinema.serializers import GenreSerializer
+from cinema.views import GenreDetail, GenreList
 
 
 class GenreApiTests(TestCase):

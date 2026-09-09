@@ -1,11 +1,10 @@
 from django.test import TestCase
-
-from rest_framework import status, generics, mixins, viewsets
+from rest_framework import generics, mixins, status, viewsets
 from rest_framework.test import APIClient
 
-from cinema.serializers import ActorSerializer
 from cinema.models import Actor
-from cinema.views import ActorList, ActorDetail
+from cinema.serializers import ActorSerializer
+from cinema.views import ActorDetail, ActorList
 
 
 class ActorApiTests(TestCase):
