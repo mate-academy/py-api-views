@@ -32,15 +32,15 @@ class GenreList(APIView):
 
 class GenreDetail(APIView):
 
-    def get_object(self,pk):
-        return get_object_or_404(Genre,pk=pk)
+    def get_object(self, pk):
+        return get_object_or_404(Genre, pk=pk)
 
-    def get(self, request,pk):
+    def get(self, request, pk):
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request,pk):
+    def put(self, request, pk):
         genre = self.get_object(pk)
         serializer = GenreSerializer(genre, data=request.data)
         if serializer.is_valid():
@@ -48,7 +48,7 @@ class GenreDetail(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self,request,pk):
+    def delete(self, request, pk):
         genre = self.get_object(pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -67,7 +67,6 @@ class ActorList(
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
-
 
 
 class ActorDetail(
