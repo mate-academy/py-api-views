@@ -2,11 +2,11 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from cinema.views import (
-    ActorDetailView,
-    ActorListCreateView,
+    ActorDetail,
+    ActorList,
     CinemaHallViewSet,
-    GenreDetailView,
-    GenreListCreateView,
+    GenreDetail,
+    GenreList,
     MovieViewSet,
 )
 
@@ -16,12 +16,12 @@ router = DefaultRouter()
 router.register("movies", MovieViewSet, basename="movie")
 
 urlpatterns = [
-    path("genres/", GenreListCreateView.as_view()),
-    path("genres/<int:pk>/", GenreDetailView.as_view()),
-    path("actors/", ActorListCreateView.as_view()),
-    path("actors/<int:pk>/", ActorDetailView.as_view()),
+    path("genres/", GenreList.as_view()),
+    path("genres/<int:pk>/", GenreDetail.as_view()),
+    path("actors/", ActorList.as_view()),
+    path("actors/<int:pk>/", ActorDetail.as_view()),
     path(
-        "cinema-halls/",
+        "cinema_halls/",
         CinemaHallViewSet.as_view(
             {
                 "get": "list",
@@ -30,7 +30,7 @@ urlpatterns = [
         ),
     ),
     path(
-        "cinema-halls/<int:pk>/",
+        "cinema_halls/<int:pk>/",
         CinemaHallViewSet.as_view(
             {
                 "get": "retrieve",
