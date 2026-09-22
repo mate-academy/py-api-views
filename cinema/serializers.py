@@ -1,24 +1,58 @@
+"""Serializers for cinema API resources."""
+
+from __future__ import annotations
+
 from rest_framework import serializers
 
-from cinema.models import Movie
+from cinema.models import Actor, CinemaHall, Genre, Movie
 
 
-class MovieSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField(max_length=255)
-    description = serializers.CharField()
-    duration = serializers.IntegerField()
+class GenreSerializer(serializers.ModelSerializer):
+    """Serialize Genre instances."""
 
-    def create(self, validated_data):
-        return Movie.objects.create(**validated_data)
+    class Meta:
+        """Serializer metadata."""
 
-    def update(self, instance, validated_data):
-        instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get(
-            "description", instance.description
+        model = Genre
+        fields: tuple[str, ...] = ("id", "name")
+
+
+class ActorSerializer(serializers.ModelSerializer):
+    """Serialize Actor instances."""
+
+    class Meta:
+        """Serializer metadata."""
+
+        model = Actor
+        fields: tuple[str, ...] = ("id", "first_name", "last_name")
+
+
+class CinemaHallSerializer(serializers.ModelSerializer):
+    """Serialize CinemaHall instances."""
+
+    class Meta:
+        """Serializer metadata."""
+
+        model = CinemaHall
+        fields: tuple[str, ...] = ("id", "name", "rows", "seats_in_row")
+
+
+class MovieSerializer(serializers.ModelSerializer):
+    """Serialize Movie instances using primary keys for relations."""
+
+    class Meta:
+        """Serializer metadata."""
+
+        model = Movie
+        fields: tuple[str, ...] = (
+            "id",
+            "title",
+            "description",
+            "duration",
+            "actors",
+            "genres",
         )
-        instance.duration = validated_data.get("duration", instance.duration)
-
-        instance.save()
-
-        return instance
+        extra_kwargs: dict[str, dict[str, bool]] = {
+            "actors": {"required": False},
+            "genres": {"required": False},
+        }
