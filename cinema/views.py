@@ -68,9 +68,11 @@ class ActorList(
     """List or create actors."""
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
+
     def get(self, request: Request) -> Response:
         """Return every actor."""
         return self.list(request)
+
     def post(self, request: Request) -> Response:
         """Create an actor."""
         return self.create(request)
@@ -83,15 +85,19 @@ class ActorDetail(
     """Retrieve, update, or delete actors."""
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
+
     def get(self, request: Request, pk: int) -> Response:
         """Return an actor."""
         return self.retrieve(request, pk=pk)
+
     def put(self, request: Request, pk: int) -> Response:
         """Replace an actor."""
         return self.update(request, pk=pk)
+
     def patch(self, request: Request, pk: int) -> Response:
         """Partially update an actor."""
         return self.partial_update(request, pk=pk)
+
     def delete(self, request: Request, pk: int) -> Response:
         """Delete an actor."""
         return self.destroy(request, pk=pk)
