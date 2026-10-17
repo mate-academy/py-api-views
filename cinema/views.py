@@ -45,7 +45,9 @@ class GenreDetail(APIView):
 
     def patch(self, request, pk):
         genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, data=request.data, partial=True)
+        serializer = GenreSerializer(genre,
+                                     data=request.data,
+                                     partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
@@ -56,7 +58,9 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorList(mixins.ListModelMixin, mixins.CreateModelMixin, GenericAPIView):
+class ActorList(mixins.ListModelMixin,
+                mixins.CreateModelMixin,
+                GenericAPIView):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
