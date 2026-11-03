@@ -14,7 +14,11 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
-from cinema.serializers import GenreSerializer, ActorSerializer, CinemaHallSerializer
+from cinema.serializers import (
+    GenreSerializer,
+    ActorSerializer,
+    CinemaHallSerializer
+)
 from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import MovieSerializer
 
@@ -113,4 +117,3 @@ class CinemaHallViewSet(
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
-
