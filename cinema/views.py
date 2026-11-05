@@ -85,7 +85,9 @@ class ActorDetail(generics.GenericAPIView):
 
     def patch(self, request, pk):
         actor = self.get_object()
-        serializer = self.get_serializer(actor, data=request.data, partial=True)
+        serializer = self.get_serializer(actor,
+                                         data=request.data,
+                                         partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
