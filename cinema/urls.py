@@ -16,7 +16,6 @@ router.register("movies", MovieViewSet, basename="movie")
 router.register("cinema_halls", CinemaHallViewSet, basename="cinema-hall")
 
 
-
 urlpatterns = [
     path("", include(router.urls)),
     path("genres/", GenreList.as_view(), name="genre-list"),
