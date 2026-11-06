@@ -6,10 +6,10 @@ from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
-from cinema.models import Genre, Actor, CinemaHall
-from cinema.serializers import GenreSerializer, ActorSerializer, CinemaHallSerializer
+from cinema.models import Genre, Actor, CinemaHall, Movie
+from cinema.serializers import GenreSerializer, ActorSerializer, CinemaHallSerializer, MovieSerializer
 
 
 class GenreList(APIView):
@@ -73,7 +73,13 @@ class CinemaHallList(ListCreateAPIView):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
+
 class CinemaHallDetail(RetrieveUpdateDestroyAPIView):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
+
+
+class MovieViewSet(ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
 
