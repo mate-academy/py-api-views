@@ -1,4 +1,4 @@
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, UpdateModelMixin, DestroyModelMixin, \
     RetrieveModelMixin
 from rest_framework.response import Response
@@ -6,9 +6,10 @@ from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
 
-from cinema.models import Genre, Actor
-from cinema.serializers import GenreSerializer, ActorSerializer
+from cinema.models import Genre, Actor, CinemaHall
+from cinema.serializers import GenreSerializer, ActorSerializer, CinemaHallSerializer
 
 
 class GenreList(APIView):
@@ -66,4 +67,13 @@ class ActorDetail(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyM
         return self.update(request, *args, **kwargs)
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class CinemaHallList(ListCreateAPIView):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
+
+class CinemaHallDetail(RetrieveUpdateDestroyAPIView):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
 
