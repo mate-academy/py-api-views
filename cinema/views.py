@@ -4,7 +4,7 @@ from rest_framework.mixins import (
     CreateModelMixin,
     UpdateModelMixin,
     DestroyModelMixin,
-    RetrieveModelMixin
+    RetrieveModelMixin,
 )
 from rest_framework.response import Response
 from rest_framework import status
@@ -18,7 +18,7 @@ from cinema.serializers import (
     GenreSerializer,
     ActorSerializer,
     CinemaHallSerializer,
-    MovieSerializer
+    MovieSerializer,
 )
 
 
@@ -34,6 +34,7 @@ class GenreList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class GenreDetail(APIView):
     def get_object(self, pk):
@@ -76,20 +77,22 @@ class ActorList(GenericAPIView, ListModelMixin, CreateModelMixin):
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
+
 class ActorDetail(
-    GenericAPIView,
-    RetrieveModelMixin,
-    UpdateModelMixin,
-    DestroyModelMixin
+    GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
 ):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
+
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
+
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
     def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
@@ -100,7 +103,7 @@ class CinemaHallViewSet(
     RetrieveModelMixin,
     UpdateModelMixin,
     DestroyModelMixin,
-    GenericViewSet
+    GenericViewSet,
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
@@ -109,4 +112,3 @@ class CinemaHallViewSet(
 class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-
