@@ -13,6 +13,7 @@ from cinema.serializers import (
 )
 
 
+# comment
 class ActorList(
     generics.GenericAPIView,
     mixins.ListModelMixin,
