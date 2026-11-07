@@ -13,6 +13,7 @@ from cinema.serializers import (
 )
 
 
+# comment for non empty diff
 class ActorList(
     generics.GenericAPIView,
     mixins.ListModelMixin,
