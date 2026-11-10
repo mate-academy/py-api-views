@@ -23,7 +23,7 @@ class MovieViewSet(viewsets.ModelViewSet):
     serializer_class = MovieSerializer
 
 
-class ActorListView(mixins.ListModelMixin,
+class ActorList(mixins.ListModelMixin,
                     mixins.CreateModelMixin,
                     generics.GenericAPIView
                     ):
@@ -37,7 +37,7 @@ class ActorListView(mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetailView(mixins.RetrieveModelMixin,
+class ActorDetail(mixins.RetrieveModelMixin,
                       mixins.UpdateModelMixin,
                       mixins.DestroyModelMixin,
                       generics.GenericAPIView
@@ -58,7 +58,7 @@ class ActorDetailView(mixins.RetrieveModelMixin,
         return self.destroy(request, *args, **kwargs)
 
 
-class GenreListView(APIView):
+class GenreList(APIView):
     def get(self, request):
         serializer = GenreSerializer(
             Genre.objects.all(),
@@ -76,7 +76,7 @@ class GenreListView(APIView):
         )
 
 
-class GenreDetailView(APIView):
+class GenreDetail(APIView):
     def get_object(self, pk):
         return get_object_or_404(Genre, pk=pk)
 
