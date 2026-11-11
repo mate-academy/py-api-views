@@ -1,4 +1,3 @@
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, mixins, generics
 
@@ -50,7 +49,7 @@ class GenreDetail(APIView):
 
     def patch(self, request, pk):
         genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, data=request.data)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
