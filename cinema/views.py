@@ -1,5 +1,4 @@
 from rest_framework.decorators import api_view
-from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status, mixins, generics
 
@@ -7,7 +6,12 @@ from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from cinema.models import Movie, CinemaHall, Actor, Genre
-from cinema.serializers import MovieSerializer, CinemaHallSerializer, ActorSerializer, GenreSerializer
+from cinema.serializers import (
+    MovieSerializer,
+    CinemaHallSerializer,
+    ActorSerializer,
+    GenreSerializer
+)
 
 
 @api_view(["GET", "POST"])
