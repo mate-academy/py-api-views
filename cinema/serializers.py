@@ -9,6 +9,10 @@ class MovieSerializer(serializers.Serializer):
     description = serializers.CharField()
     duration = serializers.IntegerField()
 
+    class Meta:
+        model = Movie
+        fields = ["id", "title", "description", "duration", "actors", "genres"]
+
     def create(self, validated_data):
         actors_data = validated_data.pop("actors", [])
         genres_data = validated_data.pop("genres", [])
@@ -30,10 +34,8 @@ class MovieSerializer(serializers.Serializer):
         instance.duration = validated_data.get("duration", instance.duration)
 
         instance.save()
-        if actors_data:
-            instance.actors.set(actors_data)
-        if genres_data:
-            instance.genres.set(genres_data)
+        instance.actors.set(actors_data)
+        instance.genres.set(genres_data)
         return instance
 
 
