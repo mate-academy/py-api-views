@@ -19,7 +19,6 @@ from cinema.serializers import (
 )
 
 
-
 class GenreList(APIView):
     def get(self, request):
         genres = Genre.objects.all()
@@ -107,7 +106,8 @@ class CinemaHallViewSet(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
-    viewsets.GenericViewSet):
+    viewsets.GenericViewSet
+):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
