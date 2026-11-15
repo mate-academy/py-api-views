@@ -1,21 +1,40 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 from cinema.views import (
-    MovieList, MovieDetail,
-    GenreList, GenreDetail,
-    ActorList, ActorDetail,
-    CinemaHallList, CinemaHallDetail,
+    GenreList,
+    GenreDetail,
+    ActorList,
+    ActorDetail,
+    CinemaHallViewSet,
+    MovieViewSet,
 )
 
 app_name = "cinema"
 
+router = DefaultRouter()
+router.register("movies", MovieViewSet)
+
 urlpatterns = [
-    path("movies/", MovieList.as_view(), name="movie-list"),
-    path("movies/<int:pk>/", MovieDetail.as_view(), name="movie-detail"),
-    path("genres/", GenreList.as_view(), name="genre-list"),
-    path("genres/<int:pk>/", GenreDetail.as_view(), name="genre-detail"),
-    path("actors/", ActorList.as_view(), name="actor-list"),
-    path("actors/<int:pk>/", ActorDetail.as_view(), name="actor-detail"),
-    path("cinema-halls/", CinemaHallList.as_view(), name="cinema-hall-list"),
-    path("cinema-halls/<int:pk>/", CinemaHallDetail.as_view(), "cinema-hall-detail"),
+    path("genres/", GenreList.as_view()),
+    path("genres/<int:pk>/", GenreDetail.as_view()),
+
+    path("actors/", ActorList.as_view()),
+    path("actors/<int:pk>/", ActorDetail.as_view()),
+
+    path(
+        "cinema_halls/",
+        CinemaHallViewSet.as_view({"get": "list", "post": "create"})
+    ),
+    path(
+        "cinema_halls/<int:pk>/",
+        CinemaHallViewSet.as_view({
+            "get": "retrieve",
+            "put": "update",
+            "patch": "partial_update",
+            "delete": "destroy",
+        })
+    ),
+
+    path("", include(router.urls)),
 ]
