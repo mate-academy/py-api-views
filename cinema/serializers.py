@@ -1,9 +1,7 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
-from cinema.models import Movie
-from cinema.models import Genre
-from cinema.models import Actor
-from cinema.models import CinemaHall
+from cinema.models import Actor, CinemaHall, Genre, Movie
 
 
 class MovieSerializer(serializers.Serializer):
@@ -53,13 +51,11 @@ class MovieSerializer(serializers.Serializer):
             instance.duration
         )
 
-        genres_data = validated_data.get("genres")
-        if genres_data:
-            instance.genres.set(genres_data)
+        if "genres" in validated_data:
+            instance.genres.set(validated_data["genres"])
 
-        actors_data = validated_data.get("actors")
-        if actors_data:
-            instance.actors.set(actors_data)
+        if "actors" in validated_data:
+            instance.actors.set(validated_data["actors"])
 
         instance.save()
 
@@ -67,7 +63,10 @@ class MovieSerializer(serializers.Serializer):
 
 
 class GenreSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=255)
+    name = serializers.CharField(
+        max_length=255,
+        validators=[UniqueValidator(queryset=Genre.objects.all())],
+    )
 
     def create(self, validated_data):
         return Genre.objects.create(**validated_data)
