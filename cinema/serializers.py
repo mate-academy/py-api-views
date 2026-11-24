@@ -7,7 +7,8 @@ from cinema.models import Movie, Genre, Actor, CinemaHall
 class GenreSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(
-        max_length=255, validators=[UniqueValidator(queryset=Genre.objects.all())]
+        max_length=255,
+        validators=[UniqueValidator(queryset=Genre.objects.all())]
     )
 
     def create(self, validated_data):
@@ -28,8 +29,12 @@ class ActorSerializer(serializers.Serializer):
         return Actor.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.first_name = validated_data.get("first_name", instance.first_name)
-        instance.last_name = validated_data.get("last_name", instance.last_name)
+        instance.first_name = validated_data.get(
+            "first_name", instance.first_name
+        )
+        instance.last_name = validated_data.get(
+            "last_name", instance.last_name
+        )
         instance.save()
         return instance
 
@@ -57,8 +62,12 @@ class MovieSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255)
     description = serializers.CharField()
-    actors = serializers.PrimaryKeyRelatedField(many=True, queryset=Actor.objects.all())
-    genres = serializers.PrimaryKeyRelatedField(many=True, queryset=Genre.objects.all())
+    actors = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Actor.objects.all()
+    )
+    genres = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Genre.objects.all()
+    )
     duration = serializers.IntegerField(min_value=0)
 
     def create(self, validated_data):
@@ -73,7 +82,9 @@ class MovieSerializer(serializers.Serializer):
         actors = validated_data.pop("actors", None)
         genres = validated_data.pop("genres", None)
         instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get("description", instance.description)
+        instance.description = validated_data.get(
+            "description", instance.description
+        )
         instance.duration = validated_data.get("duration", instance.duration)
         instance.save()
 
