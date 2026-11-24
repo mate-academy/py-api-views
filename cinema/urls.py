@@ -10,7 +10,6 @@ from cinema.views import (
     MovieViewSet,
 )
 
-
 app_name = "cinema"
 
 router = DefaultRouter()

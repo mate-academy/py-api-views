@@ -1,19 +1,13 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from cinema.models import (
-    Movie,
-    Genre,
-    Actor,
-    CinemaHall
-)
+from cinema.models import Movie, Genre, Actor, CinemaHall
 
 
 class GenreSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(
-        max_length=255,
-        validators=[UniqueValidator(queryset=Genre.objects.all())]
+        max_length=255, validators=[UniqueValidator(queryset=Genre.objects.all())]
     )
 
     def create(self, validated_data):
@@ -52,7 +46,9 @@ class CinemaHallSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)
         instance.rows = validated_data.get("rows", instance.rows)
-        instance.seats_in_row = validated_data.get("seats_in_row", instance.seats_in_row)
+        instance.seats_in_row = validated_data.get(
+            "seats_in_row", instance.seats_in_row
+        )
         instance.save()
         return instance
 
@@ -61,12 +57,8 @@ class MovieSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255)
     description = serializers.CharField()
-    actors = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Actor.objects.all()
-    )
-    genres = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Genre.objects.all()
-    )
+    actors = serializers.PrimaryKeyRelatedField(many=True, queryset=Actor.objects.all())
+    genres = serializers.PrimaryKeyRelatedField(many=True, queryset=Genre.objects.all())
     duration = serializers.IntegerField(min_value=0)
 
     def create(self, validated_data):
@@ -81,12 +73,8 @@ class MovieSerializer(serializers.Serializer):
         actors = validated_data.pop("actors", None)
         genres = validated_data.pop("genres", None)
         instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get(
-            "description", instance.description
-        )
-        instance.duration = validated_data.get(
-            "duration", instance.duration
-        )
+        instance.description = validated_data.get("description", instance.description)
+        instance.duration = validated_data.get("duration", instance.duration)
         instance.save()
 
         if actors is not None:
